@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %script(src='/js/jquery-1.7.1.min.js' type="text/javascript")
+    %body
+      #UserName{:style=> "float:right; margin-bottom:10px; text-align:right"}
+        -if session['user_id'] != nil
+          %label User:#{session['user_id']} Signed-in currently
+          %a{:href => "/notes/" } My Page <!-- user/#{session['user_id']}"} My Page -->
+          %a{:href => "/logout/"} Sign Out
+        -else
+          %a{:href=> "/user/new"} New User
+          %a{:href=> "/login/"} Sign In
+      %h1 Cinch Notes
+      %h3 Notes made simple
+      #main= yield

@@ -1,0 +1,6 @@
+
+adapter: "mysql2"
+host: "localhost"
+database: "students"
+password: "pass123"
+

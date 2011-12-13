@@ -1,0 +1,72 @@
+GIT
+  remote: git://github.com/cehoffman/sinatra-respond_to.git
+  revision: 872f18f6e14f0a29afb5e933ea8748bfa7dc6c28
+  specs:
+    sinatra-respond_to (0.8.0)
+      sinatra (~> 1.3)
+
+GIT
+  remote: git://github.com/nakajima/rack-flash.git
+  revision: ddf9d5dac37cab8e270890b0adfd84cfe07773d9
+  specs:
+    rack-flash (0.1.2)
+      rack
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activemodel (3.1.3)
+      activesupport (= 3.1.3)
+      builder (~> 3.0.0)
+      i18n (~> 0.6)
+    activerecord (3.1.3)
+      activemodel (= 3.1.3)
+      activesupport (= 3.1.3)
+      arel (~> 2.2.1)
+      tzinfo (~> 0.3.29)
+    activesupport (3.1.3)
+      multi_json (~> 1.0)
+    arel (2.2.1)
+    backports (2.3.0)
+    bcrypt-ruby (2.1.4)
+    builder (3.0.0)
+    eventmachine (0.12.10)
+    haml (3.1.4)
+    i18n (0.6.0)
+    json (1.6.3)
+    multi_json (1.0.4)
+    mysql2 (0.3.10)
+    rack (1.3.5)
+    rack-protection (1.1.4)
+      rack
+    rack-test (0.6.1)
+      rack (>= 1.0)
+    sinatra (1.3.1)
+      rack (~> 1.3, >= 1.3.4)
+      rack-protection (~> 1.1, >= 1.1.2)
+      tilt (~> 1.3, >= 1.3.3)
+    sinatra-contrib (1.3.1)
+      backports (>= 2.0)
+      eventmachine
+      rack-protection
+      rack-test
+      sinatra (~> 1.3.0)
+      tilt (~> 1.3)
+    sinatra-reloader (1.0)
+      sinatra-contrib
+    tilt (1.3.3)
+    tzinfo (0.3.31)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activerecord
+  bcrypt-ruby
+  haml
+  json
+  mysql2
+  rack-flash!
+  sinatra
+  sinatra-reloader
+  sinatra-respond_to!
