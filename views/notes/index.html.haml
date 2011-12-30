@@ -1,42 +1,32 @@
-.notes(style = "margin-left:50px; margin-top:50px")
-  Notes:
-  -for note in @notes
-    .note
-      =note.note
-      %a.deletenote{:href => '#', :note_id => note.id} Delete
-      %br
+%script{:src => "/js/vendor/modernizr-1.6.min.js"}
+%script{:src => "/js/vendor/jquery-1.5.1.min.js"}
+%script{:src => "/js/vendor/underscore.js"}
+%script{:src => "/js/vendor/backbone.js"}
+%script{:src => "/js/vendor/jquery.dotimeout.js"}
+%script{:src => "/js/note.js"}
+%h1 NOTES
+#notice
 
-.insert_note(style = "margin-left:50px")
-  %form.new_note
-    %input(id='tnote'type="text" name='note')
-    %input(id='user_id' type='hidden' name='user_id' value="#{session[:user_id]}")
-    %input(id='add_note' type='submit' value='Add note')
+%script#add-note-template{:type => "text/template"}
+%p
+  %div
+    %form
+      %h4 Add note
+      %label{:for => "note"} Note
+      %input{:name => "note", :type => "text", :value => "<%= model.get('note')%>"}/
+      %input{:type => "button" ,:name => "create" ,:value => "create"}
 
-  %a(href='/') Back Home
-
-:javascript
-  $(document).ready(function(){
-    $('.deletenote').click(function(e){
-      e.preventDefault();
-      confirm('Are you sure to remove it?');
-      var note_id = $(this).attr('note_id');
-      var delete_link = this;
-      var params = note_id + "&_method=DELETE";
-      var url = "http://localhost:4567/notes/" + note_id;
-      $.post(url,params, function(data){
-        $(delete_link).parent('.note').remove();
-      });
-    });
-
-    $('.new_note').children("#add_note").click(function(e){
-      var note = $('.new_note').children('#tnote').attr('value');
-      var userid = $('.new_note').children('#user_id').attr('value');
-      var params = "note=" + note + "&user_id=" + userid + "&_method=POST";
-      var url = "/notes/";
-      $.post(url, params, function(data){
-        $('.notes').add("note");
-        //$('.notes').add("<div class='note'>#{note}</div>");
-      });
-    });
-  });
-
+%script#note-list-template{:type => "text/template"}
+  %div
+    %h3
+      %a{:href => "#new"} Create New
+      %table(border = 1 id="notes-tbl")
+        %tr
+          %th Title
+          %th Action
+        -for note in @notes
+          %tr
+            %td 
+              =note.note
+#note-template
+#container
