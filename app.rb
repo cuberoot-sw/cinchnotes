@@ -29,28 +29,26 @@ ActiveRecord::Base.establish_connection(
 ActiveRecord::Base.include_root_in_json = false
 
 get '/' do
-  if session[:user_id].nil?
-    redirect "/login/"
-  else
+  #if session[:user_id].nil?
+  #  redirect "/login/"
+  #else
    #redirect "/notes/"
    File.read(File.join('public', 'index.html'))
-  end
+  #end
 end
 
 get '/notes/?' do
   @notes = []
   if session[:user_id] != nil
-    @user = User.find(session[:user_id])
-    if @user.nil?
-      env['x-rack.flash'].notice = "User not found."
-    else
-      @notes = Note.find(:all, :conditions =>["user_id= ?", session[:user_id]])
-      content_type :json
-      @notes.to_json
-      #respond_to do |format|
-      #  format.html{ haml :"notes/index_old"}
-      #end
-    end
+      @user = User.find(session[:user_id])
+      if @user.nil?
+        env['x-rack.flash'].notice = "User not found."
+      else
+        @notes = Note.find(:all, :conditions =>["user_id= ?", session[:user_id]])
+        content_type :json
+        @notes.to_json
+      end
+    
   else
     env['x-rack.flash'].notice = "not logged in"
     flash[:error] = "User not logged-in."
@@ -58,46 +56,55 @@ get '/notes/?' do
   end
 end
 
-post '/notes/' do
-  content_type :html
-  flash[:notice]= "Hello World "
+get '/notes/:id' do
+  @note = Note.find(params[:id])
+  @note.to_json
+end
+
+post '/notes/?' do
+  #content_type :html
   @note = Note.new
-  @note.note = params[:note]
-  @note.user_id = params[:user_id]
+  content_type :json
+  data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
+  @note.note = data["note"]
+  @note.user_id = session[:user_id]
   #@tag = Tag.find(:all, :conditions =>["name = ?", params[:tag]])
-  @tag = @tag.first
+  #@tag = @tag.first
   if @note.save
   #  @tagnote = TagNote.new
   #  @tagnote.tag_id = @tag.id
   #  @tagnote.note_id = @note.id
   #  @tagnote.save
-    flash[:notice] = "Record saved successfully! "
-  #  @notes = Note.find(:all, :conditions =>["user_id = ?", params[:user_id]])
-  #  respond_to do |format|
-  #    format.html{ haml :"/notes/create" ,:layout => false}
-  #  end
-    content_type :json
       @note.to_json  
+  else
+    flash[:error] = "Error! "
   end
 end
 
 delete '/notes/:id' do
   @note = Note.find(params[:id])
   @note.destroy
-  @tagnote = TagNote.where("note_id = ?", params[:id])
-  @tagnote.first.destroy
+  #@tagnote = TagNote.where("note_id = ?", params[:id])
+  #tagnote.first.destroy
   respond_to do |format|
     format.js {[]}
   end
 end
 
-get '/login/' do
-  respond_to do |format|
-    format.html{ haml :"users/login" }
+put '/notes/:id' do
+  content_type :json
+  @note = Note.find(params[:id])
+  data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
+  puts data
+  @note.update_attribute(:note , data["note"])
+  if @note.save
+   @note.to_json
+  else
+    flash[:error] = "Error! "
   end
 end
 
-get '/logout/' do
+get '/logout' do
     session['user_id'] = nil
     session['user_name'] = nil
     flash[:notice] = "Signed Out successfully!"
@@ -110,28 +117,42 @@ get '/user/new' do
   end
 end
 
-get '/user/' do
-  @user = authenticate(params[:name], params[:password])
-  if @user !=nil
+post '/session' do
+  content_type :json
+  data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
+  @user = authenticate(data["username"], data["password"])
+  if @user.nil?
+    flash['error'] = "Login Failed, check 'username/password' and retry."
+    redirect "/"
+  else
     session['user_id'] = @user[:id]
     session['user_name'] = @user[:name]
-    redirect "/notes/"
-    #File.read(File.join('public', 'index.html'))
-  else
-    flash['error'] = "Login Failed, check 'username/password' and retry."
-    redirect "/login/"
+    @user.to_json
   end
+
 end
 
-post '/user/' do
+get '/session' do
+  content_type :json
+
+  session['user_id'] = nil
+  session['user_name'] = nil
+  flash[:notice] = "Signed Out successfully!"
+  session.to_json
+end
+
+post '/user' do
   @user = User.new
-  @user.name = params[:name]
-  encrypt_pass(@user, params[:password])
-  if @user.save!
-    session['user_id']=@user.id
-    session['user_name']=@user.name
-    #File.read(File.join('public', 'index.html'))
-    redirect "/notes/"
+  content_type :json
+  data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
+  @user.name = data["username"]
+  encrypt_pass(@user, data["password"])
+  if @user.save
+    session['user_id']=@user[:id]
+    session['user_name']=@user[:name]
+    @user.to_json
+  else
+    flash['error'] = "Error in creating account"
   end
 end
 

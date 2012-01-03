@@ -4,12 +4,34 @@
 <script src="/js/vendor/backbone.js"></script>
 <script src="/js/vendor/jquery.dotimeout.js"></script>
 
+<div>
 <h1>Notes!!</h1>
-
-
+<div style="float:right" id="right_panel"> 
+<div id = "welcome_msg" style="float:left">Welcome</div>
+<div ><a id ="logout_link" href="#session" class="logout" style="float:right"> Sign Out</a></div>
+</div>
 <div id="notice"></div>
-<script type="text/template" id="show-note-template">
 
+
+<script type="text/template" id="user-login-template">
+<div>
+<form id= "login_form" >
+<label for="username">Username</label>
+<input type = "text" name ="username" />
+<br/>
+<label for="password">password</label>
+<input type = "password" name ="password" />
+ </br>
+<button id= "login" >Login</button>
+<button id= "addUser" style="display:None">Sign Up</button>
+<a href="#newUser" id="new-user-link">New User</a>
+</form>
+</div>
+</script>
+
+
+
+<script type="text/template" id="show-note-template">
 <p>
 <div >
   <h4>Note</h4>
@@ -26,12 +48,11 @@
 <script type="text/template" id="add-note-template">
 <p>
 <div >
-<form>
+<form method="post" id="add-notes">
   <h4>Add Note</h4>
    <label for='note'>Note</label>
    <input name='note' type='text' value="<%= model.get('note')%>"/>
    </br>
-   
    <button><%= model.isNew() ? 'Create' : 'Save' %></button>
 </form> 
 </div>
@@ -47,7 +68,7 @@
       <tr id="row<%= item.id%>">
         <td ><a href='#notes/<%= item.id %>'><%= item.get('note')%></a></td>
        
-        <td><a href = "#" id = "<%= item.id%>" class="delete">Delete</a></td>
+        <td><a href = "#notes" id = "<%= item.id%>" class="delete">Delete</a></td>
       </tr>
     <% }); %>
     </table>
@@ -60,5 +81,9 @@
 </div>
 
 <div id="container" style = "float:right"></div>
+
+
+</div>
+
 
 <script src="/js/note.js"></script>
