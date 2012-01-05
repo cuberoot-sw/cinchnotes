@@ -49,11 +49,14 @@
 
     render:function(){
       $(this.el).html(this.template);
+     
       $("#note-template").html(this.el);
+      $("#login_form").validationEngine();
       this.delegateEvents();
     },
 
     save: function() {
+       
         var self = this;
         var router = new AppRouter();
 
@@ -80,8 +83,8 @@
   /* View for listing of notes*/
   var ViewIndex = Backbone.View.extend({
     events: {
-        "click .delete": "clear" , 
-        "click a.logout": "logout"
+      //  "click .delete": "clear" , 
+        
     },
     initialize:function(){
       _.bindAll(this , 'render');
@@ -171,13 +174,27 @@
     render:function(){
       $(this.el).html(this.template);
       $("#note-template").html(this.el);
-      this.delegateEvents();
+      $("#add-notes").validationEngine();
+      $('#tags').tagit({
+        tagSource: "/notes/tags/", select: true
+      });
+
+        this.delegateEvents();
     },
 
     save: function() {
         var self = this;
         var msg = this.model.isNew() ? 'Successfully created!' : "Saved!";
-        this.model.save({note:this.$('[name=note]').val()} , {
+        var taglists = [];
+        $("ul#tags li.tagit-choice").each(function() { 
+          if($(this).text() != ''){
+            tag = ($(this).text()).slice(0,($(this).text()).length-1);
+            taglists.push(tag);
+          } 
+        });
+
+        var tagCSV = taglists.join();
+        this.model.save({note:this.$('[name=note]').val() , tag:tagCSV} , {
             success: function(model, resp) {
               new Notice({ message: msg });
               window.history.back();
@@ -372,4 +389,7 @@
 
   var app_router = new AppRouter;
   Backbone.history.start();
+
+  
 })(jQuery);
+
