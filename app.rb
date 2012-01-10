@@ -33,32 +33,11 @@ require File.dirname(__FILE__) + '/models/tag_notes.rb'
 
 
 get '/' do
-  
-  #if session[:user_id].nil?
-  # File.read(File.join('public', 'index.html'))
-  #else
-  # redirect "#notes"
    File.read(File.join('public', 'index.html'))
-  #end
 end
 
+# get all tags by user
 get '/notes/?' do
-  @notes = []
-  #if session[:user_id] != nil
-  #    @user = User.find(session[:user_id])
-  #    if @user.nil?
-  #      env['x-rack.flash'].notice = "User not found."
-  #    else
-  #      @notes = Note.find(:all, :conditions =>["user_id= ?", session[:user_id]])
-  #      content_type :json
-  #      @notes.to_json
-  #    end
-    
-  #else
-  #  env['x-rack.flash'].notice = "not logged in"
-  #  flash[:error] = "User not logged-in."
-  #  redirect "/login/"
-  #end
   @user = User.find(session[:user_id])
   content_type :json
   taglist = @user.owned_tags.select{ |t| t.name.match(/^#{params[:term]}.*/i)}
@@ -66,17 +45,18 @@ get '/notes/?' do
 
 end
 
-get '/notes/:id' do
-  #@note = Note.find(params[:id])
-  #@note.to_json
-  puts "****"
-  @tag = Tag.find(params[:id])
-  puts Note.find_tagged_with('Java')
-
-  #@related_entries = Entry.tagged_with(@tag, :on => :tags)
-  #puts @related_entries
+# get all notes having same tag
+get '/tags/:name' do
+  content_type :json
+  data = {"params" => params}.to_json
+  puts data
+  @user = User.find(session[:user_id])
+  @notes = @user.notes.tagged_with(params[:name], :on => :tags) 
+  @notes.to_json
+  
 end
 
+# create new note
 post '/notes/?' do
   @user = User.find(session[:user_id])
   @note = Note.new
@@ -84,13 +64,12 @@ post '/notes/?' do
   data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
   @note.note = data["note"]
   @note.user_id = session[:user_id]
-
-    @user.tag(@note , :with => data["tag"] , :on => :tags)
-    @note.save
-    @note.to_json  
-
+  @user.tag(@note , :with => data["tag"] , :on => :tags)
+  @note.save
+  @note.to_json  
 end
 
+# delete Note
 delete '/notes/:id' do
   @note = Note.find(params[:id])
   @note.destroy
@@ -99,6 +78,14 @@ delete '/notes/:id' do
   end
 end
 
+# show a note
+get '/notes/:id' do
+  content_type :json
+  @note = Note.find(params[:id])
+  @note.to_json
+end
+
+# Edit a note
 put '/notes/:id' do
   content_type :json
   @note = Note.find(params[:id])
@@ -112,14 +99,14 @@ put '/notes/:id' do
   end
 end
 
-
-
+#create a user
 get '/user/new' do
   respond_to do |format|
     format.html{ haml :"users/new"}
   end
 end
 
+#create session
 post '/session' do
   content_type :json
   data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
@@ -135,15 +122,16 @@ post '/session' do
 
 end
 
+#destrroy session
 get '/session' do
   content_type :json
-
   session['user_id'] = nil
   session['user_name'] = nil
   flash[:notice] = "Signed Out successfully!"
   session.to_json
 end
 
+#create user
 post '/user' do
   @user = User.new
   content_type :json
@@ -159,23 +147,17 @@ post '/user' do
   end
 end
 
+#get users tag
 get "/notes/tags/?" do
   puts "***"
-  #puts session[:user_id]
   @user = User.find(session[:user_id])
-  #puts @user
-  #puts @user.is_tagger?
-  
-  #@note = Note.where('user_id = ?' ,session[:user_id] )
-  puts "******************"
-  
-  @tag_arr = []
   content_type :json
   taglist = @user.owned_tags.select{ |t| t.name.match(/^#{params[:term]}.*/i)}
   taglist.map{|e| e.name}.to_json
-
 end
 
+
+#helper for authenticate user
 helpers do
   def authenticate(name, password)
     @user = User.find(:all, :conditions => ['name=?', name]).first

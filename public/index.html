@@ -9,12 +9,10 @@
 <link href="stylesheets/tagit-css/tagit-simple-blue.css" rel="stylesheet" type="text/css"/>
 <script src="js/tagit-js/tagit.js"></script>
 
-<!-- <script src="js/tagit-js/autocomplete.js"></script> -->
-
-
          
 <div>
 <h1>Notes!!</h1>
+
 <div style="float:right" id="right_panel"> 
 <div id = "welcome_msg" style="float:left"></div>
 <div ><a id ="logout_link" href="#session" class="logout" style="float:right"> Sign Out</a></div>
@@ -48,7 +46,7 @@
    </p>
    
    <a href='#notes/<%= model.id%>/edit'>Edit</a>
-   <a href='#' id="back_link">Back</a>
+   <a href='#notes' id="back_link">Back</a>
 </div>
 </p>
 </script>
@@ -58,14 +56,16 @@
 <p>
 <div >
 <form method="post" id="add-notes">
-  <h4>Add Note</h4>
+  <h4><%= model.isNew() ? 'Add Note' : 'Edit Note' %></h4>
    <label for='note'>Note</label>
    <input name='note'  id ="note" type='text' value="<%= model.get('note')%>" 
    class = "validate[required] text-input"/>
    </br>
+   <% if(model.isNew()) {%> 
    <label for="tag" >Tag<label/>
     <ul id='tags' name="tag">
    </ul>
+   <% } %>
    </br>
    <button><%= model.isNew() ? 'Create' : 'Save' %></button>
 </form> 
@@ -73,14 +73,14 @@
 </p>
 </script>
 
-<script type="text/template" id="note-list-template">
+<script type="text/template" id="tag-list-template">
   <h3><a href='#new'>Create New</a></h3>
   <% if(collection.models.length > 0) { %>
-    <table border = 1 id="notes-tbl">
-    <tr><th>Note</th><th>Action</th></tr>
+    <table border = 1 id="tags-tbl">
+    <tr><th>Note</th></tr>
     <% collection.each(function(item) { %>
       <tr id="row<%= item.id%>">
-        <td ><a href='#notes/<%= item.id %>'><%= item.get('name')%></a></td>
+        <td ><a href='#tags/<%=item.get('name')%>' id = "<%= item.get('name')%>" class = "show"><%= item.get('name')%></a></td>
       </tr>
     <% }); %>
     </table>
@@ -89,10 +89,23 @@
   <% } %>
 </script>
 
-<div id="note-template" style= "float:left">
+<script type="text/template" id="note-list-template">
+   
+    <ul id = "taglist">
+    <% collection.each(function(item) { %>
+      <li id="row<%= item.id%>">
+        <a href='#notes/<%= item.id %>'><%= item.get('note')%></a>
+        <span class = "delete" id = "<%= item.id%>"> Delete </span>
+      </li>
+    <% }); %>
+   </ul>
+  
+</script>
+
+<div id="note-template" >
 </div>
 
-<div id="container" style = "float:right"></div>
+<div id="container" style="display : none"></div>
 
 
 </div>
