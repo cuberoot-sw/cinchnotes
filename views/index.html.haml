@@ -1,0 +1,69 @@
+%div
+  #right_panel{:style => "float:right"}
+    #welcome_msg{:style => "float:left"}
+    #welcome_msg{:style => "float:left"}
+    %div
+  %script#home-page-template{:type => "text/template"}
+    %div
+      %h2 Welcome to cinch-notes!!!
+  #notice
+  %script#user-login-template{:type => "text/template"}
+    %div
+      %form#login_form
+        %label{:for => "username"} Username
+        %input#username.text-input{:class => "validate[required]", :name => "username", :type => "text"}/
+        %br/
+        %label{:for => "password"} password
+        %input#password.text-input{:class => "validate[required]", :name => "password", :type => "password"}/
+        %br/
+        %button#login Login
+        %button#addUser{:style => "display:None"} Sign Up
+  %script#show-note-template{:type => "text/template"}
+    %p
+      %div
+        %h4 Note
+        %p
+          Note: <%= model.get('note')%>
+        <a href = "#notes/<%= model.id%>/edit"> Edit </a>
+        %a#back_link{:href => "#notes"} Back
+  %script#add-note-template{:type => "text/template"}
+    %p
+      %div
+        %form#add-notes{:method => "post"}
+          %h4 <%= model.isNew() ? 'Add Note' : 'Edit Note' %>
+          %label{:for => "note"} Note
+          <input name='note'  id ="note" type='text' value="<%= model.get('note')%>"
+          class = "validate[required] text-input"/>
+          <% if(model.isNew()) {%>
+          %br/
+          %label{:for => "tag"} Tag
+          %label
+          %ul#tags{:name => "tag"}
+          <% } %>
+          %button <%= model.isNew() ? 'Create' : 'Save' %>
+          %a#back_link{:href => "#notes"} Back
+  %script#tag-list-template{:type => "text/template"}
+    %h3
+      %a{:href => "#new"} Create New
+    <% if(collection.models.length > 0) { %>
+    %table#tags-tbl{:border => "1"}
+      %tr
+        %th Note
+        <% collection.each(function(item) { %>
+        %tr
+          %td
+            <a href='#tags/<%=item.get('name')%>' id = "<%= item.get('name')%>" class = "show"><%= item.get('name')%>
+        <% }); %>
+    <% } else { %>
+    %h3 No documents!
+    <% } %>
+  %script#note-list-template{:type => "text/template"}
+    %ul{:id => "taglist"}
+      <% collection.each(function(item) { %>
+      <li id="row<%= item.id%>">
+      <a href='#notes/<%= item.id %>'><%= item.get('note')%></a>
+      <span class = "delete" id = "<%= item.id%>"> Delete </span>
+      </li>
+      <% }); %>
+  #note-template
+  #container{:style => "display : none"}

@@ -13,7 +13,7 @@
     var base = 'user';
     if (this.isNew()) return base;
       return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
-    } 
+    }  
   });
 
   Session = Backbone.Model.extend({
@@ -21,7 +21,20 @@
     var base = 'session';
     if (this.isNew()) return base;
       return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+    },
+    
+    defaults: {
+        sessionId: "",
+        user_name: "",
+        user_id: ""
+    },
+
+    isAuthorized: function(){
+
+       return Boolean(this.get("sessionId"));
+
     }
+ 
   });
 
   Tag =  Backbone.Model.extend({ });
@@ -30,6 +43,28 @@
   var Tag_coll = Backbone.Collection.extend({
     model: Note,
     url: '/notes'
+  });
+
+  /*view to show a note*/
+  ViewHome = Backbone.View.extend({
+    initialize:function(){
+      console.log("initialize");
+      _.bindAll(this , 'render');
+     // this.model.bind('change', this.render);
+
+      var tmpl = _.template($('#home-page-template').html());
+      this.template = tmpl();
+      this.render();
+    },
+
+    render:function(){
+      $(this.el).html(this.template);
+      $('#container').hide();
+      $("#note-template").html(this.el);
+      this.delegateEvents();
+    }
+
+    
   });
 
   /**** view for login */
@@ -50,7 +85,6 @@
 
     render:function(){
       $(this.el).html(this.template)
-     
       $("#note-template").html(this.el)
       $("#login_form").validationEngine()
       this.delegateEvents()
@@ -61,14 +95,16 @@
         var self = this;
         var router = new AppRouter();
 
-        var welcome_msg = "welcome  " + this.$('[name=username]').val() + " |" ;
+        //var welcome_msg = "welcome  " + this.$('[name=username]').val() + " |" ;
         this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
             success: function(model, resp) {
               var msg = "SuccessFully Logged In!";
               new Notice({ message: "SuccessFully Logged In!" });
               
-              $('#welcome_msg').html(welcome_msg);
+              //$('#welcome_msg').html(welcome_msg);
               router.navigate("#notes" , true);
+              window.location.reload();
+              
             },
             error: function() {
               var msg = "Login Failed, check 'username/password' and retry.!"
@@ -140,7 +176,6 @@
   ViewShowNotes = Backbone.View.extend({
     events: {
       "click span.delete": "clear" 
-    //  "click a.show": "show_list" 
     },
     
     initialize:function(){
@@ -163,7 +198,6 @@
     
     clear: function(e){
       var note_id = $(e.target).attr('id')
-      alert(note_id);
       var answer = confirm("Are you sure you want to delete this note?");
       var note = new Note({id : note_id});  
       if (answer) {
@@ -227,6 +261,7 @@
 
     render:function(){
       $(this.el).html(this.template);
+      $("#container").hide();
       $("#note-template").html(this.el);
       $("#add-notes").validationEngine();
       $('#tags').tagit({
@@ -295,12 +330,12 @@
         var self = this;
         var router = new AppRouter();
         var msg = this.model.isNew() ? 'Successfully created!' : "Saved!";
-        var welcome_msg = "welcome  " + this.$('[name=username]').val() ;
+        //var welcome_msg = "welcome  " + this.$('[name=username]').val() ;
         this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
             success: function(model, resp) {
               new Notice({ message: msg });
               
-              $('#welcome_msg').html(welcome_msg);
+              //$('#welcome_msg').html(welcome_msg);
               router.navigate("#notes" , true);
             },
             error: function() {
@@ -356,17 +391,19 @@
   /* routers for the application*/
   var AppRouter = Backbone.Router.extend({
     routes: {
+          '' : 'home' , 
           'notes' : 'index'   ,
-          '' : "login",
+          'login' : "login",
           'new' : "newNote" ,
           'logout' : "logout",
-          "notes/:id" : "show" ,
-          "notes/:id/edit" : "edit",
-          'newUser' : "newUser" ,
-          'session' : 'logout'  
+          'notes/:id' : "show" ,
+          'notes/:id/edit' : "edit",
+          'newUser' : "newUser" 
     },
 
-
+    home: function(){
+      new ViewHome();
+    },
 
     login: function(){
           new ViewLogin ({  model:new Session()});
@@ -377,10 +414,11 @@
       var session = new Session();
       session.fetch({
         success: function(model ) {
-          $('#welcome_msg').html('');
+          //$('#welcome_msg').html('');
           new Notice({ message: "Log out successfully" });
           var router = new AppRouter();     
           router.navigate("#" , true);
+          window.location.reload();
 
         },
         error: function() {

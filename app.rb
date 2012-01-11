@@ -33,7 +33,8 @@ require File.dirname(__FILE__) + '/models/tag_notes.rb'
 
 
 get '/' do
-   File.read(File.join('public', 'index.html'))
+  haml :index
+ # File.read(File.join('public', 'index.html'))  
 end
 
 # get all tags by user
