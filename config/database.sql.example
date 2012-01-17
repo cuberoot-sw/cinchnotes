@@ -1,0 +1,19 @@
+ CREATE TABLE  `students`.`users` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `name` varchar(255) NOT NULL,
+ `password_hash` varchar(255) NOT NULL,
+ `password_salt` varchar(55) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1
+
+CREATE TABLE  `students`.`notes` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `note` varchar(255) NOT NULL,
+ `user_id` int(11) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1
+
+
+CREATE TABLE  `students`.`taggings` ( `id` int(11) NOT NULL AUTO_INCREMENT,`tag_id` int(11) NOT NULL,`taggable_id` int(11) NOT NULL,`tagger_id` int(11) NOT NULL,`taggable_type` varchar(255) NOT NULL,`tagger_type` varchar(255) NOT NULL,`context` varchar(255) NOT NULL, PRIMARY KEY (`id`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+CREATE TABLE  `students`.`tags` ( `id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(255) NOT NULL, PRIMARY KEY (`id`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
