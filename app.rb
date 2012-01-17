@@ -34,27 +34,30 @@ require File.dirname(__FILE__) + '/models/tag_notes.rb'
 
 get '/' do
   haml :index
- # File.read(File.join('public', 'index.html'))  
+ # File.read(File.join('public', 'index.html'))
 end
 
 # get all tags by user
 get '/notes/?' do
   @user = User.find(session[:user_id])
   content_type :json
-  taglist = @user.owned_tags.select{ |t| t.name.match(/^#{params[:term]}.*/i)}
   @user.owned_tags.to_json
+end
 
+get '/data' do
+  content_type :json
+  @user = User.find(session[:user_id])
+  @notes = @user.notes
+  @notes.to_json
 end
 
 # get all notes having same tag
 get '/tags/:name' do
   content_type :json
-  data = {"params" => params}.to_json
-  puts data
   @user = User.find(session[:user_id])
-  @notes = @user.notes.tagged_with(params[:name], :on => :tags) 
+  @notes = @user.notes.tagged_with(params[:name], :on => :tags)
   @notes.to_json
-  
+
 end
 
 # create new note
@@ -67,7 +70,7 @@ post '/notes/?' do
   @note.user_id = session[:user_id]
   @user.tag(@note , :with => data["tag"] , :on => :tags)
   @note.save
-  @note.to_json  
+  @note.to_json
 end
 
 # delete Note
@@ -81,18 +84,25 @@ end
 
 # show a note
 get '/notes/:id' do
+  tag_arr = []
   content_type :json
   @note = Note.find(params[:id])
+  mytags = @note.tags
+  mytags.each do |tag|
+    tag_arr << tag.name
+  end
+  @note['mytags'] = tag_arr
   @note.to_json
 end
 
 # Edit a note
 put '/notes/:id' do
+  @user = User.find(session[:user_id])
   content_type :json
   @note = Note.find(params[:id])
   data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
-  puts data
   @note.update_attribute(:note , data["note"])
+  @user.tag(@note , :with => data["tag"] , :on => :tags)
   if @note.save
    @note.to_json
   else
@@ -156,6 +166,8 @@ get "/notes/tags/?" do
   taglist = @user.owned_tags.select{ |t| t.name.match(/^#{params[:term]}.*/i)}
   taglist.map{|e| e.name}.to_json
 end
+
+
 
 
 #helper for authenticate user
