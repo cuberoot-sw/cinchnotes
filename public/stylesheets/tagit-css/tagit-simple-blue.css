@@ -29,7 +29,7 @@
     border-bottom: 1px solid #E5E5E5;
     border-top: 1px solid #fff;
     color: #78959D;
-    
+
 }
 
 .ui-autocomplete .ui-menu-item a.ui-state-hover,
@@ -47,7 +47,7 @@ ul.tagit {
     cursor: text;
     overflow: auto;
     font-size: 14px;
-    width: 97%;
+    width: 50%;
     padding: 3px;
     margin-top: 2px;
     margin-right: 6px;

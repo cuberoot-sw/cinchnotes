@@ -38,13 +38,14 @@ get '/' do
 end
 
 # get all tags by user
-get '/notes/?' do
+get '/tags/?' do
   @user = User.find(session[:user_id])
   content_type :json
   @user.owned_tags.to_json
 end
 
-get '/data' do
+# get all notes of user
+get '/notes' do
   content_type :json
   @user = User.find(session[:user_id])
   @notes = @user.notes
@@ -62,14 +63,26 @@ end
 
 # create new note
 post '/notes/?' do
+   tag_arr = []
   @user = User.find(session[:user_id])
   @note = Note.new
   content_type :json
-  data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
-  @note.note = data["note"]
+  # data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
+  # @note.note = data["note"]
+  @note.note = params["note"]
   @note.user_id = session[:user_id]
-  @user.tag(@note , :with => data["tag"] , :on => :tags)
+  @note.created_at = Time.now
+  @note.updated_at = Time.now
+   @user.tag(@note , :with => params["tag"] ,:on => :tags)
+  # @user.tag(@note , :with => data["tag"] , :on => :tags)
   @note.save
+
+  mytags = @note.tags
+  mytags.each do |tag|
+    tag_arr << tag.name
+  end
+  @note['mytags'] = tag_arr
+
   @note.to_json
 end
 
@@ -97,12 +110,23 @@ end
 
 # Edit a note
 put '/notes/:id' do
+  tag_arr = []
   @user = User.find(session[:user_id])
   content_type :json
   @note = Note.find(params[:id])
-  data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
-  @note.update_attribute(:note , data["note"])
-  @user.tag(@note , :with => data["tag"] , :on => :tags)
+  # data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
+  # @note.update_attribute(:note , data["note"])
+  @note.update_attribute(:note , params["note"])
+  @note.update_attribute(:updated_at , Time.now)
+  # @user.tag(@note , :with => data["tag"] , :on => :tags)
+   @user.tag(@note , :with => params["tag"] , :on => :tags)
+
+  mytags = @note.tags
+  mytags.each do |tag|
+    tag_arr << tag.name
+  end
+  @note['mytags'] = tag_arr
+
   if @note.save
    @note.to_json
   else
