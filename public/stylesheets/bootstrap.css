@@ -582,6 +582,7 @@ pre {
 /* Forms.less
  * Base styles for various input types, form layouts, and states
  * ------------------------------------------------------------- */
+
 form {
   margin-bottom: 18px;
 }
@@ -691,7 +692,8 @@ select[multiple] {
   height: inherit;
 }
 textarea {
-  height: auto;
+  height: 65%;
+  width: 65%;
 }
 .uneditable-input {
   background-color: #ffffff;
@@ -2374,3 +2376,4 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
   box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
 }
+

@@ -1,6 +1,4 @@
 (function($) {
-  old_time = (new Date).getTime();
-  new_time = (new Date).getTime();
   /* Model*/
    Note = Backbone.Model.extend({
     url : function() {
@@ -42,7 +40,6 @@
   /*view to show a home*/
   ViewHome = Backbone.View.extend({
     initialize:function(){
-      console.log("initialize");
       _.bindAll(this , 'render');
       var tmpl = _.template($('#home-page-template').html());
       this.template = tmpl();
@@ -75,7 +72,9 @@
 
     render:function(){
       $(this.el).html(this.template)
+      $("#note-template").removeClass("span5")
       $("#note-template").html(this.el)
+      $('#container').hide()
       $("#login_form").validationEngine()
       this.delegateEvents()
     },
@@ -123,6 +122,9 @@
 
     show_list: function(e){
       var tag_name = $(e.target).attr('id');
+      $('ul#taglist li a').removeClass("select_tag");
+
+      $('li a#'+ tag_name).addClass("select_tag");
       var url = "/tags/" + tag_name;
       var Note_coll = Backbone.Collection.extend({ url: url });
       notes = new Note_coll();
@@ -134,15 +136,14 @@
           new Error({ message: "Error loading data." });
         }
       });
+
     }
 
   });
 
   /* View for listing of all notes*/
   var ViewNotesIndex = Backbone.View.extend({
-    events: {
-      "click span.delete": "clear"
-    },
+
     initialize:function(){
       _.bindAll(this , 'render');
       var tmpl = _.template($('#note-list-template').html());
@@ -151,22 +152,12 @@
     },
 
     render:function(){
+      $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $('#container').show();
       $("#container").html(this.el);
       $(document).stopTime();
       this.delegateEvents();
-    },
-
-    clear: function(e){
-      var note_id = $(e.target).attr('id')
-      var answer = confirm("Are you sure you want to delete this note?");
-      var note = new Note({id : note_id});
-      if (answer) {
-        note.destroy();
-        $('#row'+note_id).remove();
-        new Notice({ message: "SuccessFully Deleted!" });
-      }
     }
   });
 
@@ -207,6 +198,10 @@
 
   /*view to show a note*/
   ViewShow = Backbone.View.extend({
+    events: {
+      "click a.delete": "clear"
+    },
+
     initialize:function(){
       console.log("initialize");
       _.bindAll(this , 'render');
@@ -217,10 +212,21 @@
     },
 
     render:function(){
+      $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $('#container').html(this.el);
       $(document).stopTime();
       this.delegateEvents();
+    } ,
+
+    clear: function(e){
+      var note_id = $(e.target).attr('id')
+      var answer = confirm("Are you sure you want to delete this note?");
+      var note = new Note({id : note_id});
+      if (answer) {
+        note.destroy();
+        new Notice({ message: "SuccessFully Deleted!" });
+      }
     }
   });
 
@@ -242,6 +248,7 @@
 
 
     back:function(){
+       $('.formErrorContent').validationEngine('hide');
       $(document).stopTime();
     },
 
@@ -260,21 +267,36 @@
     },
 
     render:function(){
+      $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $("#container").html(this.el);
+      if(this.model.isNew()){
+          $('textarea#note').focus();
+      }
       var self = this;
-      $("#add-notes").validationEngine();
-      $('#tags').tagit({
+      $("#add-notes").validationEngine({promptPosition : "centerRight" });
+          $('#tags').tagit({
         tagSource: "/notes/tags/", select: true ,
-        initialTags: this.model.get('mytags')
+        initialTags: this.model.get('mytags') ,
+        tagsChanged: function(a,b){
+          $('#demoOut').html(a + ' was ' + b);
+          var note = $.trim( $("textarea#note").val() );
+          var notelen = note.length;
+          if(notelen == 0){
+            console.log("wait");
+          }else{
+            self.save();
+          }
+        }
       });
       this.delegateEvents();
     },
 
     save: function() {
       var self = this;
-      var msg = this.model.isNew() ? 'Successfully created!' : "Saved!";
-      var note = $.trim( this.$('[name=note]').val() );
+      var msg = "saving..." ;
+      $('#statusmsg').html(msg);
+      var note = this.$('[name=note]').val();
       var notelen = note.length;
       var taglists = [];
       $("ul#tags li.tagit-choice").each(function() {
@@ -288,13 +310,15 @@
      if( this.model.isNew() ){
         $.post('/notes/' , params , function(data){
         self.model = new Note({ id : data.id});
-         console.log(msg);
+          msg = "saved!"
+         $('#statusmsg').html(msg);
       });
      }else{
        var url = "/notes/" + this.model.get('id');
        var params = params + "&_method=PUT";
        $.post( url , params ,function(data){
-          console.log(msg);
+          msg = "saved!";
+          $('#statusmsg').html(msg);
        });
      }
     }
@@ -320,6 +344,7 @@
     render:function(){
       $(this.el).html(this.template);
       $('#container').hide();
+      $('#note-template').removeClass("span5");
       $("#note-template").html(this.el);
 
       $('button#login').hide();
@@ -394,6 +419,7 @@
     routes: {
           '' : 'home' ,
           'notes' : 'index'   ,
+          'allnotes' : 'allNotes' ,
           'login' : "login",
           'new' : "newNote" ,
           'logout' : "logout",
@@ -403,7 +429,7 @@
     },
 
     home: function(){
-      new ViewHome();
+      new ViewHome({ model: new Session()});
     },
 
     login: function(){
@@ -456,6 +482,18 @@
     newNote: function() {
       new ViewEdit({ model: new Note() });
     } ,
+
+    allNotes: function(){
+       var notes = new All_notes();
+       notes.fetch({
+        success: function() {
+          new ViewNotesIndex({ collection: notes });
+        },
+        error: function() {
+          new Error({ message: "Error loading data." });
+        }
+      })
+    },
 
     edit: function(id) {
       var note = new Note({id : id});

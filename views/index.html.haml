@@ -2,61 +2,70 @@
   %div
     %h2 Welcome to cinch-notes!!!
 %script#user-login-template{:type => "text/template"}
-  %div
-    %form#login_form
-      %label{:for => "username"} Username
-      %input#username.text-input{:class => "validate[required]", :name => "username", :type => "text"}/
-      %br/
-      %label{:for => "password"} password
-      %input#password.text-input{:class => "validate[required]", :name => "password", :type => "password"}/
-      %br/
-      %button#login{:class => "btn info"} Login
-      %button#addUser{:class => "btn info" , :style => "display:None"} Sign Up
+  %form#login_form{:style => "padding:20px" }
+    %label{:for => "username"} Username
+    %input#username.text-input{:class => "validate[required]", :name => "username", :type => "text" , :style => "margin:6px"}/
+    %br/
+    %label{:for => "password"} Password
+    %input#password.text-input{:class => "validate[required]", :name => "password", :type => "password" ,:style => "margin:6px"}/
+    %br/
+    %button#login{:class => "btn info" , :style => "margin-left:135px;margin-top:6px"} Login
+    %button#addUser{:class => "btn info" , :style => "display:None ; margin-left:135px; margin-top:6px"} Sign Up
 %script#show-note-template{:type => "text/template"}
-  %p
-    %div
-      %h4 Note
-      %p
-        <%= model.get('note')%>
-      <a href = "#notes/<%= model.id%>/edit"> Edit </a>
-      %a#back_link{:href => "#notes"} Back
+  %div{ :class => "note-div"}
+    %h4 Note
+    <%= model.get('mynote') %>
+    %hr
+    %p
+      // <a href = "#notes/<%= model.id%>/edit"><img alt="edit" title="edit" src="/images/pencil.png"/></a>
+      // <a href = "#allnotes" class = "delete" id = "<%=model.id%>"><img alt = "delete" title="delete" src="/images/delete.png"/></a>
+      <a href = "#notes/<%= model.id%>/edit"><img alt="edit" title="edit" src="/images/gray_dark/pen_alt2_24x24.png"/></a>
+      <a href = "#allnotes" class = "delete" id = "<%=model.id%>"><img alt = "delete" title="delete" src="/images/gray_dark/trash_stroke_24x24.png"/></a>
+    %a#back_link{:href => "#allnotes"} Back
 %script#add-note-template{:type => "text/template"}
-  %form#add-notes{:method => "post"}
+  %form#add-notes{:method => "post"  , :class => "form-addnotes"}
     %label{:for => "note"}Note :
-    <textarea name='note'  id ="note" class ="validate[required]" rows = "1"><%= model.get('note')%>
-    </textarea>
+    <textarea name='note'  id ="note" class ="validate[required]"><%= model.get('note')%></textarea>
     %br/
     %label{:for => "tag"}Tag :
-    %ul#tags{:name => "tag", :style => "width:50"}
-    %a#back_link{:href => "#notes" ,:class => "btn info"} Back
+    %ul#tags{:name => "tag", :style => "width:65%"}
+    %a#back_link{:href => "#notes" ,:class => "btn-info" ,  :style => "margin-left:130px"} Back
+    %div{:class => 'status-div'}
+      %span{:id => "statusmsg"}
 %script#tag-list-template{:type => "text/template"}
   %h3
-    %a{:href => "#new"} Create New
-  <% if(collection.models.length > 0) { %>
-  %table#tags-tbl{:style => "width:50%", :class => "bordered-table"}
-    %tr
-      %th Tags
+    %a{:href => "#new"}
+      %img(src="/images/gray_dark/plus_24x24.png" title="New note" alt="New note")
+    %a{:href => "#allnotes"}
+      %img(src="images/notes.png" title="All notes" alt="All notes")
+  %div{:style => "height: 400px; overflow: auto;"}
+    // %img(src="images/tags.png")
+    %img(src="images/gray_dark/tag_fill_32x32.png")
+    %ul{:id => "taglist"}
+      <% if(collection.models.length > 0) { %>
       <% collection.each(function(item) { %>
-      %tr
-        %td
-          <a href='#tags/<%=item.get('name')%>' id = "<%= item.get('name')%>" class = "show"><%= item.get('name')%>
+      <li id="row<%= item.id%>">
+      <a href='#tags/<%=item.get('name')%>' id = "<%= item.get('name')%>" class = "show"><%= item.get('name')%>
+      </li>
       <% }); %>
-  <% } %>
+      <% } %>
 %script#note-list-template{:type => "text/template"}
-  %ul{:id => "taglist"}
-    <% if(collection.models.length > 0) { %>
-    <% collection.each(function(item) { %>
-    <li id="row<%= item.id%>">
-    <a href='#notes/<%= item.id %>'><%= item.get('note')%></a>
-    <span class = "delete" id = "<%= item.id%>"> Delete </span>
-    </li>
-    <% }); %>
-    <% } else { %>
-    %h3 No documents!
-    <% } %>
+  %div
+    %input{:type => "text" , :id => "search_note" , :class => "searchnotes"}
+  %div{:style => "height: 400px; overflow: auto;"}
+    %ul{:id => "notelist"}
+      <% if(collection.models.length > 0) { %>
+      <% collection.each(function(item) { %>
+      <li id="row<%= item.id%>">
+      <a href='#notes/<%= item.id %>'><%= item.get('note')%></a>
+      </li>
+      <% }); %>
+      <% } else { %>
+      %h3 No documents!
+      <% } %>
 
 %div{:class => "hero-unit"}
   #notice
   %div{:class => "row"}
-    #note-template{:class => "span5"}
-    #container{:style => "display : none" , :class => "span8"}
+    #note-template{:class => "span5 div-border"}
+    #container.note_div{ :class => "span8 "  }

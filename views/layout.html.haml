@@ -17,6 +17,7 @@
     %link{:href => "stylesheets/validationEngine.jquery.css", :rel => "stylesheet", :type => "text/css"}/
     %link{:href => "stylesheets/tagit-css/tagit-simple-blue.css", :rel => "stylesheet", :type => "text/css"}/
     %link{:href => "stylesheets/bootstrap.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "stylesheets/app.css", :rel => "stylesheet", :type => "text/css"}/
 
     %script{:src => "js/tagit-js/tagit.js"}
 
@@ -30,10 +31,13 @@
               %a{:href=> "#login"} | Sign In
             -else
               %label{:class => 'label'} Welcome  #{session['user_name']}
-              %a{:href => "#notes" } | My Page <!-- user/#{session['user_id']}"} My Page -->
+              %a{:href => "#notes" } | My Notes <!-- user/#{session['user_id']}"} My Page -->
               %a{:href => "#logout"} | Sign Out
 
-          %h1{:style => "color:white"} Cinch Notes
+          %h1{:style => "color:white"}
+            %img(src="/images/notes.png")
+            Cinch Notes
+
       #main{:class => "container"}= yield
 
     %script{:charset => "utf-8", :src => "js/validation-js/jquery.validationEngine-en.js", :type => "text/javascript"}

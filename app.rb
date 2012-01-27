@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'bundler/setup'
-
 require 'sinatra'
 require "sinatra/reloader" # if development?
 require 'active_record'
@@ -29,12 +28,10 @@ require 'acts-as-taggable-on'
 require File.dirname(__FILE__) + '/models/note.rb'
 require File.dirname(__FILE__) + '/models/user.rb'
 require File.dirname(__FILE__) + '/models/tag.rb'
-require File.dirname(__FILE__) + '/models/tag_notes.rb'
 
 
 get '/' do
   haml :index
- # File.read(File.join('public', 'index.html'))
 end
 
 # get all tags by user
@@ -48,7 +45,7 @@ end
 get '/notes' do
   content_type :json
   @user = User.find(session[:user_id])
-  @notes = @user.notes
+  @notes = @user.notes.select("id, substring(note, 1, 60) note")
   @notes.to_json
 end
 
@@ -58,23 +55,19 @@ get '/tags/:name' do
   @user = User.find(session[:user_id])
   @notes = @user.notes.tagged_with(params[:name], :on => :tags)
   @notes.to_json
-
 end
 
 # create new note
 post '/notes/?' do
-   tag_arr = []
+  tag_arr = []
   @user = User.find(session[:user_id])
   @note = Note.new
   content_type :json
-  # data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
-  # @note.note = data["note"]
   @note.note = params["note"]
   @note.user_id = session[:user_id]
   @note.created_at = Time.now
   @note.updated_at = Time.now
-   @user.tag(@note , :with => params["tag"] ,:on => :tags)
-  # @user.tag(@note , :with => data["tag"] , :on => :tags)
+  @user.tag(@note , :with => params["tag"] ,:on => :tags)
   @note.save
 
   mytags = @note.tags
@@ -105,6 +98,7 @@ get '/notes/:id' do
     tag_arr << tag.name
   end
   @note['mytags'] = tag_arr
+  @note['mynote'] = @note.note.gsub(/\n/, '<br/>')
   @note.to_json
 end
 
@@ -114,12 +108,9 @@ put '/notes/:id' do
   @user = User.find(session[:user_id])
   content_type :json
   @note = Note.find(params[:id])
-  # data = JSON.parse(request.body.read.to_s).merge("user_id" => session[:user_id] )
-  # @note.update_attribute(:note , data["note"])
   @note.update_attribute(:note , params["note"])
   @note.update_attribute(:updated_at , Time.now)
-  # @user.tag(@note , :with => data["tag"] , :on => :tags)
-   @user.tag(@note , :with => params["tag"] , :on => :tags)
+  @user.tag(@note , :with => params["tag"] , :on => :tags)
 
   mytags = @note.tags
   mytags.each do |tag|
@@ -131,13 +122,6 @@ put '/notes/:id' do
    @note.to_json
   else
     flash[:error] = "Error! "
-  end
-end
-
-#create a user
-get '/user/new' do
-  respond_to do |format|
-    format.html{ haml :"users/new"}
   end
 end
 
@@ -184,15 +168,11 @@ end
 
 #get users tag
 get "/notes/tags/?" do
-  puts "***"
   @user = User.find(session[:user_id])
   content_type :json
   taglist = @user.owned_tags.select{ |t| t.name.match(/^#{params[:term]}.*/i)}
   taglist.map{|e| e.name}.to_json
 end
-
-
-
 
 #helper for authenticate user
 helpers do
