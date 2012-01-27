@@ -81,6 +81,7 @@ end
 
 # delete Note
 delete '/notes/:id' do
+  puts param[:id];
   @note = Note.find(params[:id])
   @note.destroy
   respond_to do |format|

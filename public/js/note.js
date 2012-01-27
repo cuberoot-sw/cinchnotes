@@ -1,4 +1,8 @@
 (function($) {
+  //var cinchnotes = {
+   //  all_notes:""
+  //};
+
   /* Model*/
    Note = Backbone.Model.extend({
     url : function() {
@@ -57,7 +61,8 @@
   /**** view for login */
   ViewLogin = Backbone.View.extend({
     events: {
-        "submit form#login_form": "save"
+        "submit form#login_form": "save" ,
+        "click button#login": "hide_prompt"
     },
 
     initialize:function(){
@@ -79,7 +84,12 @@
       this.delegateEvents()
     },
 
+    hide_prompt:function(){
+      $("#login_form").validationEngine('hide');
+    },
+
     save: function() {
+        $("#login_form").validationEngine('hide');
         var self = this;
         var router = new AppRouter();
         this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
@@ -116,7 +126,6 @@
       $(this.el).html(this.template);
       $("#note-template").html(this.el);
       $(document).stopTime();
-
       this.delegateEvents();
     },
 
@@ -153,21 +162,18 @@
 
     render:function(){
       $('ul#taglist li a').removeClass("select_tag");
+      $("#add-notes").validationEngine('hide');
       $(this.el).html(this.template);
       $('#container').show();
       $("#container").html(this.el);
-      $(document).stopTime();
       this.delegateEvents();
     }
   });
 
   /*view to show all notes of tag*/
   ViewShowNotes = Backbone.View.extend({
-    events: {
-      "click span.delete": "clear"
-    },
 
-    initialize:function(){
+      initialize:function(){
       console.log("initialize");
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
@@ -178,28 +184,19 @@
 
     render:function(){
       $(this.el).html(this.template);
+      $("#add-notes").validationEngine('hide');
       $('#container').show();
       $("#container").html(this.el);
-      $(document).stopTime();
       this.delegateEvents();
-    } ,
-
-    clear: function(e){
-      var note_id = $(e.target).attr('id')
-      var answer = confirm("Are you sure you want to delete this note?");
-      var note = new Note({id : note_id});
-      if (answer) {
-        note.destroy();
-        $('#row'+note_id).remove();
-        new Notice({ message: "SuccessFully Deleted!" });
-      }
     }
   });
 
   /*view to show a note*/
+
+  /*view to show a note*/
   ViewShow = Backbone.View.extend({
     events: {
-      "click a.delete": "clear"
+      "click .delete": "clear"
     },
 
     initialize:function(){
@@ -220,16 +217,23 @@
     } ,
 
     clear: function(e){
-      var note_id = $(e.target).attr('id')
+      var classname = $(e.target).attr('class');
+      var note_id = $(e.target).attr('id');
       var answer = confirm("Are you sure you want to delete this note?");
       var note = new Note({id : note_id});
       if (answer) {
         note.destroy();
-        new Notice({ message: "SuccessFully Deleted!" });
+        $('#notice_msg').html("Successfully deleted note!");
+        $('#notice_msg').addClass("notice-msg");
+        $.doTimeout(2000, function() {
+          $('#notice_msg').empty();
+          $('#notice_msg').removeClass("notice-msg");
+         });
+
+        //new Notice({ message: "SuccessFully Deleted!" });
       }
     }
   });
-
   /* view for edit / new*/
   ViewEdit = Backbone.View.extend({
     events: {
@@ -247,10 +251,6 @@
     },
 
 
-    back:function(){
-       $('.formErrorContent').validationEngine('hide');
-      $(document).stopTime();
-    },
 
     start_timer: function(){
       $(document).stopTime();
@@ -292,6 +292,11 @@
       this.delegateEvents();
     },
 
+     back:function(){
+      $("#add-notes").validationEngine('hide');
+     },
+
+
     save: function() {
       var self = this;
       var msg = "saving..." ;
@@ -312,13 +317,21 @@
         self.model = new Note({ id : data.id});
           msg = "saved!"
          $('#statusmsg').html(msg);
-      });
+         $.doTimeout(2000, function() {
+           $('#statusmsg').empty();
+         });
+
+              });
      }else{
        var url = "/notes/" + this.model.get('id');
        var params = params + "&_method=PUT";
        $.post( url , params ,function(data){
           msg = "saved!";
           $('#statusmsg').html(msg);
+          $.doTimeout(2000, function() {
+           $('#statusmsg').empty();
+         });
+
        });
      }
     }
@@ -329,7 +342,7 @@
   ViewNewUser = Backbone.View.extend({
 
     events: {
-        "submit form#login_form": "save"
+        "submit form#login_form": "save" ,
     },
 
     initialize:function(){
@@ -346,11 +359,10 @@
       $('#container').hide();
       $('#note-template').removeClass("span5");
       $("#note-template").html(this.el);
-
+      $("#login_form").validationEngine()
       $('button#login').hide();
       $('button#addUser').show();
       $('a#new-user-link').hide();
-       $(document).stopTime();
       this.delegateEvents();
     },
 
@@ -392,11 +404,9 @@
       var view = this;
       $(this.el).html(this.message);
       $(this.el).hide();
-      $('#notice').addClass("alert-message info");
       $('#notice').html(this.el);
       $(this.el).slideDown();
       $.doTimeout(this.displayLength, function() {
-        $('#notice').removeClass("alert-message info");
         $(view.el).slideUp();
         $.doTimeout(2000, function() {
           view.remove();
