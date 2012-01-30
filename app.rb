@@ -45,15 +45,11 @@ end
 get '/notes' do
   content_type :json
   @user = User.find(session[:user_id])
-  @notes = @user.notes.select("id, substring(note, 1, 60) note")
-  @notes.to_json
-end
-
-# get all notes having same tag
-get '/tags/:name' do
-  content_type :json
-  @user = User.find(session[:user_id])
-  @notes = @user.notes.tagged_with(params[:name], :on => :tags)
+  if params[:tag].nil?
+    @notes = @user.notes.select("id, substring(note, 1, 60) note")
+  else
+    @notes = @user.notes.select("notes.id, substring(note, 1, 60) note").tagged_with(params[:tag], :on => :tags)
+  end
   @notes.to_json
 end
 
@@ -81,7 +77,7 @@ end
 
 # delete Note
 delete '/notes/:id' do
-  puts param[:id];
+  puts params[:id]
   @note = Note.find(params[:id])
   @note.destroy
   respond_to do |format|

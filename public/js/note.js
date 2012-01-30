@@ -1,7 +1,7 @@
 (function($) {
-  //var cinchnotes = {
-   //  all_notes:""
-  //};
+  var cinchnotes = {
+    all_notes : ""
+  };
 
   /* Model*/
    Note = Backbone.Model.extend({
@@ -28,8 +28,6 @@
     }
   });
 
-  Tag =  Backbone.Model.extend({ });
-
   /* collection*/
   var Tag_coll = Backbone.Collection.extend({
     model: Note,
@@ -38,7 +36,16 @@
 
   var All_notes = Backbone.Collection.extend({
     model: Note,
-    url: '/notes'
+    url: '/notes',
+    search : function(letters){
+            if(letters == "") return this;
+
+            var pattern = new RegExp(letters,"gi");
+            return _(this.filter(function(data) {
+                    return pattern.test(data.get("note"));
+            }));
+    }
+
   });
 
   /*view to show a home*/
@@ -132,30 +139,32 @@
     show_list: function(e){
       var tag_name = $(e.target).attr('id');
       $('ul#taglist li a').removeClass("select_tag");
-
       $('li a#'+ tag_name).addClass("select_tag");
-      var url = "/tags/" + tag_name;
+      var url = "/notes?tag=" + tag_name;
       var Note_coll = Backbone.Collection.extend({ url: url });
       notes = new Note_coll();
       notes.fetch({
-        success: function(model ) {
-          new ViewShowNotes({collection: notes , model: new Tag()});
+        success: function() {
+          new ViewNotesIndex( {collection: notes });
         },
         error: function() {
           new Error({ message: "Error loading data." });
         }
       });
-
     }
 
   });
 
   /* View for listing of all notes*/
   var ViewNotesIndex = Backbone.View.extend({
+    events:{
+      "keyup input#search_note" : "searchnotes"
+    },
 
     initialize:function(){
       _.bindAll(this , 'render');
       var tmpl = _.template($('#note-list-template').html());
+      console.log(this.collection)
       this.template = tmpl({collection : this.collection});
       this.render();
     },
@@ -167,16 +176,22 @@
       $('#container').show();
       $("#container").html(this.el);
       this.delegateEvents();
+    },
+
+    searchnotes:function(){
+        var note = $.trim( $("input#search_note").val() );
+        var filtered = cinchnotes.all_notes.search(note);
+        new ViewNotesIndex( { collection:  filtered });
     }
+
   });
 
   /*view to show all notes of tag*/
   ViewShowNotes = Backbone.View.extend({
 
       initialize:function(){
-      console.log("initialize");
       _.bindAll(this , 'render');
-      this.model.bind('change', this.render);
+      console.log(this.collection);
       var tmpl = _.template($('#note-list-template').html());
       this.template = tmpl({collection : this.collection});
       this.render();
@@ -192,11 +207,9 @@
   });
 
   /*view to show a note*/
-
-  /*view to show a note*/
   ViewShow = Backbone.View.extend({
     events: {
-      "click .delete": "clear"
+      "click img.delete-note": "clear"
     },
 
     initialize:function(){
@@ -217,23 +230,16 @@
     } ,
 
     clear: function(e){
-      var classname = $(e.target).attr('class');
       var note_id = $(e.target).attr('id');
       var answer = confirm("Are you sure you want to delete this note?");
       var note = new Note({id : note_id});
       if (answer) {
         note.destroy();
-        $('#notice_msg').html("Successfully deleted note!");
-        $('#notice_msg').addClass("notice-msg");
-        $.doTimeout(2000, function() {
-          $('#notice_msg').empty();
-          $('#notice_msg').removeClass("notice-msg");
-         });
-
-        //new Notice({ message: "SuccessFully Deleted!" });
+        new Notice({ message: "SuccessFully Deleted!" });
       }
     }
   });
+
   /* view for edit / new*/
   ViewEdit = Backbone.View.extend({
     events: {
@@ -242,15 +248,12 @@
     },
 
     initialize:function(){
-      console.log("initialize");
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
       var tmpl = _.template($('#add-note-template').html());
       this.template = tmpl({model : this.model});
       this.render();
     },
-
-
 
     start_timer: function(){
       $(document).stopTime();
@@ -404,11 +407,13 @@
       var view = this;
       $(this.el).html(this.message);
       $(this.el).hide();
-      $('#notice').html(this.el);
+      $('#notice_msg').html(this.el);
+      $('#notice_msg').addClass("notice-msg");
       $(this.el).slideDown();
       $.doTimeout(this.displayLength, function() {
         $(view.el).slideUp();
         $.doTimeout(2000, function() {
+          $('#notice_msg').removeClass("notice-msg");
           view.remove();
         });
       });
@@ -429,7 +434,7 @@
     routes: {
           '' : 'home' ,
           'notes' : 'index'   ,
-          'allnotes' : 'allNotes' ,
+         // 'allnotes' : 'allNotes' ,
           'login' : "login",
           'new' : "newNote" ,
           'logout' : "logout",
@@ -481,6 +486,7 @@
 
       notes.fetch({
         success: function() {
+          cinchnotes.all_notes = notes;
           new ViewNotesIndex({ collection: notes });
         },
         error: function() {
@@ -493,7 +499,7 @@
       new ViewEdit({ model: new Note() });
     } ,
 
-    allNotes: function(){
+    /*allNotes: function(){
        var notes = new All_notes();
        notes.fetch({
         success: function() {
@@ -503,7 +509,7 @@
           new Error({ message: "Error loading data." });
         }
       })
-    },
+    },*/
 
     edit: function(id) {
       var note = new Note({id : id});
