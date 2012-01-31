@@ -35,7 +35,7 @@ ul#taglist {
 }
 
 .note_div {
-  margin-top: 37px;
+  margin-top: 22px;
   padding: 10px;
 }
 
@@ -88,4 +88,10 @@ ul#taglist {
     padding: 3px;
     border: solid 1px;
     border-radius: 4px;
+}
+
+.search-box-position{
+   margin-bottom: 7px;
+    margin-left: 26px;
+    margin-top: 3px;
 }

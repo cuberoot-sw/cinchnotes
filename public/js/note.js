@@ -3,7 +3,7 @@
     all_notes : ""
   };
 
-  /* Model*/
+  /*** Model ***/
    Note = Backbone.Model.extend({
     url : function() {
     var base = 'notes'
@@ -28,7 +28,7 @@
     }
   });
 
-  /* collection*/
+  /*** collection ***/
   var Tag_coll = Backbone.Collection.extend({
     model: Note,
     url: '/tags'
@@ -45,10 +45,9 @@
                     return pattern.test(data.get("note"));
             }));
     }
-
   });
 
-  /*view to show a home*/
+  /*** view to show a home page ***/
   ViewHome = Backbone.View.extend({
     initialize:function(){
       _.bindAll(this , 'render');
@@ -60,39 +59,35 @@
     render:function(){
       $(this.el).html(this.template);
       $('#container').hide();
+      $('#search-note-template').hide();
       $("#note-template").html(this.el);
       this.delegateEvents();
     }
   });
 
-  /**** view for login */
+  /*** view for login ***/
   ViewLogin = Backbone.View.extend({
     events: {
         "submit form#login_form": "save" ,
-        "click button#login": "hide_prompt"
     },
 
     initialize:function(){
-      console.log("initialize")
-      _.bindAll(this , 'render')
-      this.model.bind('change', this.render)
-
-      var tmpl = _.template($('#user-login-template').html())
-      this.template = tmpl({model : this.model})
-      this.render()
+      console.log("initialize");
+      _.bindAll(this , 'render');
+      this.model.bind('change', this.render);
+      var tmpl = _.template($('#user-login-template').html());
+      this.template = tmpl({model : this.model});
+      this.render();
     },
 
     render:function(){
-      $(this.el).html(this.template)
-      $("#note-template").removeClass("span5")
-      $("#note-template").html(this.el)
-      $('#container').hide()
-      $("#login_form").validationEngine()
-      this.delegateEvents()
-    },
-
-    hide_prompt:function(){
-      $("#login_form").validationEngine('hide');
+      $(this.el).html(this.template);
+      $("#note-template").removeClass("span5");
+      $("#note-template").html(this.el);
+      $('#container').hide();
+      $('#search-note-template').hide();
+      $("#login_form").validationEngine();
+      this.delegateEvents();
     },
 
     save: function() {
@@ -108,13 +103,13 @@
             },
             error: function() {
               var msg = "Login Failed, check 'username/password' and retry.!"
-              new Notice({ message: "Login Failed, check 'username/password' and retry.!"})
+              new Notice({ message: msg})
             }
         });
     }
   });
 
-  /* View for listing of tags*/
+  /*** View for listing of tags ***/
   var ViewIndex = Backbone.View.extend({
     events: {
        "click a.show": "show_list"
@@ -123,7 +118,6 @@
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
       this.model.bind('destroy', this.remove ,this);
-
       var tmpl = _.template($('#tag-list-template').html());
       this.template = tmpl({collection : this.collection});
       this.render();
@@ -132,7 +126,8 @@
     render:function(){
       $(this.el).html(this.template);
       $("#note-template").html(this.el);
-      $(document).stopTime();
+      $('#notice_msg').removeClass("notice-msg");
+      $('#notice_msg').empty();
       this.delegateEvents();
     },
 
@@ -155,56 +150,56 @@
 
   });
 
-  /* View for listing of all notes*/
-  var ViewNotesIndex = Backbone.View.extend({
-    events:{
+  /** View for Search box */
+  var ViewSearchBox = Backbone.View.extend({
+    events: {
       "keyup input#search_note" : "searchnotes"
     },
 
     initialize:function(){
       _.bindAll(this , 'render');
-      var tmpl = _.template($('#note-list-template').html());
-      console.log(this.collection)
-      this.template = tmpl({collection : this.collection});
+      var tmpl = _.template($('#search-box-template').html());
+      this.template = tmpl();
       this.render();
     },
 
     render:function(){
-      $('ul#taglist li a').removeClass("select_tag");
-      $("#add-notes").validationEngine('hide');
       $(this.el).html(this.template);
-      $('#container').show();
-      $("#container").html(this.el);
+      $("#search-note-template").html(this.el);
+      $('#notice_msg').removeClass("notice-msg");
+      $('#notice_msg').empty();
       this.delegateEvents();
     },
 
-    searchnotes:function(){
+     searchnotes:function(){
         var note = $.trim( $("input#search_note").val() );
         var filtered = cinchnotes.all_notes.search(note);
         new ViewNotesIndex( { collection:  filtered });
     }
-
   });
 
-  /*view to show all notes of tag*/
-  ViewShowNotes = Backbone.View.extend({
+  /* View for listing of all notes*/
+  var ViewNotesIndex = Backbone.View.extend({
 
-      initialize:function(){
+    initialize:function(){
       _.bindAll(this , 'render');
-      console.log(this.collection);
       var tmpl = _.template($('#note-list-template').html());
       this.template = tmpl({collection : this.collection});
       this.render();
     },
 
     render:function(){
-      $(this.el).html(this.template);
       $("#add-notes").validationEngine('hide');
+      $(this.el).html(this.template);
       $('#container').show();
       $("#container").html(this.el);
+      $('#notice_msg').removeClass("notice-msg");
+      $('#notice_msg').empty();
       this.delegateEvents();
     }
+
   });
+
 
   /*view to show a note*/
   ViewShow = Backbone.View.extend({
@@ -225,7 +220,8 @@
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $('#container').html(this.el);
-      $(document).stopTime();
+      $('#notice_msg').removeClass("notice-msg");
+      $('#notice_msg').empty();
       this.delegateEvents();
     } ,
 
@@ -273,6 +269,9 @@
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $("#container").html(this.el);
+      $('#notice_msg').removeClass("notice-msg");
+      $('#notice_msg').empty();
+
       if(this.model.isNew()){
           $('textarea#note').focus();
       }
@@ -434,7 +433,6 @@
     routes: {
           '' : 'home' ,
           'notes' : 'index'   ,
-         // 'allnotes' : 'allNotes' ,
           'login' : "login",
           'new' : "newNote" ,
           'logout' : "logout",
@@ -476,7 +474,10 @@
       var notes = new All_notes();
 
       tags.fetch({
+
         success: function() {
+          $('#notice_msg').html("Loading ..please wait!");
+          $('#notice_msg').addClass("notice-msg");
           new ViewIndex({ collection: tags , model:new Note()});
         },
         error: function() {
@@ -486,7 +487,10 @@
 
       notes.fetch({
         success: function() {
+          $('#notice_msg').html("Loading ..please wait!");
+          $('#notice_msg').addClass("notice-msg");
           cinchnotes.all_notes = notes;
+          new ViewSearchBox();
           new ViewNotesIndex({ collection: notes });
         },
         error: function() {
@@ -496,23 +500,15 @@
     },
 
     newNote: function() {
+      $('#notice_msg').html("Loading ..please wait!");
+      $('#notice_msg').addClass("notice-msg");
       new ViewEdit({ model: new Note() });
     } ,
 
-    /*allNotes: function(){
-       var notes = new All_notes();
-       notes.fetch({
-        success: function() {
-          new ViewNotesIndex({ collection: notes });
-        },
-        error: function() {
-          new Error({ message: "Error loading data." });
-        }
-      })
-    },*/
-
     edit: function(id) {
       var note = new Note({id : id});
+      $('#notice_msg').html("Loading ..please wait!");
+      $('#notice_msg').addClass("notice-msg");
       note.fetch({
         success: function(model ) {
           new ViewEdit({ model:note});
@@ -525,6 +521,8 @@
 
     show: function(id){
       var note = new Note({ id : id});
+      $('#notice_msg').html("Loading ..please wait!");
+      $('#notice_msg').addClass("notice-msg");
       note.fetch({
         success: function(model) {
           new ViewShow({ model: note});

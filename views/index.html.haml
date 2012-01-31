@@ -43,13 +43,11 @@
       <% if(collection.models.length > 0) { %>
       <% collection.each(function(item) { %>
       <li id="row<%= item.id%>">
-      <a href='#>' id = "<%= item.get('name')%>" class = "show"><img src="images/gray_dark/tag_fill_8x8.png"/>  <%= item.get('name')%>
+      <a href='#notes?tag=<%=item.get('name')%>' id = "<%= item.get('name')%>" class = "show"><img src="images/gray_dark/tag_fill_8x8.png"/>  <%= item.get('name')%>
       </li>
       <% }); %>
       <% } %>
 %script#note-list-template{:type => "text/template"}
-  %div{}
-    %input{:type => "text" , :id => "search_note" , :class => "searchnotes"}
   %div{:style => "height: 400px; overflow: auto;"}
     %ul{:id => "notelist"}
       <% collection.each(function(item) { %>
@@ -58,12 +56,12 @@
       </li>
       <% }); %>
 
-%script#one_note_tpl{:type => "text/template"}
-  %li
-    <a href='#notes/<%= item.id %>'><%= note.get('note')%></a>
+%script#search-box-template{:type => "text/template"}
+  %input{:type => "text" , :id => "search_note" , :class => "searchnotes search-box-position"}
 
 %div{:class => "hero-unit"}
   #notice
   %div{:class => "row"}
     #note-template{:class => "span5 div-border"}
+    #search-note-template
     #container.note_div{ :class => "span8 "  }
