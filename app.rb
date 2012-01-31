@@ -6,13 +6,11 @@ require 'active_record'
 require 'haml'
 require 'json'
 require 'sinatra/respond_to'
-require 'rack-flash'
 require 'yaml'
 require 'bcrypt'
 
 Sinatra::Application.register Sinatra::RespondTo
 enable :sessions
-use Rack::Flash,:accessorize => [:notice, :error]
 config = YAML.load_file(File.dirname(__FILE__)+ '/config/config.yml')
 
 ActiveRecord::Base.establish_connection(
@@ -118,7 +116,6 @@ put '/notes/:id' do
   if @note.save
    @note.to_json
   else
-    flash[:error] = "Error! "
   end
 end
 
@@ -128,7 +125,6 @@ post '/session' do
   data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
   @user = authenticate(data["username"], data["password"])
   if @user.nil?
-    flash['error'] = "Login Failed, check 'username/password' and retry."
     redirect "/"
   else
     session['user_id'] = @user[:id]
@@ -143,7 +139,6 @@ get '/session' do
   content_type :json
   session['user_id'] = nil
   session['user_name'] = nil
-  flash[:notice] = "Signed Out successfully!"
   session.to_json
 end
 
@@ -159,7 +154,6 @@ post '/user' do
     session['user_name']=@user[:name]
     @user.to_json
   else
-    flash['error'] = "Error in creating account"
   end
 end
 
