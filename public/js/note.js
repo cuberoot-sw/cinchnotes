@@ -138,6 +138,8 @@
       var url = "/notes?tag=" + tag_name;
       var Note_coll = Backbone.Collection.extend({ url: url });
       notes = new Note_coll();
+      $('#notice_msg').html("Loading ..please wait!");
+      $('#notice_msg').addClass("notice-msg");
       notes.fetch({
         success: function() {
           new ViewNotesIndex( {collection: notes });
@@ -178,7 +180,7 @@
     }
   });
 
-  /* View for listing of all notes*/
+  /* View for listing of all notes */
   var ViewNotesIndex = Backbone.View.extend({
 
     initialize:function(){
@@ -236,7 +238,7 @@
     }
   });
 
-  /* view for edit / new*/
+  /* view for edit / new */
   ViewEdit = Backbone.View.extend({
     events: {
         "click a#back_link": "back" ,
@@ -340,7 +342,7 @@
   });
 
 
-  /* view for  new user*/
+  /* view for  new user */
   ViewNewUser = Backbone.View.extend({
 
     events: {
@@ -390,7 +392,7 @@
   });
 
 
-  /* view for show notice*/
+  /* view for show notice */
   Notice = Backbone.View.extend({
     className: "success",
     displayLength: 5000,
@@ -421,7 +423,7 @@
     }
   });
 
- /*View for show error*/
+ /* View for show error */
   Error = Notice.extend({
     className: "error",
     defaultMessage: 'Uh oh! Something went wrong. Please try again.'
@@ -432,7 +434,7 @@
   var AppRouter = Backbone.Router.extend({
     routes: {
           '' : 'home' ,
-          'notes' : 'index'   ,
+          'notes' : 'index',
           'login' : "login",
           'new' : "newNote" ,
           'logout' : "logout",
@@ -472,23 +474,21 @@
     index:function(){
       var tags = new Tag_coll();
       var notes = new All_notes();
+      $('#notice_msg').html("Loading ..please wait!");
+      $('#notice_msg').addClass("notice-msg");
 
       tags.fetch({
-
         success: function() {
-          $('#notice_msg').html("Loading ..please wait!");
-          $('#notice_msg').addClass("notice-msg");
           new ViewIndex({ collection: tags , model:new Note()});
         },
         error: function() {
           new Error({ message: "Error loading data." });
         }
       });
-
+      $('#notice_msg').html("Loading ..please wait!");
+      $('#notice_msg').addClass("notice-msg");
       notes.fetch({
         success: function() {
-          $('#notice_msg').html("Loading ..please wait!");
-          $('#notice_msg').addClass("notice-msg");
           cinchnotes.all_notes = notes;
           new ViewSearchBox();
           new ViewNotesIndex({ collection: notes });
@@ -537,4 +537,3 @@
   var app_router = new AppRouter;
   Backbone.history.start();
 })(jQuery);
-
