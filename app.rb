@@ -122,7 +122,9 @@ end
 #create session
 post '/session' do
   content_type :json
+  puts "*****"
   data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
+  puts data
   @user = authenticate(data["username"], data["password"])
   if @user.nil?
     redirect "/"

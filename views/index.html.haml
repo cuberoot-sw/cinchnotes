@@ -42,7 +42,7 @@
       %img(src="/images/gray_dark/plus_16x16.png" title="New note" alt="New note")
     %a{:href => "#notes"}
       %img(src="images/gray_dark/home_16x16.png" title="Home" alt="Home" height="18" width="18")
-  %div{:style => "height: 425px; overflow: auto; margin-top:6px;"}
+  %div{:style => "height: 425px; overflow: auto; margin-top:6px; margin-right: 10px;"}
     %ul{:id => "taglist"}
       <% if(collection.models.length > 0) { %>
       <% collection.each(function(item) { %>

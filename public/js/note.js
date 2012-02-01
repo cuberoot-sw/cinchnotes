@@ -90,7 +90,8 @@
       this.delegateEvents();
     },
 
-    save: function() {
+     save: function(e) {
+         e.preventDefault();
         $("#login_form").validationEngine('hide');
         var self = this;
         var router = new AppRouter();
@@ -370,7 +371,8 @@
       this.delegateEvents();
     },
 
-    save: function() {
+    save: function(e) {
+        e.preventDefault();
         var self = this;
         var router = new AppRouter();
         var msg = this.model.isNew() ? 'Successfully created!' : "Saved!";
