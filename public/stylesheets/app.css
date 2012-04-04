@@ -95,3 +95,8 @@ ul#taglist {
     margin-left: 26px;
     margin-top: 3px;
 }
+
+#error_msg_div{
+  margin-left: 140px;
+  color: #FF0000;
+}

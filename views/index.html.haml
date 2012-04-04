@@ -6,6 +6,7 @@
   %form#login_form{:style => "padding:20px" }
     %label{:for => "username"} Username
     %input#username.text-input{:class => "validate[required]", :name => "username", :type => "text" , :style => "margin:6px"}/
+    #error_msg_div
     %br/
     %label{:for => "password"} Password
     %input#password.text-input{:class => "validate[required]", :name => "password", :type => "password" ,:style => "margin:6px"}/

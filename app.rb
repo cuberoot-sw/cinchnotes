@@ -151,11 +151,14 @@ post '/user' do
   data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
   @user.name = data["username"]
   encrypt_pass(@user, data["password"])
-  if @user.save
-    session['user_id']=@user[:id]
-    session['user_name']=@user[:name]
-    @user.to_json
+  if @user.valid?
+    if @user.save
+      session['user_id']=@user[:id]
+      session['user_name']=@user[:name]
+      @user.to_json
+    end
   else
+    {'valid_status'=>'validation_error'}.to_json
   end
 end
 

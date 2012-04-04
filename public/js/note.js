@@ -378,18 +378,23 @@
         var msg = this.model.isNew() ? 'Successfully created!' : "Saved!";
         this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
             success: function(model, resp) {
-              new Notice({ message: msg });
-              router.navigate("#notes" , true);
-              window.location.reload();
+              if (resp.valid_status){
+                var msg = "sorry..This username is already exist.Please enter valid username"
+                $('#error_msg_div').html(msg);
+                return false
+              }else{
+                new Notice({ message: msg });
+                $(this.el).html(msg);
+                router.navigate("#notes" , true);
+                window.location.reload();
+              }
 
             },
             error: function() {
                 new Error();
             }
         });
-
-        $(this.el).html(msg);
-        $('#msg').html(this.el);
+      $('#msg').html(this.el);
     }
   });
 
