@@ -97,10 +97,10 @@
         var router = new AppRouter();
         this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
             success: function(model, resp) {
-              var msg = "SuccessFully Logged In!";
-              new Notice({ message: "SuccessFully Logged In!" });
-              router.navigate("#notes" , true);
-              window.location.reload();
+              var msg = "SuccessFully Logged In!  Loading...Please wait.....";
+              $('#notice_msg').html(msg);
+              $('#notice_msg').addClass("notice-msg");
+              setTimeout(function(){router.navigate("#notes" , true);window.location.reload();}, 5000);
             },
             error: function() {
               var msg = "Login Failed, check 'username/password' and retry.!"
@@ -125,10 +125,13 @@
     },
 
     render:function(){
+      $.doTimeout(2000, function() {
+        $('#notice_msg').removeClass("notice-msg");
+        $('#notice_msg').empty();
+      });
+
       $(this.el).html(this.template);
       $("#note-template").html(this.el);
-      $('#notice_msg').removeClass("notice-msg");
-      $('#notice_msg').empty();
       this.delegateEvents();
     },
 
@@ -167,10 +170,12 @@
     },
 
     render:function(){
+      $.doTimeout(2000, function() {
+        $('#notice_msg').removeClass("notice-msg");
+        $('#notice_msg').empty();
+      });
       $(this.el).html(this.template);
       $("#search-note-template").html(this.el);
-      $('#notice_msg').removeClass("notice-msg");
-      $('#notice_msg').empty();
       this.delegateEvents();
     },
 
@@ -192,12 +197,14 @@
     },
 
     render:function(){
+      $.doTimeout(2000, function() {
+        $('#notice_msg').removeClass("notice-msg");
+        $('#notice_msg').empty();
+      });
       $("#add-notes").validationEngine('hide');
       $(this.el).html(this.template);
       $('#container').show();
       $("#container").html(this.el);
-      $('#notice_msg').removeClass("notice-msg");
-      $('#notice_msg').empty();
       this.delegateEvents();
     }
 
@@ -220,11 +227,13 @@
     },
 
     render:function(){
+      $.doTimeout(2000, function() {
+        $('#notice_msg').removeClass("notice-msg");
+        $('#notice_msg').empty();
+      });
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $('#container').html(this.el);
-      $('#notice_msg').removeClass("notice-msg");
-      $('#notice_msg').empty();
       this.delegateEvents();
     } ,
 
@@ -269,11 +278,13 @@
     },
 
     render:function(){
+      $.doTimeout(2000, function() {
+        $('#notice_msg').removeClass("notice-msg");
+        $('#notice_msg').empty();
+      });
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $("#container").html(this.el);
-      $('#notice_msg').removeClass("notice-msg");
-      $('#notice_msg').empty();
 
       if(this.model.isNew()){
           $('textarea#note').focus();
@@ -316,17 +327,16 @@
         }
       });
      var tagCSV = taglists.join();
-     var params = "note=" + note + "&tag=" + tagCSV;
+     var params = $('form#add-notes').serialize()+"&tag_list="+tagCSV
      if( this.model.isNew() ){
         $.post('/notes/' , params , function(data){
-        self.model = new Note({ id : data.id});
+          self.model = new Note({ id : data.id});
           msg = "saved!"
-         $('#statusmsg').html(msg);
-         $.doTimeout(2000, function() {
+          $('#statusmsg').html(msg);
+          $.doTimeout(2000, function() {
            $('#statusmsg').empty();
-         });
-
-              });
+          });
+        });
      }else{
        var url = "/notes/" + this.model.get('id');
        var params = params + "&_method=PUT";
@@ -381,12 +391,13 @@
               if (resp.valid_status){
                 var msg = "sorry..This username is already exist.Please enter valid username"
                 $('#error_msg_div').html(msg);
+                $('#username').focus();
                 return false
               }else{
-                new Notice({ message: msg });
-                $(this.el).html(msg);
-                router.navigate("#notes" , true);
-                window.location.reload();
+                var msg = 'Your account is successfully created!  Loading....Please wait..';
+                $('#notice_msg').html(msg);
+                $('#notice_msg').addClass("notice-msg");
+                setTimeout(function(){router.navigate("#notes" , true);window.location.reload();}, 5000);
               }
 
             },
@@ -394,16 +405,12 @@
                 new Error();
             }
         });
-      $('#msg').html(this.el);
     }
   });
 
 
   /* view for show notice */
   Notice = Backbone.View.extend({
-    className: "success",
-    displayLength: 5000,
-    defaultMessage: '',
 
     initialize: function() {
       _.bindAll(this, 'render');
@@ -496,8 +503,10 @@
       $('#notice_msg').addClass("notice-msg");
       notes.fetch({
         success: function() {
+          //collect all_notes for searching option
           cinchnotes.all_notes = notes;
           new ViewSearchBox();
+          //call view to shiw note_list
           new ViewNotesIndex({ collection: notes });
         },
         error: function() {
