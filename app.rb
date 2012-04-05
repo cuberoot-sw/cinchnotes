@@ -61,7 +61,8 @@ post '/notes/?' do
   @note.user_id = session[:user_id]
   @note.created_at = Time.now
   @note.updated_at = Time.now
-  @user.tag(@note , :with => params["tag"] ,:on => :tags)
+  #add new tags for note here
+    @user.tag(@note , :with => params["tag_list"] , :on => :tags)
   @note.save
 
   mytags = @note.tags
@@ -99,13 +100,16 @@ end
 
 # Edit a note
 put '/notes/:id' do
+  #require 'ruby-debug/debugger'
   tag_arr = []
   @user = User.find(session[:user_id])
   content_type :json
   @note = Note.find(params[:id])
   @note.update_attribute(:note , params["note"])
   @note.update_attribute(:updated_at , Time.now)
-  @user.tag(@note , :with => params["tag"] , :on => :tags)
+
+  #add new tags for note here
+    @user.tag(@note , :with => params["tag_list"] , :on => :tags)
 
   mytags = @note.tags
   mytags.each do |tag|
@@ -115,16 +119,13 @@ put '/notes/:id' do
 
   if @note.save
    @note.to_json
-  else
   end
 end
 
 #create session
 post '/session' do
   content_type :json
-  puts "*****"
   data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
-  puts data
   @user = authenticate(data["username"], data["password"])
   if @user.nil?
     redirect "/"

@@ -12,3 +12,4 @@ gem 'rack-flash','0.1.2', :git => "git://github.com/nakajima/rack-flash.git"
 gem 'bcrypt-ruby' , '2.1.4'
 gem 'acts-as-taggable-on', '~>2.2.0'
 gem 'rack', '1.3.5'
+gem 'ruby-debug19', :require => 'ruby-debug'
