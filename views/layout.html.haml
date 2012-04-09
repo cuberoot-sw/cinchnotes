@@ -13,6 +13,7 @@
     %script{:src => "/js/vendor/backbone.js"}
     %script{:src => "/js/vendor/jquery.dotimeout.js"}
     %script{:src => "/js/jquery-timer.js"}
+    %script{:src => "/js/bootstrap-modal.js"}
 
     %link{:href => "stylesheets/validationEngine.jquery.css", :rel => "stylesheet", :type => "text/css"}/
     %link{:href => "stylesheets/tagit-css/tagit-simple-blue.css", :rel => "stylesheet", :type => "text/css"}/
@@ -27,10 +28,10 @@
         %div{:class => "fill"}
           #UserName{:class => "pull-right"}
             -if session['user_id'].nil?
-              %a{:href=> "#newUser"} New User
+              %a{:href=> "#newUser"} Sign Up
               %a{:href=> "#login"} | Sign In
             -else
-              %label{:class => 'label'} Welcome  #{session['user_name']}
+              %label{:class => 'logged_in_user'} Welcome  #{session['user_name']}
               %a{:href => "#notes" } | My Notes <!-- user/#{session['user_id']}"} My Page -->
               %a{:href => "#logout"} | Sign Out
           #notice_msg
