@@ -91,15 +91,20 @@
     },
 
      save: function(e) {
-         e.preventDefault();
+        e.preventDefault();
+        $("form#login_form #login").attr('data-target','#modal-window');
+        $('#modal-window').modal({
+          keyboard: false
+        });
         $("#login_form").validationEngine('hide');
         var self = this;
         var router = new AppRouter();
         this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
             success: function(model, resp) {
-              var msg = "SuccessFully Logged In!  Loading...Please wait.....";
-              $('#notice_msg').html(msg);
-              $('#notice_msg').addClass("notice-msg");
+              //var msg = "SuccessFully Logged In!  Loading...Please wait.....";
+              $('#modal-window .modal-header').prepend('<h3>Successfully Logged In !!!<h3>')
+              //$('#notice_msg').html(msg);
+              //$('#notice_msg').addClass("notice-msg");
               setTimeout(function(){router.navigate("#notes" , true);window.location.reload();}, 5000);
             },
             error: function() {
@@ -361,7 +366,6 @@
     },
 
     initialize:function(){
-      console.log("initialize");
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
       var tmpl = _.template($('#user-login-template').html());
@@ -383,6 +387,9 @@
 
     save: function(e) {
         e.preventDefault();
+        $('#modal-window').modal({
+          keyboard: false
+        });
         var self = this;
         var router = new AppRouter();
         var msg = this.model.isNew() ? 'Successfully created!' : "Saved!";
@@ -394,9 +401,10 @@
                 $('#username').focus();
                 return false
               }else{
-                var msg = 'Your account is successfully created!  Loading....Please wait..';
-                $('#notice_msg').html(msg);
-                $('#notice_msg').addClass("notice-msg");
+                //var msg = 'Your account is successfully created!  Loading....Please wait..';
+                //$('#notice_msg').html(msg);
+                //$('#notice_msg').addClass("notice-msg");
+                $('#modal-window .modal-header').prepend('<h3>Your account is successfully created !!!<h3>')
                 setTimeout(function(){router.navigate("#notes" , true);window.location.reload();}, 5000);
               }
 
