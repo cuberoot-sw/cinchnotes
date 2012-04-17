@@ -58,7 +58,11 @@
 
     render:function(){
       $(this.el).html(this.template);
+      $.doTimeout(8000, function() {
+        $('#notice_msg').removeClass("notice-msg").empty();
+      });
       $('#container').hide();
+      $('#note-template').removeClass("span5 div-border");
       $('#search-note-template').hide();
       $("#note-template").html(this.el);
       this.delegateEvents();
@@ -81,10 +85,14 @@
     },
 
     render:function(){
+      $.doTimeout(6000, function() {
+        $('#notice_msg').removeClass("notice-msg").empty();
+      });
       $(this.el).html(this.template);
-      $("#note-template").removeClass("span5");
+      $("#note-template").removeClass("span5 div-border");
       $("#note-template").html(this.el);
       $('#container').hide();
+      $('#newuser_div_heading').html('Sign in')
       $('#search-note-template').hide();
       $("#login_form").validationEngine();
       this.delegateEvents();
@@ -93,20 +101,20 @@
      save: function(e) {
         e.preventDefault();
         $("form#login_form #login").attr('data-target','#modal-window');
-        $('#modal-window').modal({
-          keyboard: false
-        });
         $("#login_form").validationEngine('hide');
         var self = this;
         var router = new AppRouter();
         this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
             success: function(model, resp) {
+              $('#modal-window').modal({
+                keyboard: false
+              });
               $('#modal-window .modal-header').prepend('<h3>Successfully Logged In !!!<h3>')
               setTimeout(function(){router.navigate("#notes" , true);window.location.reload();}, 5000);
             },
             error: function() {
-              var msg = "Login Failed, check 'username/password' and retry.!"
-              new Notice({ message: msg})
+              $('#notice_msg').html("Login Failed, check 'username/password' and retry.!").addClass("notice-msg");
+              $('#username').focus();
             }
         });
     }
@@ -127,9 +135,8 @@
     },
 
     render:function(){
-      $.doTimeout(2000, function() {
-        $('#notice_msg').removeClass("notice-msg");
-        $('#notice_msg').empty();
+      $.doTimeout(6000, function() {
+        $('#notice_msg').removeClass("notice-msg").empty();
       });
 
       $(this.el).html(this.template);
@@ -144,8 +151,7 @@
       var url = "/notes?tag=" + tag_name;
       var Note_coll = Backbone.Collection.extend({ url: url });
       notes = new Note_coll();
-      $('#notice_msg').html("Loading ..please wait!");
-      $('#notice_msg').addClass("notice-msg");
+      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
       notes.fetch({
         success: function() {
           new ViewNotesIndex( {collection: notes });
@@ -173,8 +179,7 @@
 
     render:function(){
       $.doTimeout(2000, function() {
-        $('#notice_msg').removeClass("notice-msg");
-        $('#notice_msg').empty();
+        $('#notice_msg').removeClass("notice-msg").empty();
       });
       $(this.el).html(this.template);
       $("#search-note-template").html(this.el);
@@ -199,9 +204,8 @@
     },
 
     render:function(){
-      $.doTimeout(2000, function() {
-        $('#notice_msg').removeClass("notice-msg");
-        $('#notice_msg').empty();
+      $.doTimeout(6000, function() {
+        $('#notice_msg').removeClass("notice-msg").empty();
       });
       $("#add-notes").validationEngine('hide');
       $(this.el).html(this.template);
@@ -230,8 +234,7 @@
 
     render:function(){
       $.doTimeout(2000, function() {
-        $('#notice_msg').removeClass("notice-msg");
-        $('#notice_msg').empty();
+        $('#notice_msg').removeClass("notice-msg").empty();
       });
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
@@ -245,7 +248,9 @@
       var note = new Note({id : note_id});
       if (answer) {
         note.destroy();
-        new Notice({ message: "SuccessFully Deleted!" });
+        var router = new AppRouter();
+        router.navigate("#notes" , true);
+        $('#notice_msg').html("Log Out Successfully !!!").addClass("notice-msg");
       }
     }
   });
@@ -272,7 +277,6 @@
         var note = $.trim( $("textarea#note").val() );
         var notelen = note.length;
         if(notelen == 0){
-          console.log("wait");
         }else{
           self.save();
         }
@@ -281,8 +285,7 @@
 
     render:function(){
       $.doTimeout(2000, function() {
-        $('#notice_msg').removeClass("notice-msg");
-        $('#notice_msg').empty();
+        $('#notice_msg').removeClass("notice-msg").empty();
       });
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
@@ -373,11 +376,12 @@
     render:function(){
       $(this.el).html(this.template);
       $('#container').hide();
-      $('#note-template').removeClass("span5");
+      $('#note-template').removeClass("span5 div-border");
       $("#note-template").html(this.el);
       $("#login_form").validationEngine()
       $('button#login').hide();
-      $('#newuser_div').show();
+      $('#newuser_div_heading').html('Sign Up')
+      $('.newuser_div').show();
       $('a#new-user-link').hide();
       this.delegateEvents();
     },
@@ -424,12 +428,11 @@
       var view = this;
       $(this.el).html(this.message);
       $(this.el).hide();
-      $('#notice_msg').html(this.el);
-      $('#notice_msg').addClass("notice-msg");
+      $('#notice_msg').html(this.el).addClass("notice-msg");
       $(this.el).slideDown();
       $.doTimeout(this.displayLength, function() {
         $(view.el).slideUp();
-        $.doTimeout(2000, function() {
+        $.doTimeout(4000, function() {
           $('#notice_msg').removeClass("notice-msg");
           view.remove();
         });
@@ -471,7 +474,7 @@
       var session = new Session();
       session.fetch({
         success: function(model ) {
-          new Notice({ message: "Log out successfully" });
+          $('#notice_msg').html("Log Out Successfully !!!").addClass("notice-msg");
           var router = new AppRouter();
           router.navigate("#" , true);
           window.location.reload();
@@ -490,8 +493,7 @@
     index:function(){
       var tags = new Tag_coll();
       var notes = new All_notes();
-      $('#notice_msg').html("Loading ..please wait!");
-      $('#notice_msg').addClass("notice-msg");
+      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
 
       tags.fetch({
         success: function() {
@@ -501,8 +503,7 @@
           new Error({ message: "Error loading data." });
         }
       });
-      $('#notice_msg').html("Loading ..please wait!");
-      $('#notice_msg').addClass("notice-msg");
+      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
       notes.fetch({
         success: function() {
           //collect all_notes for searching option
@@ -518,15 +519,13 @@
     },
 
     newNote: function() {
-      $('#notice_msg').html("Loading ..please wait!");
-      $('#notice_msg').addClass("notice-msg");
+      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
       new ViewEdit({ model: new Note() });
     } ,
 
     edit: function(id) {
       var note = new Note({id : id});
-      $('#notice_msg').html("Loading ..please wait!");
-      $('#notice_msg').addClass("notice-msg");
+      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
       note.fetch({
         success: function(model ) {
           new ViewEdit({ model:note});
@@ -539,8 +538,7 @@
 
     show: function(id){
       var note = new Note({ id : id});
-      $('#notice_msg').html("Loading ..please wait!");
-      $('#notice_msg').addClass("notice-msg");
+      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
       note.fetch({
         success: function(model) {
           new ViewShow({ model: note});
