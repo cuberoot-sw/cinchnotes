@@ -101,10 +101,7 @@
         var router = new AppRouter();
         this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
             success: function(model, resp) {
-              //var msg = "SuccessFully Logged In!  Loading...Please wait.....";
               $('#modal-window .modal-header').prepend('<h3>Successfully Logged In !!!<h3>')
-              //$('#notice_msg').html(msg);
-              //$('#notice_msg').addClass("notice-msg");
               setTimeout(function(){router.navigate("#notes" , true);window.location.reload();}, 5000);
             },
             error: function() {
@@ -380,30 +377,27 @@
       $("#note-template").html(this.el);
       $("#login_form").validationEngine()
       $('button#login').hide();
-      $('button#addUser').show();
+      $('#newuser_div').show();
       $('a#new-user-link').hide();
       this.delegateEvents();
     },
 
     save: function(e) {
         e.preventDefault();
-        $('#modal-window').modal({
-          keyboard: false
-        });
         var self = this;
         var router = new AppRouter();
         var msg = this.model.isNew() ? 'Successfully created!' : "Saved!";
-        this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val()} , {
+        this.model.save({username:this.$('[name=username]').val() , password:this.$('[name=password]').val(), email:this.$('[name=email]').val()} , {
             success: function(model, resp) {
               if (resp.valid_status){
                 var msg = "sorry..This username is already exist.Please enter valid username"
                 $('#error_msg_div').html(msg);
                 $('#username').focus();
-                return false
+                return false;
               }else{
-                //var msg = 'Your account is successfully created!  Loading....Please wait..';
-                //$('#notice_msg').html(msg);
-                //$('#notice_msg').addClass("notice-msg");
+                $('#modal-window').modal({
+                  keyboard: false
+                });
                 $('#modal-window .modal-header').prepend('<h3>Your account is successfully created !!!<h3>')
                 setTimeout(function(){router.navigate("#notes" , true);window.location.reload();}, 5000);
               }

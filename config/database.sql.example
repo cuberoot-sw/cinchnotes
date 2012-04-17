@@ -20,3 +20,5 @@ CREATE TABLE  `cinchnotes`.`notes` (
 CREATE TABLE  `cinchnotes`.`taggings` ( `id` int(11) NOT NULL AUTO_INCREMENT,`tag_id` int(11) NOT NULL,`taggable_id` int(11) NOT NULL,`tagger_id` int(11) NOT NULL,`taggable_type` varchar(255) NOT NULL,`tagger_type` varchar(255) NOT NULL,`context` varchar(255) NOT NULL, PRIMARY KEY (`id`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE  `cinchnotes`.`tags` ( `id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(255) NOT NULL, PRIMARY KEY (`id`)) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+ALTER TABLE users ADD email VARCHAR(60) AFTER name;

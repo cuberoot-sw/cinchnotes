@@ -151,6 +151,7 @@ post '/user' do
   content_type :json
   data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
   @user.name = data["username"]
+  @user.email = data["email"]
   encrypt_pass(@user, data["password"])
   if @user.valid?
     if @user.save

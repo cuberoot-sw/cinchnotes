@@ -11,8 +11,17 @@
     %label{:for => "password"} Password
     %input#password.text-input{:class => "validate[required]", :name => "password", :type => "password" ,:style => "margin:6px"}/
     %br/
+    %br/
+    #newuser_div{:style => "display:none"}
+      %label{:for => "confirm_password"} Confirm Password
+      %input#password.text-input{:class => "validate[required,equals[password]] text-input", :name => "confirm_password", :type => "password" ,:style => "margin:6px"}/
+      %br/
+      %label{:for => "email"} Email
+      %input#email.text-input{:class => "validate[required,custom[email]]", :name => "email", :type => "text" , :style => "margin:6px"}/
+      %br/
+      %button#addUser{:class => "btn-info" , :style => "margin-left:135px; margin-top:6px"} Sign Up
     %button#login{:class => "btn-info" , :style => "margin-left:135px;margin-top:6px"} Login
-    %button#addUser{:class => "btn-info" , :style => "display:None ; margin-left:135px; margin-top:6px"} Sign Up
+    //%button#addUser{:class => "btn-info" , :style => "display:None ; margin-left:135px; margin-top:6px"} Sign Up
 
 %script#show-note-template{:type => "text/template"}
   %div{ :class => "note-div"}
