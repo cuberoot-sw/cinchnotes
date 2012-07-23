@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
+require 'sinatra/activerecord'
 require "sinatra/reloader" # if development?
 require 'active_record'
 require 'haml'

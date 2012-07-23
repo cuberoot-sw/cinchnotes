@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 
 gem 'sinatra', '1.3.1'
 gem 'haml' , '3.1.4'
+gem 'sinatra-activerecord', '1.1.0'
 gem 'mysql2' , '0.3.10'
 gem 'activerecord', '= 3.1.3' #, :require => 'active_record'
 gem 'sinatra-reloader', '1.0'
