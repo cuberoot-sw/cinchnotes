@@ -1,6 +1,14 @@
-
+# for adapter mysql
 adapter: "mysql2"
 host: "localhost"
 database: "students"
 password: "pass123"
+
+# for adapter postgresql
+adapter: 'postgresql'
+host: "localhost"
+database: "cinch-notes"
+username: "postgres"
+password: "pass1"
+
 

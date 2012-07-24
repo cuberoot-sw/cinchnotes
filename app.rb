@@ -15,10 +15,11 @@ enable :sessions
 config = YAML.load_file(File.dirname(__FILE__)+ '/config/config.yml')
 
 ActiveRecord::Base.establish_connection(
-  :adapter => 'mysql2',
-  :database => config['database'],
+  :adapter => config['adapter'],
   :host => config['host'],
-  :password => config['password']
+  :username => config['username'],
+  :password => config['password'],
+  :database => config['database']
 )
 ActiveRecord::Base.include_root_in_json = false
 
