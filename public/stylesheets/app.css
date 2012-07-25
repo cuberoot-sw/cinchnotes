@@ -110,6 +110,7 @@ ul#taglist {
   font-weight: bold;
   line-height: 6px;
   padding: 6px;
+  width: auto;
 }
 
 label{
