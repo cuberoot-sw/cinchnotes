@@ -250,7 +250,7 @@
         note.destroy();
         var router = new AppRouter();
         router.navigate("#notes" , true);
-        $('#notice_msg').html("Log Out Successfully !!!").addClass("notice-msg");
+        $('#notice_msg').html("Deleted Note Successfully !!!").addClass("notice-msg");
       }
     }
   });
