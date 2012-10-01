@@ -46,7 +46,10 @@ CMD
   end
 end
 
-
+after 'deploy:update_code' do
+  run "cd #{release_path}  && ln -nsf #{shared_path}/config/production_config.yml #{release_path}/config/production_config.yml"
+  run "cd #{release_path}  && ln -nsf #{shared_path}/config/config.yml #{release_path}/config/config.yml"
+end
 
 # 
 # ln -sf /var/www/apps/cinch-notes/shared/config/production_config.yml /var/www/apps/cinch-notes/current/config/production_config.yml
