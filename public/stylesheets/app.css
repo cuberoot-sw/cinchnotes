@@ -35,7 +35,7 @@ ul#taglist {
 }
 
 .note_div {
-  margin-top: 22px;
+/*  margin-top: 22px;*/
   padding: 10px;
 }
 
@@ -163,4 +163,8 @@ label{
 
 .home_page p{
    font-size: 16px;
+}
+
+.fill {
+	padding-left: 10px; padding-right: 10px;
 }

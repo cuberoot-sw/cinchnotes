@@ -63,6 +63,7 @@
     %a{:href => "#notes"}
       %img(src="images/gray_dark/home_16x16.png" title="Home" alt="Home" height="18" width="18")
   .tags_list
+    %h4 Tags
     %ul{:id => "taglist"}
       <% if(collection.models.length > 0) { %>
       <% collection.each(function(item) { %>
@@ -74,6 +75,7 @@
 
 %script#note-list-template{:type => "text/template"}
   .notes_list
+    %h4 Notes
     %ul{:id => "notelist"}
       <% collection.each(function(item) { %>
       <li id="row<%= item.id%>">

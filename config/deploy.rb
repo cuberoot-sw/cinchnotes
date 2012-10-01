@@ -45,3 +45,10 @@ CMD
     end
   end
 end
+
+
+
+# 
+# ln -sf /var/www/apps/cinch-notes/shared/config/production_config.yml /var/www/apps/cinch-notes/current/config/production_config.yml
+# 
+# ln -sf /var/www/apps/cinch-notes/shared/config/config.yml /var/www/apps/cinch-notes/current/config/config.yml

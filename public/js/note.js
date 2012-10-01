@@ -273,7 +273,7 @@
     start_timer: function(){
       $(document).stopTime();
       var self = this;
-      $(document).oneTime(5000 , function(){
+      $(document).oneTime(3000 , function(){
         var note = $.trim( $("textarea#note").val() );
         var notelen = note.length;
         if(notelen == 0){
