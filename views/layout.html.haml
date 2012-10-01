@@ -34,8 +34,14 @@
               %a{:href => "#logout"} | Sign Out
           #notice_msg
           %h1{:style => "color:white"}
-            %img(src="/images/notes.png")
-            Cinch Notes
+            -if session['user_id'].nil?
+              %a(href='/')
+                %img(src="/images/notes.png")
+                %span{:style => "color:white"}Cinch Notes
+            -else
+              %a(href='/#notes')
+                %img(src="/images/notes.png")
+                %span{:style => "color:white"}Cinch Notes
 
       #main{:class => "container"}= yield
       %footer
