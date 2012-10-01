@@ -2,11 +2,12 @@ require 'bundler/capistrano'
 
 set :domain, "208.94.246.186"
 set :application, "cinch-notes"
-set :deploy_to, "/var/www/#{application}"
+set :deploy_to, "/var/www/apps/#{application}"
 
 set :user, "girish"
 set :use_sudo, false
 
+ssh_options[:forward_agent] = true
 set :scm, :git
 set :repository, "git@github.com:cuberoot-sw/cinch-notes.git"
 set :branch, 'master'
