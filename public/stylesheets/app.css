@@ -132,6 +132,7 @@ label{
 
 .tags_list{
   height: 425px;
+  width: 270px;
   overflow: auto;
   margin-top:6px;
   margin-right: 10px;
