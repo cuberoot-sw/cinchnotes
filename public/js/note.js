@@ -313,10 +313,15 @@
       this.delegateEvents();
     },
 
-     back:function(){
+    back:function(){
+      var self = this;
       $("#add-notes").validationEngine('hide');
-     },
-
+      var note = $.trim( $("textarea#note").val() );
+      var notelen = note.length;
+      if(notelen != 0){
+        self.save();
+      }
+    },
 
     save: function() {
       var self = this;
