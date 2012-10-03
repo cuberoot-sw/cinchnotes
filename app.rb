@@ -159,8 +159,7 @@ post '/user' do
     if @user.save
       session['user_id']=@user[:id]
       session['user_name']=@user[:name]
-      @user.to_json
-      
+
       # add default notes for user
       help_txt =<<-HELP
 Thanks for trying Cinch Notes! Our intention is to keep Cinch Notes minimal.
@@ -180,7 +179,7 @@ Cube Root Software
       TIPS
       help = @user.notes.build(:note => tips_txt)
       @user.tag(help , :with => 'welcome' , :on => :tags)
-      
+      @user.to_json
     else
       {'valid_status'=>'validation_error'}.to_json
     end
