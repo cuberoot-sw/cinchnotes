@@ -25,13 +25,21 @@
       %div{:class => "topbar"}
         %div{:class => "fill"}
           #UserName{:class => "pull-right"}
-            -if session['user_id'].nil?
-              %a{:href=> "#newUser"} Sign Up
-              %a{:href=> "#login"} | Sign In
-            -else
-              %label{:class => 'logged_in_user'} Welcome  #{session['user_name']}
-              %a{:href => "#notes" } | My Notes <!-- user/#{session['user_id']}"} My Page -->
-              %a{:href => "#logout"} | Sign Out
+            %ul.nav
+              %li.active
+              - if session['user_id'].nil?
+                %li
+                  %a{:href=> "#newUser"} Sign Up
+                %li
+                  %a{:href=> "#login"} Sign In
+              - else
+                %li
+                  %label{:class => 'logged_in_user'} Welcome  #{session['user_name']}
+                %li
+                  %a{:href => "#notes" } My Notes <!-- user/#{session['user_id']}"} My Page -->
+                %li
+                  %a{:href => "#logout"} Sign Out
+
           #notice_msg
           %h1{:style => "color:white"}
             -if session['user_id'].nil?
