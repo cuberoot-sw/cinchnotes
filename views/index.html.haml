@@ -8,7 +8,10 @@
       %li <img src="images/gray_dark/magnifying_glass_16x16.png"/> Find notes with quick searching..
       %li <img src="images/gray_dark/magnifying_glass_16x16.png"/> Find notes with simple tags..
       %li <img src="images/gray_dark/tag_fill_8x8.png"/> Tag your notes..
-      %li <img src="images/gray_dark/arrow_right_16x16.png"/> Start use Cinch-notes .. <a href = "#newUser"> Sign Up</a>
+      - if session['user_id'].nil?
+        %li <img src="images/gray_dark/arrow_right_16x16.png"/> Start use Cinch-notes .. <a href = "#newUser"> Sign Up</a>
+      - else
+        %li <img src="images/gray_dark/arrow_right_16x16.png"/> Start use Cinch-notes .. <a href = "#notes"> My Notes</a>
 
 %script#user-login-template{:type => "text/template"}
   %form#login_form
