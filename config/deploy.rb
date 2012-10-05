@@ -25,6 +25,13 @@ namespace :deploy do
   # Assumes you are using Passenger
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    run <<-CMD
+cd #{latest_release} && 
+bundle exec thin stop -C config/production_config.yml &&
+sleep 5 &&
+cd #{latest_release} && 
+bundle exec thin start -C config/production_config.yml
+CMD
   end
 
   task :finalize_update, :except => { :no_release => true } do
@@ -34,7 +41,6 @@ namespace :deploy do
     run <<-CMD
 rm -rf #{latest_release}/log &&
 mkdir -p #{latest_release}/public &&
-mkdir -p #{latest_release}/tmp &&
 ln -s #{shared_path}/log #{latest_release}/log
 CMD
 
