@@ -67,24 +67,26 @@
       %img(src="images/gray_dark/home_16x16.png" title="Home" alt="Home" height="18" width="18")
   .tags_list
     %h4 Tags
-    %ul{:id => "taglist"}
-      <% if(collection.models.length > 0) { %>
-      <% collection.each(function(item) { %>
-      <li id="row<%= item.id%>">
-      <a href='#notes?tag=<%=item.get('name')%>' id = "<%= item.get('name')%>" class = "show"><img src="images/gray_dark/tag_fill_8x8.png"/>  <%= item.get('name')%>
-      </li>
-      <% }); %>
-      <% } %>
+    .well
+      %ul{:id => "taglist"}
+        <% if(collection.models.length > 0) { %>
+        <% collection.each(function(item) { %>
+        <li id="row<%= item.id%>">
+        <a href='#notes?tag=<%=item.get('name')%>' id = "<%= item.get('name')%>" class = "show"><img src="images/gray_dark/tag_fill_8x8.png"/>  <%= item.get('name')%>
+        </li>
+        <% }); %>
+        <% } %>
 
 %script#note-list-template{:type => "text/template"}
   .notes_list.span8
     %h4 Notes
-    %ul{:id => "notelist"}
-      <% collection.each(function(item) { %>
-      <li id="row<%= item.id%>">
-      <a href='#notes/<%= item.id %>'><%= item.get('note')%></a>
-      </li>
-      <% }); %>
+    .well
+      %ul{:id => "notelist"}
+        <% collection.each(function(item) { %>
+        <li id="row<%= item.id%>">
+        <a href='#notes/<%= item.id %>'><%= item.get('note')%></a>
+        </li>
+        <% }); %>
 
 %script#search-box-template{:type => "text/template"}
   %input{:type => "text" , :id => "search_note" , :class => "searchnotes search-box-position"}
