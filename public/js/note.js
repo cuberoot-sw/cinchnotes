@@ -39,7 +39,6 @@
     url: '/notes',
     search : function(letters){
             if(letters == "") return this;
-
             var pattern = new RegExp(letters,"gi");
             return _(this.filter(function(data) {
                     return pattern.test(data.get("note"));
@@ -130,7 +129,7 @@
       this.model.bind('change', this.render);
       this.model.bind('destroy', this.remove ,this);
       var tmpl = _.template($('#tag-list-template').html());
-      this.template = tmpl({collection : this.collection});
+      this.template = tmpl({tags : this.collection});
       this.render();
     },
 
@@ -154,7 +153,8 @@
       $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
       notes.fetch({
         success: function() {
-          new ViewNotesIndex( {collection: notes });
+          // fetch notes
+          new ViewNotesIndex( {collection: notes.models[0].attributes.notes });
         },
         error: function() {
           new Error({ message: "Error loading data." });
@@ -188,7 +188,10 @@
 
      searchnotes:function(){
         var note = $.trim( $("input#search_note").val() );
-        var filtered = cinchnotes.all_notes.search(note);
+        var filtered = _.filter(cinchnotes.all_notes, function(item){
+                    var pattern = new RegExp(note,"gi");
+                    return pattern.test(item.note)
+                    });
         new ViewNotesIndex( { collection:  filtered });
     }
   });
@@ -199,7 +202,7 @@
     initialize:function(){
       _.bindAll(this , 'render');
       var tmpl = _.template($('#note-list-template').html());
-      this.template = tmpl({collection : this.collection});
+      this.template = tmpl({notes : this.collection});
       this.render();
     },
 
@@ -496,26 +499,18 @@
     } ,
 
     index:function(){
-      var tags = new Tag_coll();
-      var notes = new All_notes();
+      var result = new All_notes();
       $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
-
-      tags.fetch({
-        success: function() {
-          new ViewIndex({ collection: tags , model:new Note()});
-        },
-        error: function() {
-          new Error({ message: "Error loading data." });
-        }
-      });
-      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
-      notes.fetch({
+      result.fetch({
         success: function() {
           //collect all_notes for searching option
-          cinchnotes.all_notes = notes;
+          cinchnotes.all_notes = result.models[0].attributes.notes;
           new ViewSearchBox();
-          //call view to shiw note_list
-          new ViewNotesIndex({ collection: notes });
+          //call view to show note_list
+          new ViewNotesIndex({ collection: result.models[0].attributes.notes });
+          //call view to show taglist
+          new ViewIndex({ collection: result.models[0].attributes.tags , model:new Note()});
+
         },
         error: function() {
           new Error({ message: "Error loading data." });

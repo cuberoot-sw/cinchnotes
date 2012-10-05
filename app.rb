@@ -47,10 +47,12 @@ get '/notes' do
   @user = User.find(session[:user_id])
   if params[:tag].nil?
     @notes = @user.notes.select("id, substring(note, 1, 60) note")
+    result = {:notes =>  @notes, :tags => @user.owned_tags }
   else
     @notes = @user.notes.select("notes.id, substring(note, 1, 60) note").tagged_with(params[:tag], :on => :tags)
+    result = {:notes =>  @notes }
   end
-  @notes.to_json
+  result.to_json
 end
 
 # create new note

@@ -68,23 +68,23 @@
   .tags_list
     %h4 Tags
     %ul{:id => "taglist"}
-      <% if(collection.models.length > 0) { %>
-      <% collection.each(function(item) { %>
-      <li id="row<%= item.id%>">
-      <a href='#notes?tag=<%=item.get('name')%>' id = "<%= item.get('name')%>" class = "show"><img src="images/gray_dark/tag_fill_8x8.png"/>  <%= item.get('name')%>
+      <% for (var i = 0; i < tags.length; i++) { %>
+      <% var tag = tags[i]; %>
+      <li id="row<%= tag.id%>">
+      <a href='#notes?tag=<%=tag.name%>' id = "<%= tag.name%>" class = "show"><img src="images/gray_dark/tag_fill_8x8.png"/>  <%= tag.name%>
       </li>
-      <% }); %>
       <% } %>
 
 %script#note-list-template{:type => "text/template"}
   .notes_list.span8
     %h4 Notes
     %ul{:id => "notelist"}
-      <% collection.each(function(item) { %>
-      <li id="row<%= item.id%>">
-      <a href='#notes/<%= item.id %>'><%= item.get('note')%></a>
+      <% for (var i = 0; i < notes.length; i++) { %>
+      <% var note = notes[i]; %>
+      <li id="row<%= note.id%>">
+      <a href='#notes/<%= note.id %>'><%= note.note%></a>
       </li>
-      <% }); %>
+      <% } %>
 
 %script#search-box-template{:type => "text/template"}
   %input{:type => "text" , :id => "search_note" , :class => "searchnotes search-box-position"}
