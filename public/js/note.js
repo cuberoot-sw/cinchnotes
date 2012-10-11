@@ -61,7 +61,7 @@
         $('#notice_msg').removeClass("notice-msg").empty();
       });
       $('#container').hide();
-      $('#note-template').removeClass("span5 div-border");
+      $('#note-template').removeClass("span4 div-border");
       $('#search-note-template').hide();
       $("#note-template").html(this.el);
       this.delegateEvents();
