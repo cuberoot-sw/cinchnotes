@@ -41,7 +41,11 @@
     %h4 Note
     .well
       <%= model.get('mynote') %>
-
+      %br
+      .own_tags
+        %img{:src => "images/gray_dark/tag_fill_8x8.png"}
+        &nbsp;
+        <%= model.get('mytags')%>
       %hr
       %p
         <a href="#notes"><img class = "delete-note" id ="<%= model.id%>" alt = "delete" title="delete" src="/images/gray_dark/trash_stroke_16x16.png"/></a>
