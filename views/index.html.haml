@@ -45,7 +45,10 @@
       .own_tags
         %img{:src => "images/gray_dark/tag_fill_8x8.png"}
         &nbsp;
-        <%= model.get('mytags')%>
+        <%for (var i = 0; i < tags.length; i++) { %>
+        <% var tag = tags[i]; %>
+        <a href='#notes?tag=<%=tag%>' id = "<%= tag%>" class = "show_notes"><%= tag%>
+        <% } %>
       %hr
       %p
         <a href="#notes"><img class = "delete-note" id ="<%= model.id%>" alt = "delete" title="delete" src="/images/gray_dark/trash_stroke_16x16.png"/></a>
