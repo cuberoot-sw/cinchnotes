@@ -140,6 +140,7 @@
 
       $(this.el).html(this.template);
       $('#note-template').addClass("span4 div-border");
+      $('#search-note-template').show();
       $("#note-template").html(this.el);
       this.delegateEvents();
     },
