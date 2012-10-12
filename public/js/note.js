@@ -139,6 +139,7 @@
       });
 
       $(this.el).html(this.template);
+      $('#note-template').addClass("span4 div-border");
       $("#note-template").html(this.el);
       this.delegateEvents();
     },
