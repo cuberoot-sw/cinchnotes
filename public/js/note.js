@@ -61,7 +61,7 @@
         $('#notice_msg').removeClass("notice-msg").empty();
       });
       $('#container').hide();
-      $('#note-template').removeClass("span5 div-border");
+      $('#note-template').removeClass("span4 div-border");
       $('#search-note-template').hide();
       $("#note-template").html(this.el);
       this.delegateEvents();
@@ -139,6 +139,8 @@
       });
 
       $(this.el).html(this.template);
+      $('#note-template').addClass("span4 div-border");
+      $('#search-note-template').show();
       $("#note-template").html(this.el);
       this.delegateEvents();
     },
@@ -223,7 +225,8 @@
   /*view to show a note*/
   ViewShow = Backbone.View.extend({
     events: {
-      "click img.delete-note": "clear"
+      "click img.delete-note": "clear" ,
+      "click a.show_notes": "show_notes" ,
     },
 
     initialize:function(){
@@ -231,7 +234,7 @@
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
       var tmpl = _.template($('#show-note-template').html());
-      this.template = tmpl({model : this.model});
+      this.template = tmpl({model : this.model, tags: this.collection});
       this.render();
     },
 
@@ -255,7 +258,25 @@
         router.navigate("#notes" , true);
         $('#notice_msg').html("Deleted Note Successfully !!!").addClass("notice-msg");
       }
+    } ,
+
+    show_notes: function(e){
+      var tag_name = $(e.target).attr('id');
+      var url = "/notes?tag=" + tag_name;
+      var Note_coll = Backbone.Collection.extend({ url: url });
+      notes = new Note_coll();
+      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+      notes.fetch({
+        success: function() {
+          // fetch notes
+          new ViewNotesIndex( {collection: notes.models[0].attributes.notes });
+        },
+        error: function() {
+          new Error({ message: "Error loading data." });
+        }
+      });
     }
+
   });
 
   /* view for edit / new */
@@ -541,7 +562,7 @@
       $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
       note.fetch({
         success: function(model) {
-          new ViewShow({ model: note});
+          new ViewShow({ model: note, collection: note.get('mytags')});
         },
         error: function() {
           new Error({ message: "Error loading data." });

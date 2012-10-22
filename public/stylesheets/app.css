@@ -8,7 +8,6 @@ a:hover {
   position : absolute;
   height: 80%;
   width: 50%;
-  margin-left: -100px;
 }
 
 ul#notelist {
@@ -40,8 +39,8 @@ ul#taglist {
 }
 
 .select_tag{
-    background-color: #CCCCCC;
-    color: #000000;
+    background-color: #034482;
+    color: #FFFFFF;
     font-weight: bold;
 }
 
@@ -68,15 +67,6 @@ ul#taglist {
   }
 .searchnotes {
     background: url("/images/gray_dark/magnifying_glass_16x16.png") no-repeat scroll 6px 50% transparent;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 12px 12px 12px 12px;
-    box-shadow: 0 1px 0 #FFFFFF;
-    font-size: 13px;
-    left: 10px;
-    padding: 4px 6px 4px 24px;
-    width: 390px;
-    margin-bottom: 20px;
-    margin-top: -7px;
 }
 .footer-content{
   margin-left:500px;
@@ -88,12 +78,15 @@ ul#taglist {
     padding: 3px;
     border: solid 1px;
     border-radius: 4px;
+    margin-top: 10px;
+    color: #2FA4E7;
 }
 
 .search-box-position{
    margin-bottom: 7px;
-    margin-left: 26px;
+    margin-left: 36px;
     margin-top: 3px;
+    width: 360px;
 }
 
 #error_msg_div{
@@ -106,9 +99,8 @@ ul#taglist {
 }
 
 .logged_in_user{
-  color: #FFFFFF;
   font-weight: bold;
-  line-height: 27px;
+  line-height: 26px;
   padding: 6px;
   width: auto;
 }
@@ -141,6 +133,7 @@ label{
 .notes_list{
   height: 400px;
   overflow: auto;
+  margin-top: 20px;
 }
 
 .home_page ul{
@@ -168,4 +161,14 @@ label{
 
 .fill {
 	padding-left: 10px; padding-right: 10px;
+}
+
+.input-note{
+  height: 55%;
+  width: 65%;
+}
+
+.own_tags{
+  margin-left:10px;
+  padding: 4px;
 }
