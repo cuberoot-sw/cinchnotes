@@ -1,0 +1,56 @@
+!!!
+%html
+  %head
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    = csrf_meta_tags
+    %link{:href => "/assets/validationEngine.jquery.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "/assets/tagit-css/tagit-simple-blue.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "/assets/app.css", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "/assets/bootswatch.css", :rel => "stylesheet", :type => "text/css"}/
+
+    %script(src='/assets/jquery-1.7.1.min.js' type="text/javascript")
+    %script(src='/assets/jquery-ui.min.js' type="text/javascript")
+    %script{:src => "/assets/tagit-js/tagit.js"}
+    = javascript_include_tag "vendor/underscore.js", "vendor/backbone.js",  "vendor/jquery.dotimeout.js", "validation-js/jquery.validationEngine-en.js", "validation-js/jquery.validationEngine.js", "popup_box.js", "jquery-timer.js"
+
+
+    %body
+      %div{:class => "navbar"}
+        %div{:class => "navbar-inner"}
+          .container{:style => "width:auto"}
+            .nav-collapse
+              %ul.nav.pull-right
+                %li.active
+                - if session['user_id'].nil?
+                  %li
+                    %a{:href=> "#newUser"} Sign Up
+                  %li
+                    %a{:href=> "#login"} Sign In
+                - else
+                  %li{:class => 'logged_in_user'}
+                    %label{:class => 'logged_in_user'} Welcome  #{session['user_name']}
+                  %li
+                    %a{:href => "#notes" } My Notes <!-- user/#{session['user_id']}"} My Page -->
+                  %li
+                    %a{:href => "#logout"} Sign Out
+
+            #notice_msg
+            -if session['user_id'].nil?
+              %a.brand(href='/')
+                %img(src="/assets/notes.png")
+                Cinch Notes
+            -else
+              %a.brand(href='/#notes')
+                %img(src="/assets/notes.png")
+                Cinch Notes
+
+      #main{:class => "container"}= yield
+      %footer
+        %a{:href => "http://cuberoot.in", :class => "footer-content pull-right"}
+          &copy; Cube Root Software 2012
+    -#%script{:src => "js/popup_box.js", :type => "text/javascript"}
+    -#%script{:charset => "utf-8", :src => "js/validation-js/jquery.validationEngine-en.js", :type => "text/javascript"}
+    -#%script{:charset => "utf-8", :src => "js/validation-js/jquery.validationEngine.js", :type => "text/javascript"}
+    -#%script{:src => "/js/note.js"}
+    = javascript_include_tag "note.js"
+
