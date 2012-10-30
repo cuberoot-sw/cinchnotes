@@ -1,6 +1,5 @@
-config/config.yml
+config/*.yml
 .DS_Store
 log/*.log
 tmp/**/*
-config/database.yml
 .rsync_cache/
