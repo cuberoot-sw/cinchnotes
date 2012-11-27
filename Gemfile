@@ -5,14 +5,17 @@ gem 'rails', '3.2.8'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
 gem 'mysql2', '0.3.11'
 gem 'haml', '3.1.7'
-gem 'ruby-debug19', '0.11.6', :require => 'ruby-debug'
 gem 'acts-as-taggable-on'
 gem 'json'
 gem 'bcrypt-ruby', :require => "bcrypt"
 gem 'acts-as-taggable-on'
+
+group :development do
+  gem 'sqlite3'
+  gem 'ruby-debug19', '0.11.6', :require => 'ruby-debug'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
