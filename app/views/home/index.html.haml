@@ -18,23 +18,23 @@
     %h3#newuser_div_heading
     %hr
     %label{:for => "username"} Username
-    %input#username.text-input{:class => "validate[required]", :name => "username", :type => "text" , :style => "margin:6px"}/
+    %input#username.input-large{:class => "validate[required]", :name => "username", :type => "text" , :style => "margin:6px"}/
     #error_msg_div
       %br/
     .newuser_div{:style => "display:none"}
       %label{:for => "email"} Email
-      %input#email.text-input{:class => "validate[required,custom[email]]", :name => "email", :type => "text" , :style => "margin:6px"}/
+      %input#email.input-large{:class => "validate[required,custom[email]]", :name => "email", :type => "text" , :style => "margin:6px"}/
       %br/
     %label{:for => "password"} Password
-    %input#password.text-input{:class => "validate[required]", :name => "password", :type => "password" ,:style => "margin:6px"}/
+    %input#password.input-large{:class => "validate[required]", :name => "password", :type => "password" ,:style => "margin:6px"}/
     %br/
     %br/
     .newuser_div{:style => "display:none"}
       %label{:for => "confirm_password"} Confirm Password
-      %input#password.text-input{:class => "validate[required,equals[password]] text-input", :name => "confirm_password", :type => "password" ,:style => "margin:6px"}/
+      %input#password.input-large{:class => "validate[required,equals[password]] text-input", :name => "confirm_password", :type => "password" ,:style => "margin:6px"}/
       %br/
-      %button#addUser{:class => "btn btn-primary"} Sign Up
-    %button#login{:class => "btn btn-primary" } Login
+      %button#addUser{:class => "btn btn-info"} Sign Up
+    %button#login{:class => "btn btn-info" } Login
 
 %script#show-note-template{:type => "text/template"}
   %div{ :class => "note-div"}

@@ -72,14 +72,14 @@ ul#taglist {
   margin-left:500px;
 }
 .notice-msg{
-    background-color: #EEDC94;
+    background-color: #0088CC;
     float: right;
     margin-right: 500px;
     padding: 3px;
     border: solid 1px;
     border-radius: 4px;
     margin-top: 10px;
-    color: #2FA4E7;
+    color: white;
 }
 
 .search-box-position{
@@ -171,4 +171,8 @@ label{
 .own_tags{
   margin-left:10px;
   padding: 4px;
+}
+a {
+    color: #0088CC;
+    text-decoration: none;
 }
