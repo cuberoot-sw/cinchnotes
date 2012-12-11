@@ -20,7 +20,7 @@
       %div{:class => "navbar"}
         %div{:class => "navbar-inner"}
           .container{:style => "width:auto"}
-            .pull-right
+            .pull-right{:id => "pull-rigth-padding"}
               %ul.nav.nav-pills.ddmenu
                 - if session['user_id'].nil?
                   %li{:class => 'dropdown'}
@@ -36,14 +36,15 @@
                     %a{:href => "#logout"} Sign Out
 
             #notice_msg
-            -if session['user_id'].nil?
-              %a.brand(href='/')
-                %img(src="/assets/notes.png")
-                Cinch Notes
-            -else
-              %a.brand(href='/#notes')
-                %img(src="/assets/notes.png")
-                Cinch Notes
+            .span6
+              -if session['user_id'].nil?
+                %a.brand(href='/' id = 'divSiteTitle')
+                  %img(src="/assets/notes.png")
+                  Cinch Notes
+              -else
+                %a.brand(href='/#notes' id = 'divSiteTitle')
+                  %img(src="/assets/notes.png")
+                  Cinch Notes
 
       #main{:class => "container"}= yield
       %footer
