@@ -1,9 +1,9 @@
 %script#home-page-template{:type => "text/template"}
   .home_page
-    %h2 Welcome to Cinch-Notes!!!
+    %h1 Welcome to Cinch-Notes!!!
     %p Cinch-Notes is easy Note taking application
     %ul
-      %li <img src = "assets/notes.png/"> To keep your notes..
+      %li <img src = "assets/red-notes-icon.png/"> To keep your notes..
       %li <img src="assets/gray_dark/magnifying_glass_16x16.png"/> Find notes with quick searching..
       %li <img src="assets/gray_dark/magnifying_glass_16x16.png"/> Find notes with simple tags..
       %li <img src="assets/gray_dark/tag_fill_8x8.png"/> Tag your notes..
@@ -73,7 +73,8 @@
     %a{:href => "#notes"}
       %img(src="assets/gray_dark/home_16x16.png" title="Home" alt="Home" height="18" width="18")
   .tags_list
-    %h4 Tags
+    %div{:id=> "divHeaderLine2"}
+      Tags
     .well
       %ul{:id => "taglist"}
         <% for (var i = 0; i < tags.length; i++) { %>
@@ -84,8 +85,9 @@
         <% } %>
 
 %script#note-list-template{:type => "text/template"}
-  .note-list.span8
-    %h4 Notes
+  .note-list.span10
+    %div{:id=> "divHeaderLine2"}
+      Notes
     .well
       %ul{:id => "notelist"}
         <% for (var i = 0; i < notes.length; i++) { %>
