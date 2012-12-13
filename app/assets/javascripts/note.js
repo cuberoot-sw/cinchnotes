@@ -62,6 +62,7 @@
       });
       $('#container').hide();
       $('#note-template').removeClass("span4 div-border");
+			$('#content-wraper').removeClass("span4").addClass("span12");
       $('#search-note-template').hide();
       $("#note-template").html(this.el);
       this.delegateEvents();
@@ -139,7 +140,7 @@
       });
 
       $(this.el).html(this.template);
-      $('#note-template').addClass("span4 div-border");
+      $('#note-template').addClass("");
       $('#search-note-template').show();
       $("#note-template").html(this.el);
       this.delegateEvents();

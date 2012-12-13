@@ -72,7 +72,7 @@ ul#taglist {
   margin-left:500px;
 }
 .notice-msg{
-    background-color: #0088CC;
+    background-color: #A30000;
     float: right;
     margin-right: 500px;
     padding: 3px;
@@ -84,9 +84,8 @@ ul#taglist {
 
 .search-box-position{
    margin-bottom: 7px;
-    margin-left: 36px;
-    margin-top: 3px;
-    width: 360px;
+   margin-top: 3px;
+   width: 360px;
 }
 
 #error_msg_div{
@@ -178,4 +177,7 @@ a {
 }
 #pull-rigth-padding{
 padding :15px;
+}
+.container-padding{
+  padding : 26px;
 }
