@@ -39,7 +39,7 @@ ul#taglist {
 }
 
 .select_tag{
-    background-color: #034482;
+    background-color: #bc8f8f;
     color: #FFFFFF;
     font-weight: bold;
 }
@@ -80,6 +80,8 @@ ul#taglist {
     border-radius: 4px;
     margin-top: 10px;
     color: white;
+		position:static;
+		text-align:center;
 }
 
 .search-box-position{
@@ -180,4 +182,8 @@ padding :15px;
 }
 .container-padding{
   padding : 26px;
+}
+.transparent-bg-size{
+width : 90%;
+position:relative;
 }
