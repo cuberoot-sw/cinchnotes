@@ -80,7 +80,7 @@ ul#taglist {
     border-radius: 4px;
     margin-top: 10px;
     color: white;
-		position:static;
+		position:fixed;
 		text-align:center;
 }
 
