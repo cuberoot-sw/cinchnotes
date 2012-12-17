@@ -60,7 +60,7 @@
     <textarea name='note'  id ="note" class ="validate[required] input-note"><%= model.get('note')%></textarea>
     %br/
     %label{:for => "tag"}Tags :
-    %ul#tags{:name => "tag", :style => "width:65%"}
+    %ul#tags{:name => "tag", :style => "width:100%"}
     %a#back_link{:href => "#notes" , :class => 'brand back_to_notes_link'}
       %img(src ="assets/gray_dark/arrow_left_16x16.png" alt="Home" title="Home")
     %div{:class => 'status-div'}
@@ -85,7 +85,7 @@
         <% } %>
 
 %script#note-list-template{:type => "text/template"}
-  .note-list.span10
+  .note-list
     %div{:id=> "divHeaderLine2"}
       Notes
     .well
