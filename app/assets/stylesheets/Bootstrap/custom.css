@@ -142,7 +142,7 @@ body{background-image: url("/assets/diagonal-noise.png"); background-repeat: rep
 
 #divLogo{margin-top: 43px; margin-bottom: 31px; margin-left: 3px; }
 
-#divSiteTitle{font-family: Cuprum; font-size: 46px; line-height: 55px; color: rgb(47, 47, 47); text-shadow: rgba(0, 0, 0, 0.199219) 2px 8px 6px, rgba(255, 255, 255, 0.292969) 0px -5px 35px; letter-spacing: 2px; font-weight: normal; font-style: normal; text-transform: none; }
+#divSiteTitle{font-family: 'Century Gothic'; font-size: 46px; line-height: 55px; color: rgb(47, 47, 47); text-shadow: rgba(0, 0, 0, 0.199219) 2px 8px 6px, rgba(255, 255, 255, 0.292969) 0px -5px 35px; letter-spacing: 2px; font-weight: normal; font-style: normal; text-transform: none; }
 
 #divTagLine{color: rgb(160, 0, 0); line-height: 40px; text-transform: uppercase; letter-spacing: 6px; font-size: 13px; text-shadow: rgba(0, 0, 0, 0.199219) 2px 8px 6px, rgba(255, 255, 255, 0.292969) 0px -5px 35px; font-family: Cuprum; }
 
@@ -235,4 +235,4 @@ h6,.page-content h6 a{font-weight: normal; font-style: normal; ;font-family: Cup
 .ddmenu.nav-pills li a{font-family: Cuprum; font-size: 17px; line-height: 17px; }
 
 .ddmenu .dropdown-menu li a{line-height: 29px; }
-
+
