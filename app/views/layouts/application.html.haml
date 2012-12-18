@@ -17,14 +17,14 @@
 
 
     %body{:id => "pageBody"}
-      %div{:id => "divBoxed", :class => "container"}
-        #notice_msg
-        %div{:class => "transparent-bg", :style => "position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: -1;zoom: 1;"}
-        %div{:class => "headerArea"}
-          %div{:class => "divPanel notop nobottom"}
-            %div{:class => "row-fluid"}
-              %div{:class => "span6"}
-                %div{:id => "divLogo"}
+      #notice_msg
+      #divBoxed.container
+        .transparent-bg#transparent-bg-id
+        .headerArea
+          .divPanel.notop.nobottom
+            .row-fluid
+              .span6
+                #divLogo
                   -if session['user_id'].nil?
                     %a.brand(href='/' id = 'divSiteTitle')
                       %img(src="/assets/red-notes-icon.png")
@@ -33,8 +33,8 @@
                     %a.brand(href='/#notes' id = 'divSiteTitle')
                       %img(src="/assets/red-notes-icon.png")
                         Cinch Notes
-              %div{:class => "span6"}
-                %div{:class => "pull-right"}
+              .span6
+                .pull-right
                   %ul.nav.nav-pills.ddmenu
                     - if session['user_id'].nil?
                       %li{:class => 'dropdown'}
@@ -49,14 +49,14 @@
                       %li
                         %a{:href => "#logout"} Sign Out
               
-            %div{:class => "headerArea"}
-              %div{:class => "divPanel notop page-content"}
+            .headerArea
+              .divPanel.notop.page-content
                 %div{:id => "row-fluid"}
                   #main{:class => "container"}= yield
-        %div{:id => "footerOuterSeparator"}
-        %div{:id => "divFooter", :class => "footerArea"}
-          %div{:class => "divPanel"}
-            %div{:class => "row-fluid"}
+        #footerOuterSeparator
+        #divFooter.footerArea
+          .divPanel
+            .row-fluid
               %a{:href => "http://cuberoot.in", :class => "pull-right"}
                 &copy; Cube Root Software 2012
     -#%script{:src => "js/popup_box.js", :type => "text/javascript"}

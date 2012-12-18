@@ -73,14 +73,14 @@ ul#taglist {
 }
 .notice-msg{
     background-color: #A30000;
-    float: right;
-    margin-right: 500px;
+    float:right;
+    margin-left: 1320px;
     padding: 3px;
     border: solid 1px;
     border-radius: 4px;
     margin-top: 10px;
     color: white;
-		position:fixed;
+		position:absolute;
 		text-align:center;
 }
 
@@ -186,4 +186,8 @@ padding :15px;
 .transparent-bg-size{
 width : 90%;
 position:relative;
+}
+
+#transparent-bg-id{
+position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: -1;zoom: 1;
 }
