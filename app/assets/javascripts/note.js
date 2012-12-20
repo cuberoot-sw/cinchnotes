@@ -351,7 +351,7 @@
     save: function() {
       var self = this;
       var msg = "saving..." ;
-      $('#statusmsg').html(msg);
+      $('#statusmsg').html(msg).addClass("status-div");
       var note = this.$('[name=note]').val();
       var notelen = note.length;
       var taglists = [];
@@ -372,10 +372,10 @@
         success: function(responce){
           self.model = new Note({ id : responce.id});
           msg = "saved!"
-          $('#statusmsg').html(msg);
+          $('#statusmsg').html(msg).addClass("status-div");
           $("a#back_link").removeClass("back_to_notes_link");
           $.doTimeout(2000, function() {
-           $('#statusmsg').empty();
+           $('#statusmsg').empty().removeClass("status-div");
           });
         }
        });
@@ -388,11 +388,11 @@
         data: params,
         success: function(responce){
           msg = "saved!";
-          $('#statusmsg').html(msg);
+          $('#statusmsg').html(msg).addClass("status-div");
           $("a#back_link").removeClass("back_to_notes_link");
           $.doTimeout(2000, function() {
-           $('#statusmsg').empty();
-         });
+           $('#statusmsg').empty().removeClass("status-div");
+				 });
         }
        });
      }
