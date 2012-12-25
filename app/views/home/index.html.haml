@@ -35,9 +35,15 @@
     %button#login{:class => "btn btn-primary" } Login
 
 %script#show-note-template{:type => "text/template"}
-  .note_div
+  .note_div#note_div_id
     #divHeaderLine2 Note
     .well
+      %a{:href => "#", :class => "maximize_note", :id => "maximize_screen"}
+        %img(src="/assets/new_image.jpg")
+      %nbsp
+      %a{:href => "#", :class => "minimize_note", :id => "minimize_screen"}
+        %img(src="/assets/min.jpg")
+      %br
       <%= model.get('mynote') %>
       %br
       .own_tags

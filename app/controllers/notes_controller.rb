@@ -20,6 +20,7 @@ class NotesController < ApplicationController
     end
     @note['mytags'] = tag_arr
     @note['mynote'] = @note.note.gsub(/\n/, '<br/>')
+    #auto_html("#{@note['mynote']}") { simple_format; link(:target => 'blank') }
     render :json => @note
   end
 

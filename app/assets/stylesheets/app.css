@@ -39,6 +39,16 @@ ul#taglist {
 height:425px;
 overflow:auto;
 }
+.note_div_wrapper {
+/*  margin-top: 22px;*/
+/*  padding: 10px;*/
+height:425px;
+width:155%;
+overflow:auto;
+}
+#maximize_screen{
+float:right;
+}
 .select_tag{
     background-color: #ddd;
     color: #FFFFFF;
@@ -168,7 +178,16 @@ label{
 .home_page p{
    font-size: 16px;
 }
-
+#maximize_screen img{
+height: 16px;
+width:16px;
+float:right;
+}
+#minimize_screen img{
+height: 16px;
+width:16px;
+float:right;
+}
 .fill {
 	padding-left: 10px; padding-right: 10px;
 }

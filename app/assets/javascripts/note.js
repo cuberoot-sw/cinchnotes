@@ -228,6 +228,8 @@
     events: {
       "click img.delete-note": "clear" ,
       "click a.show_notes": "show_notes" ,
+			"click a.maximize_note": "maximize_notes",
+			"click a.minimize_note": "minimize_notes",
     },
 
     initialize:function(){
@@ -276,8 +278,21 @@
           new Error({ message: "Error loading data." });
         }
       });
-    }
+    },
 
+    maximize_notes: function(e){
+			e.preventDefault();
+			$('#content-wraper').hide();
+			$('#note_div_id').removeClass("note_div");
+			$('#note_div_id').addClass("note_div_wrapper");
+    },
+
+		minimize_notes: function(e){
+			e.preventDefault();
+			$('#content-wraper').show();
+			$('#note_div_id').addClass("note_div");
+			$('#note_div_id').removeClass("note_div_wrapper");
+		}
   });
 
   /* view for edit / new */
