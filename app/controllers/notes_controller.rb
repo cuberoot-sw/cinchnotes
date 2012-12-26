@@ -1,3 +1,4 @@
+require 'rinku'
 class NotesController < ApplicationController
   def index
     @user = User.find(session[:user_id])
@@ -19,8 +20,8 @@ class NotesController < ApplicationController
       tag_arr << tag.name
     end
     @note['mytags'] = tag_arr
-    @note['mynote'] = @note.note.gsub(/\n/, '<br/>')
-    #auto_html("#{@note['mynote']}") { simple_format; link(:target => 'blank') }
+    my_notes = Rinku.auto_link(@note.note, mode=:all, link_attr=nil, skip_tags=nil)
+    @note['mynote'] = my_notes.gsub(/\n/, '<br/>')
     render :json => @note
   end
 
