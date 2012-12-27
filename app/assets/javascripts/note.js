@@ -248,6 +248,7 @@
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $('#container').html(this.el);
+			$(".minimize_note").hide();
       this.delegateEvents();
     } ,
 
@@ -280,9 +281,12 @@
       });
     },
 
-    maximize_notes: function(e){
+   maximize_notes: function(e){
 			e.preventDefault();
 			$('#content-wraper').hide();
+			$('#search_note').hide();
+			$(".maximize_note").hide();
+			$(".minimize_note").show();
 			$('#note_div_id').removeClass("note_div");
 			$('#note_div_id').addClass("note_div_wrapper");
     },
@@ -290,6 +294,9 @@
 		minimize_notes: function(e){
 			e.preventDefault();
 			$('#content-wraper').show();
+			$('#search_note').show();
+			$(".minimize_note").hide();
+			$(".maximize_note").show();
 			$('#note_div_id').addClass("note_div");
 			$('#note_div_id').removeClass("note_div_wrapper");
 		}
@@ -355,7 +362,7 @@
 
     back:function(){
       var self = this;
-      $("#add-notes").validationEngine('hide');
+			$("#add-notes").validationEngine('hide');
       var note = $.trim( $("textarea#note").val() );
       var notelen = note.length;
       if(notelen != 0){
@@ -550,6 +557,10 @@
     index:function(){
       var result = new All_notes();
       $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+			$('#note_div_id').removeClass("note_div_wrapper");
+			$('#note_div_id').addClass("note_div");
+			$('#content-wraper').show();
+			$('#search_note').show();
       result.fetch({
         success: function() {
           //collect all_notes for searching option
@@ -575,6 +586,10 @@
     edit: function(id) {
       var note = new Note({id : id});
       $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+			$('#content-wraper').show();
+			$('#search_note').show();
+			$('#note_div_id').addClass("note_div");
+			$('#note_div_id').removeClass("note_div_wrapper");
       note.fetch({
         success: function(model ) {
           new ViewEdit({ model:note});
