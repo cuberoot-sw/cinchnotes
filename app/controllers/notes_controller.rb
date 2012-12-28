@@ -20,7 +20,7 @@ class NotesController < ApplicationController
       tag_arr << tag.name
     end
     @note['mytags'] = tag_arr
-    my_notes = Rinku.auto_link(@note.note, mode=:all, link_attr=nil, skip_tags=nil)
+    my_notes = Rinku.auto_link(@note.note, :all, 'target="_blank"')
     @note['mynote'] = my_notes.gsub(/\n/, '<br/>')
     render :json => @note
   end
