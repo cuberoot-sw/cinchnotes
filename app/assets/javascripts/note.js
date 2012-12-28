@@ -274,6 +274,11 @@
         success: function() {
           // fetch notes
           new ViewNotesIndex( {collection: notes.models[0].attributes.notes });
+					$("ul#taglist").find('li a#'+tag_name).addClass("select_tag");
+					$('#content-wraper').show();
+					$('#search_note').show();
+					$(".minimize_note").hide();
+					$(".maximize_note").show();
         },
         error: function() {
           new Error({ message: "Error loading data." });
@@ -283,10 +288,10 @@
 
    maximize_notes: function(e){
 			e.preventDefault();
-			$('#content-wraper').hide();
-			$('#search_note').hide();
-			$(".maximize_note").hide();
-			$(".minimize_note").show();
+			$('#content-wraper').hide('slow');
+			$('#search_note').hide('slow');
+			$(".maximize_note").hide('slow');
+			$(".minimize_note").show('slow');
 			$("#note_div_id").animate({
 			    width: "155%",
 			    borderWidth: "10px"
@@ -296,17 +301,18 @@
 
 		minimize_notes: function(e){
 			e.preventDefault();
+			setTimeout(function() {
+				$('#content-wraper').show('slow');
+				$('#search_note').show('slow');
+				$(".minimize_note").hide('slow');
+				$(".maximize_note").show('slow');
+			}, 1500);
+			
 			$("#note_div_id").animate({
 			    width: "100%",
 					borderWidth: "10px"
 			    }, 1500 );
-				setTimeout(function() {
-					$('#content-wraper').show();
-					$('#search_note').show();
-					$(".minimize_note").hide();
-					$(".maximize_note").show();
-				}, 1500);
-			
+
 		}
   });
 
