@@ -86,7 +86,7 @@
 
     render:function(){
       $.doTimeout(6000, function() {
-        $('#notice_msg').removeClass("notice-msg").empty();
+				$('#modal-login-fail').modal('hide');
       });
       $(this.el).html(this.template);
       $("#note-template").removeClass("span5 div-border");
@@ -113,7 +113,9 @@
               setTimeout(function(){router.navigate("#notes" , true);window.location.reload();}, 5000);
             },
             error: function() {
-              $('#notice_msg').html("Login Failed, check 'username/password' and retry.!").addClass("notice-msg");
+							$('#modal-login-fail').modal({
+								 backdrop: false
+							});
               $('#username').focus();
             }
         });
@@ -136,7 +138,7 @@
 
     render:function(){
       $.doTimeout(6000, function() {
-        $('#notice_msg').removeClass("notice-msg").empty();
+				$('#modal-notice').modal('hide');
       });
 
       $(this.el).html(this.template);
@@ -153,7 +155,9 @@
       var url = "/notes?tag=" + tag_name;
       var Note_coll = Backbone.Collection.extend({ url: url });
       notes = new Note_coll();
-      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+			$('#modal-notice').modal({
+				backdrop: false
+			})
       notes.fetch({
         success: function() {
           // fetch notes
@@ -182,7 +186,7 @@
 
     render:function(){
       $.doTimeout(2000, function() {
-        $('#notice_msg').removeClass("notice-msg").empty();
+				$('#modal-notice').modal('hide');
       });
       $(this.el).html(this.template);
       $("#search-note-template").html(this.el);
@@ -211,7 +215,7 @@
 
     render:function(){
       $.doTimeout(6000, function() {
-        $('#notice_msg').removeClass("notice-msg").empty();
+				$('#modal-notice').modal('hide');
       });
       $("#add-notes").validationEngine('hide');
       $(this.el).html(this.template);
@@ -243,8 +247,8 @@
 
     render:function(){
       $.doTimeout(2000, function() {
-        $('#notice_msg').removeClass("notice-msg").empty();
-      });
+				$('#modal-notice').modal('hide');
+			});
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
       $('#container').html(this.el);
@@ -259,8 +263,13 @@
       if (answer) {
         note.destroy();
         var router = new AppRouter();
-        router.navigate("#notes" , true);
-        $('#notice_msg').html("Deleted Note Successfully !!!").addClass("notice-msg");
+				router.navigate("#notes" , true);
+        $('#modal-delete-note').modal({
+				  backdrop: false
+				});
+				$.doTimeout(2000, function() {
+				  $('#modal-delete-note').modal('hide');
+				});
       }
     } ,
 
@@ -269,7 +278,9 @@
       var url = "/notes?tag=" + tag_name;
       var Note_coll = Backbone.Collection.extend({ url: url });
       notes = new Note_coll();
-      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+			$('#modal-notice').modal({
+				backdrop: false
+			});
       notes.fetch({
         success: function() {
           // fetch notes
@@ -290,7 +301,7 @@
 			e.preventDefault();
 			$('#content-wraper').hide('slow');
 			$('#search_note').hide('slow');
-			$(".maximize_note").hide('slow');
+			$(".maximize_note").hide();
 			$(".minimize_note").show('slow');
 			$("#note_div_id").animate({
 			    width: "155%",
@@ -304,7 +315,7 @@
 			setTimeout(function() {
 				$('#content-wraper').show('slow');
 				$('#search_note').show('slow');
-				$(".minimize_note").hide('slow');
+				$(".minimize_note").hide();
 				$(".maximize_note").show('slow');
 			}, 1500);
 			
@@ -346,7 +357,7 @@
 
     render:function(){
       $.doTimeout(2000, function() {
-        $('#notice_msg').removeClass("notice-msg").empty();
+				$('#modal-notice').modal('hide');
       });
       $('ul#taglist li a').removeClass("select_tag");
       $(this.el).html(this.template);
@@ -387,7 +398,9 @@
     save: function() {
       var self = this;
       var msg = "saving..." ;
-      $('#statusmsg').html(msg).addClass("status-div");
+			$('#modal-status').modal({
+			  backdrop: false
+			}).html(msg);
       var note = this.$('[name=note]').val();
       var notelen = note.length;
       var taglists = [];
@@ -408,10 +421,12 @@
         success: function(responce){
           self.model = new Note({ id : responce.id});
           msg = "saved!"
-          $('#statusmsg').html(msg).addClass("status-div");
+					$('#modal-status').modal({
+					  backdrop: false
+					}).html(msg);
           $("a#back_link").removeClass("back_to_notes_link");
           $.doTimeout(2000, function() {
-           $('#statusmsg').empty().removeClass("status-div");
+		 			$('#modal-status').modal('hide');					 
           });
         }
        });
@@ -424,10 +439,12 @@
         data: params,
         success: function(responce){
           msg = "saved!";
-          $('#statusmsg').html(msg).addClass("status-div");
-          $("a#back_link").removeClass("back_to_notes_link");
+					$('#modal-status').modal({
+					  backdrop: false
+					}).html(msg);
+					$("a#back_link").removeClass("back_to_notes_link");
           $.doTimeout(2000, function() {
-           $('#statusmsg').empty().removeClass("status-div");
+		 			$('#modal-status').modal('hide');
 				 });
         }
        });
@@ -506,12 +523,10 @@
       var view = this;
       $(this.el).html(this.message);
       $(this.el).hide();
-      $('#notice_msg').html(this.el).addClass("notice-msg");
       $(this.el).slideDown();
       $.doTimeout(this.displayLength, function() {
         $(view.el).slideUp();
         $.doTimeout(4000, function() {
-          $('#notice_msg').removeClass("notice-msg");
           view.remove();
         });
       });
@@ -552,10 +567,15 @@
       var session = new Session();
       session.fetch({
         success: function(model ) {
-          $('#notice_msg').html("Log Out Successfully !!!").addClass("notice-msg");
+					$('#modal-logout').modal({
+                  backdrop: false
+            });
           var router = new AppRouter();
-          router.navigate("#" , true);
-          window.location.reload();
+	        $.doTimeout(2000, function() {
+	          router.navigate("#" , true);
+	          window.location.reload();
+	        });
+          
 
         },
         error: function() {
@@ -570,7 +590,9 @@
 
     index:function(){
       var result = new All_notes();
-      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+			$('#modal-notice').modal({
+				backdrop: false
+			});
 			$('#note_div_id').removeClass("note_div_wrapper");
 			$('#note_div_id').addClass("note_div");
 			$('#content-wraper').show();
@@ -593,13 +615,17 @@
     },
 
     newNote: function() {
-      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+			$('#modal-notice').modal({
+				backdrop: false
+			});
       new ViewEdit({ model: new Note() });
     } ,
 
     edit: function(id) {
       var note = new Note({id : id});
-      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+			$('#modal-notice').modal({
+				backdrop: false
+			});
 			$('#content-wraper').show();
 			$('#search_note').show();
 			$('#note_div_id').addClass("note_div");
@@ -616,7 +642,9 @@
 
     show: function(id){
       var note = new Note({ id : id});
-      $('#notice_msg').html("Loading ..please wait!").addClass("notice-msg");
+			$('#modal-notice').modal({
+				backdrop: false
+			});
       note.fetch({
         success: function(model) {
           new ViewShow({ model: note, collection: note.get('mytags')});

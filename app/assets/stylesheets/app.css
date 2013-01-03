@@ -70,6 +70,38 @@ float:right;
   background-color: #A30000;
   padding:5px;
 }
+#modal-status{
+  color: white;
+	background-color: #A30000;
+	position: absolute;
+	margin-top: -433px;
+	padding:10px;
+	width:20%;
+}
+#modal-delete-note{
+color: white;
+background-color: #A30000;
+position: absolute;
+margin-top: -433px;
+padding:1px;
+width:24%;
+}
+
+#modal-logout{
+color: white;
+background-color: #A30000;
+position: absolute;
+margin-top: -433px;
+width:21%;
+}
+
+#modal-login-fail{
+color: white;
+background-color: #A30000;
+position: absolute;
+margin-top: -391px;
+width:20%;
+}
 
 .btn-info{
   background-color:#cccccc;
@@ -101,7 +133,14 @@ float:right;
 		position:absolute;
 		text-align:center;
 }
-
+#modal-notice{
+background-color: #A30000;
+color: white;
+position: absolute;
+margin-top: -433px;
+padding:1px;
+width:20%;
+}
 .search-box-position{
    margin-bottom: 7px;
    margin-top: 3px;
