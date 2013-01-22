@@ -3,3 +3,4 @@ config/*.yml
 log/*.log
 tmp/**/*
 .rsync_cache/
+db/*.sqlite3

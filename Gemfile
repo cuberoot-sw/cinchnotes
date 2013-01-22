@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby "1.9.3"
+
 gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
@@ -14,7 +16,8 @@ gem 'acts-as-taggable-on'
 
 group :development do
   gem 'sqlite3'
-  gem 'ruby-debug19', '0.11.6', :require => 'ruby-debug'
+  # gem 'ruby-debug19', '0.11.6', :require => 'ruby-debug'
+  gem "debugger"
 end
 
 # Gems used only for assets and not required

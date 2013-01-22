@@ -10,7 +10,7 @@ set :use_sudo, false
 ssh_options[:forward_agent] = true
 set :scm, :git
 set :repository, "git@github.com:cuberoot-sw/cinch-notes.git"
-set :branch, 'new_layout'
+set :branch, 'master'
 set :git_shallow_clone, 1
 
 role :web, domain
