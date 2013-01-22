@@ -18,15 +18,14 @@
     %label{:for => "username"} Username
     %input#username.input-large{:class => "validate[required]", :name => "username", :type => "text" , :style => "margin:6px"}/
     #error_msg_div
-      %br/
+      
     .newuser_div{:style => "display:none"}
       %label{:for => "email"} Email
       %input#email.input-large{:class => "validate[required,custom[email]]", :name => "email", :type => "text" , :style => "margin:6px"}/
       %br/
     %label{:for => "password"} Password
     %input#password.input-large{:class => "validate[required]", :name => "password", :type => "password" ,:style => "margin:6px"}/
-    %br/
-    %br/
+    
     .newuser_div{:style => "display:none"}
       %label{:for => "confirm_password"} Confirm Password
       %input#password.input-large{:class => "validate[required,equals[password]] text-input", :name => "confirm_password", :type => "password" ,:style => "margin:6px"}/
