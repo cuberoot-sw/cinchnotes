@@ -1,0 +1,260 @@
+a {
+  color: #444;
+}
+a:hover {
+  color: #222;
+}
+.form-addnotes {
+  position : absolute;
+  height: 80%;
+  width: 50%;
+}
+
+ul#notelist {
+ list-style-type: none;
+ line-height: 1.1em;
+}
+ul {
+  margin-left:0;
+}
+ul#taglist {
+ list-style-type: none;
+ line-height: 1.1em;
+}
+
+
+#notelist li {
+  padding: 5px 0px 5px 0px;
+  border-bottom: #ccc 1px solid;
+}
+
+#taglist li{
+  padding: 5px 0px 5px 0px;
+  border-bottom: #ccc 1px solid;
+}
+
+.note_div {
+/*  margin-top: 22px;*/
+/*  padding: 10px;*/
+height:425px;
+overflow:auto;
+}
+.note_div_wrapper {
+/*  margin-top: 22px;*/
+/*  padding: 10px;*/
+height:425px;
+width:155%;
+overflow:auto;
+}
+#maximize_screen{
+float:right;
+}
+.select_tag{
+    background-color: #ddd;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.div-border{
+  border-right: solid gray 0.2em;
+}
+
+.status-div{
+  margin-left: 1320px;
+  margin-top: 10px;
+  border: solid 1px;
+  border-radius: 4px;
+  color: white;
+  position:absolute;
+  text-align:center;
+  background-color: #A30000;
+  padding:5px;
+}
+#modal-status{
+  color: white;
+	background-color: #A30000;
+	position: absolute;
+	margin-top: -433px;
+	padding:10px;
+	width:20%;
+}
+#modal-delete-note{
+color: white;
+background-color: #A30000;
+position: absolute;
+margin-top: -433px;
+padding:1px;
+width:24%;
+}
+
+#modal-logout{
+color: white;
+background-color: #A30000;
+position: absolute;
+margin-top: -433px;
+width:21%;
+}
+
+#modal-login-fail{
+color: white;
+background-color: #A30000;
+position: absolute;
+margin-top: -391px;
+width:20%;
+}
+
+.btn-info{
+  background-color:#cccccc;
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border-radius: 4px 4px 4px 4px;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    display: inline-block;
+    line-height: normal;
+    padding: 5px 14px 6px;
+  }
+.searchnotes {
+    background: url("/images/gray_dark/magnifying_glass_16x16.png") no-repeat scroll 6px 50% transparent;
+}
+.footer-content{
+  margin-left:500px;
+}
+.notice-msg{
+    background-color: #A30000;
+    float:right;
+    margin-left: 1320px;
+    padding: 3px;
+    border: solid 1px;
+    border-radius: 4px;
+    margin-top: 10px;
+    color: white;
+		position:absolute;
+		text-align:center;
+}
+#modal-notice{
+background-color: #A30000;
+color: white;
+position: absolute;
+margin-top: -433px;
+padding:1px;
+width:20%;
+}
+.search-box-position{
+   margin-bottom: 7px;
+   margin-top: 3px;
+   width: 360px;
+}
+
+#error_msg_div{
+  margin-left: 140px;
+  color: #FF0000;
+}
+
+.fill a:hover{
+  color: #FFFFFF
+}
+
+.logged_in_user{
+  font-weight: bold;
+  line-height: 26px;
+  padding: 6px;
+  width: auto;
+	font-family:'Century Gothic';
+}
+
+label{
+  font-weight: bold
+}
+
+.add_note_link:hover{
+    text-decoration: none;
+}
+
+#login_form{
+  padding: 20px
+}
+
+.btn-style{
+ margin-left: 135px;
+ margin-top: 6px;
+ }
+
+.tags_list{
+  height: 425px;
+  width: 270px;
+  overflow: auto;
+  margin-top:6px;
+  margin-right: 10px;
+}
+
+.notes_list{
+  height: 400px;
+  overflow: auto;
+}
+
+.home_page ul{
+  line-height: 1.1em;
+  list-style-type: none;
+}
+
+.home_page li{
+  font-size: 14px;
+  font-style: italic;
+  margin-left: 43px;
+  padding: 5px 0;
+  text-align: left;
+}
+
+.home_page img{
+  height: 16px;
+  width: 16px;
+  margin-right: 10px;
+}
+
+.home_page p{
+   font-size: 16px;
+}
+#maximize_screen img{
+height: 16px;
+width:16px;
+float:right;
+}
+#minimize_screen img{
+height: 16px;
+width:16px;
+float:right;
+}
+.fill {
+	padding-left: 10px; padding-right: 10px;
+}
+
+.input-note{
+  height: 55%;
+  width: 100%;
+	font-family:'Century Gothic';
+}
+
+.own_tags{
+  margin-left:10px;
+  padding: 4px;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+#pull-rigth-padding{
+padding :15px;
+}
+.container-padding{
+  padding : 26px;
+}
+.transparent-bg-size{
+width : 90%;
+position:relative;
+}
+
+#transparent-bg-id{
+position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: -1;zoom: 1;
+}

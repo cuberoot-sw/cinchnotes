@@ -1,19 +1,48 @@
+source 'https://rubygems.org'
 
-source 'http://rubygems.org'
+gem 'rails', '3.2.8'
 
-gem 'sinatra', '1.3.1'
-gem 'haml' , '3.1.4'
-gem 'sinatra-activerecord', '1.1.0'
-gem 'mysql2' , '0.3.10'
-gem 'activerecord', '= 3.1.3' #, :require => 'active_record'
-gem 'sinatra-reloader', '1.0'
-gem 'json','~> 1.4'
-gem 'sinatra-respond_to', '0.8.0', :git => "git://github.com/cehoffman/sinatra-respond_to.git"
-# gem 'rack-flash','0.1.2', :git => "git://github.com/nakajima/rack-flash.git"
-gem 'rack-flash3'
-gem 'bcrypt-ruby' , '2.1.4'
-gem 'acts-as-taggable-on', '~>2.2.0'
-gem 'rack', '1.3.5'
-gem 'ruby-debug19', :require => 'ruby-debug'
-gem 'thin'
-# gem "pg", '0.14.0'
+# Bundle edge Rails instead:
+# gem 'rails', :git => 'git://github.com/rails/rails.git'
+
+gem 'mysql2', '0.3.11'
+gem 'haml', '3.1.7'
+gem 'acts-as-taggable-on'
+gem 'json'
+gem 'bcrypt-ruby', :require => "bcrypt"
+gem 'acts-as-taggable-on'
+
+group :development do
+  gem 'sqlite3'
+  gem 'ruby-debug19', '0.11.6', :require => 'ruby-debug'
+end
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  # gem 'therubyracer', :platforms => :ruby
+
+  gem 'uglifier', '>= 1.0.3'
+end
+
+gem 'jquery-rails'
+gem "rinku", "~> 1.7.2"
+
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
+
+# To use Jbuilder templates for JSON
+# gem 'jbuilder'
+
+# Use unicorn as the app server
+# gem 'unicorn'
+
+# Deploy with Capistrano
+# gem 'capistrano'
+
+# To use debugger
+# gem 'debugger'
