@@ -5,6 +5,7 @@ CinchNotes323::Application.routes.draw do
       get 'match'
     end
   end
+  resources :contacts
   match '/user' => 'user#create', :via => :post
   match '/session' => 'sessions#create', :via => :post
   match '/session' => 'sessions#destroy', :via => :get
