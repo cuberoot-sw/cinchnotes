@@ -542,6 +542,50 @@
     }
   });
 
+  /* View for new/edit Contact*/
+  ViewEditContact = Backbone.View.extend({
+    events: {
+        "submit form#add_contact": "save" ,
+    },
+
+    initialize:function(){
+       _.bindAll(this , 'render');
+      this.model.bind('change', this.render);
+      var tmpl = _.template($('#new-contact-template').html());
+      this.template = tmpl({model : this.model});
+      this.render();
+    },
+    render:function(){
+      $('#content-wraper').hide();
+      $('.container-padding').hide()
+      $(this.el).html(this.template);
+      $(".data_contents").show().html(this.el);
+      this.delegateEvents();
+    },
+
+    save: function(e){
+      console.log("save contact");
+      e.preventDefault();
+      var router = new AppRouter();
+      console.log(JSON.stringify($('form#add_contact').serialize()))
+      if(this.model.isNew()){
+        msg = "saving contact. Please Wait!"
+				$('#modal-status').modal({
+				}).html(msg);
+        $.ajax({
+          url: "/contacts/",
+          type: "POST",
+          beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content"))},
+          data: $('form#add_contact').serialize(),
+          success: function(responce){
+            setTimeout(function(){router.navigate("#contacts" , true)}, 5000);
+            $('#modal-status').modal('hide');
+          }
+       });
+     }
+    }
+  });
+
   /* view for show notice */
   Notice = Backbone.View.extend({
 
@@ -585,7 +629,8 @@
           'notes/:id' : "show" ,
           'notes/:id/edit' : "edit",
           'newUser' : "newUser",
-          'contacts' : "contacts_index"
+          'contacts' : "contacts_index",
+          'contacts/new' : "new_contact"
     },
 
     home: function(){
@@ -695,6 +740,10 @@
           new ViewContacts({ collection: contacts.models[0].attributes.contacts })
         }
         });
+    },
+
+    new_contact: function(){
+      new ViewEditContact({ model: new Contact() });
     }
   });
 

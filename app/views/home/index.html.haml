@@ -109,6 +109,7 @@
   -# actually need to render template contacts/index by passing backbone collection object contacts
   -# =render :template => 'contacts/index', :locals => {:contacts => <%= contacts%>}
   .well{:style => "margin-top:20px;"}
+    %a{:href => '#contacts/new'} New Contact
     %table.table
       %th Last Name
       %th First Name
@@ -129,6 +130,11 @@
         %td
           <%= contact.email%>
       <% } %>
+
+%script#new-contact-template{:type => 'text/template'}
+  <% if(model.isNew()) {%>
+  = render :partial => "contacts/form", :locals => {:is_new_record => true}
+  <% } %>
 
 .transparent-bg.transparent-bg-size
   .divPanel.notop.page-content
