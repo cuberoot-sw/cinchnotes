@@ -103,6 +103,33 @@
 %script#search-box-template{:type => "text/template"}
   %input{:type => "text" , :id => "search_note" , :class => " search-query search-box-position", :placeholder => "Search"}
 
+-# Template for Listing Contacts
+%script#contact-list-template{:type => "text/template"}
+
+  -# actually need to render template contacts/index by passing backbone collection object contacts
+  -# =render :template => 'contacts/index', :locals => {:contacts => <%= contacts%>}
+  .well{:style => "margin-top:20px;"}
+    %table.table
+      %th Last Name
+      %th First Name
+      %th Title
+      %th Company
+      %th Email
+      <% for (var i = 0; i < contacts.length; i++) { %>
+      <% var contact = contacts[i]; %>
+      %tr
+        %td
+          <%= contact.first_name%>
+        %td
+          <%= contact.last_name%>
+        %td
+          <%= contact.title%>
+        %td
+          <%= contact.compant%>
+        %td
+          <%= contact.email%>
+      <% } %>
+
 .transparent-bg.transparent-bg-size
   .divPanel.notop.page-content
     #notice
@@ -116,6 +143,7 @@
             .page-content
               #search-note-template
               #container
+          .data_contents{:style => "display:none"}
 
 #modal-window.modal.hide.fade{:style => "display:none"}
   .modal-header

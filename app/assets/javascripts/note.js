@@ -28,6 +28,14 @@
     }
   });
 
+  Contact = Backbone.Model.extend({
+    url : function() {
+      var base = 'contacts'
+      if (this.isNew()) return base
+      return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+     }
+  });
+
   /*** collection ***/
   var Tag_coll = Backbone.Collection.extend({
     model: Note,
@@ -44,6 +52,11 @@
                     return pattern.test(data.get("note"));
             }));
     }
+  });
+
+  var Contact_coll = Backbone.Collection.extend({
+    model: Contact,
+    url: '/contacts'
   });
 
   /*** view to show a home page ***/
@@ -509,6 +522,22 @@
     }
   });
 
+  /* View for display contacts list */
+  ViewContacts = Backbone.View.extend({
+    initialize:function(){
+      var tmpl = _.template($('#contact-list-template').html());
+      this.template = tmpl({contacts : this.collection});
+      this.render();
+    },
+
+    render:function(){
+      $('#content-wraper').hide();
+      $('.container-padding').hide()
+      $(this.el).html(this.template);
+      $(".data_contents").show().html(this.el);
+      this.delegateEvents();
+    }
+  });
 
   /* view for show notice */
   Notice = Backbone.View.extend({
@@ -552,7 +581,8 @@
           'logout' : "logout",
           'notes/:id' : "show" ,
           'notes/:id/edit' : "edit",
-          'newUser' : "newUser"
+          'newUser' : "newUser",
+          'contacts' : "contacts_index"
     },
 
     home: function(){
@@ -653,6 +683,15 @@
           new Error({ message: "Error loading data." });
         }
       });
+    },
+
+    contacts_index: function(){
+      var contacts = new Contact_coll();
+      contacts.fetch({
+       success: function() {
+          new ViewContacts({ collection: contacts.models[0].attributes.contacts })
+        }
+        });
     }
   });
 
