@@ -560,6 +560,7 @@
       $('.container-padding').hide()
       $(this.el).html(this.template);
       $(".data_contents").show().html(this.el);
+      $("form#add_contact").validationEngine();
       this.delegateEvents();
     },
 
