@@ -227,6 +227,9 @@
     },
 
     render:function(){
+      $('#content-wraper').show();
+      $('.container-padding').show()
+      $(".data_contents").hide();
       $.doTimeout(6000, function() {
 				$('#modal-notice').modal('hide');
       });
