@@ -155,6 +155,8 @@
       });
 
       $(this.el).html(this.template);
+      $(".data_contents").removeClass('span7').hide();
+      $(".data_wrapper").hide();
       $('#note-template').addClass("");
       $('#search-note-template').show();
       $("#note-template").html(this.el);
@@ -276,18 +278,23 @@
     clear: function(e){
       var note_id = $(e.target).attr('id');
       var answer = confirm("Are you sure you want to delete this note?");
-      var note = new Note({id : note_id});
+      var router = new AppRouter();
       if (answer) {
-        note.destroy();
-        var router = new AppRouter();
-				router.navigate("#notes" , true);
-        $('#modal-delete-note').modal({
-				  backdrop: false
-				});
-				$.doTimeout(2000, function() {
-				  $('#modal-delete-note').modal('hide');
-				});
-      }
+        $.ajax({
+          url: "/notes/"+note_id,
+          type: "DELETE",
+          beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content"))},
+          success: function(responce){
+				    router.navigate("#notes" , true);
+            $('#modal-delete-note').modal({
+				      backdrop: false
+				    });
+				    $.doTimeout(2000, function() {
+				      $('#modal-delete-note').modal('hide');
+				    });
+          }
+       });
+     }
     } ,
 
     show_notes: function(e){
@@ -617,18 +624,24 @@
     delete_contact: function(e){
       var id = $(e.target).attr('id');
       var answer = confirm("Are you sure you want to delete this note?");
-      var contact = new Contact({id : id});
       var router = new AppRouter();
       if (answer) {
-        contact.destroy();
-				router.navigate("#contacts" , true);
-        $('#modal-delete-note').modal({
-				  backdrop: false
-				});
-				$.doTimeout(2000, function() {
-				  $('#modal-delete-note').modal('hide');
-				});
-      }
+        $.ajax({
+          url: "/contacts/"+id,
+          type: "DELETE",
+          beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content"))},
+          success: function(responce){
+            router.navigate("#contacts" , true);
+            $('#modal-delete-note').modal({
+				      backdrop: false
+				    });
+				    $.doTimeout(2000, function() {
+				      $('#modal-delete-note').modal('hide');
+				    });
+
+          }
+       });
+		  }
     }
 
   });
