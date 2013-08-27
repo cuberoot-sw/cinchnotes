@@ -27,4 +27,11 @@ class ContactsController < ApplicationController
     @contact.destroy
     render :json => []
   end
+
+  def update
+    @contact = Contact.find(params[:id])
+    if @contact.update_attributes(params[:contacts])
+      render :json => {:status => 'saved'}
+    end
+  end
 end

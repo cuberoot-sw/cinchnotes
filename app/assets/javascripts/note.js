@@ -592,7 +592,22 @@
 				    });
           }
        });
-     }
+     }else{
+      $.ajax({
+        url: "/contacts/" + this.model.get('id'),
+        type: "PUT",
+        beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content"))},
+        data: $('form#add_contact').serialize(),
+        success: function(responce){
+          router.navigate("#contacts" , true)
+          $('#modal-window').modal({});
+          $('#modal-window .modal-header').html('<h3>Saving Contact. Please Wait!!!<h3>');
+          $.doTimeout(2000, function() {
+				    $('#modal-window').modal('hide');
+				  });
+        }
+       });
+      }
     }
   });
 
@@ -643,8 +658,8 @@
        });
 		  }
     }
-
   });
+
 
 
   /* view for show notice */
@@ -692,7 +707,8 @@
           'newUser' : "newUser",
           'contacts' : "contacts_index",
           'contacts/new' : "new_contact",
-          'contacts/:id' : "show_contact"
+          'contacts/:id' : "show_contact",
+          'contacts/:id/edit' : "edit_contact"
     },
 
     home: function(){
@@ -822,7 +838,21 @@
           new Error({ message: "Error loading data." });
         }
       });
+    },
 
+    edit_contact: function(id){
+      var contact = new Contact({id : id});
+			$('#modal-notice').modal({
+				backdrop: false
+			});
+      contact.fetch({
+        success: function(model ) {
+          new ViewEditContact({ model:contact});
+        },
+        error: function() {
+          new Error({ message: "Error loading data." });
+        }
+      });
     }
   });
 

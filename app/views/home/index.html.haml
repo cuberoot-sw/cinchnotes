@@ -134,12 +134,50 @@
 %script#new-contact-template{:type => 'text/template'}
   <% if(model.isNew()) {%>
   = render :partial => "contacts/form", :locals => {:is_new_record => true}
+  <% }else{%>
+  .well
+    %h3 Add Contact
+    %form#add_contact{:method => "put", :class => "form-addcontacts"}
+      = label_tag 'first_name'
+      <input type='text' name='contacts[first_name]' value="<%= model.get('first_name')%>"/>
+      = label_tag 'last_name'
+      <input type='text' name='contacts[last_name]' value="<%= model.get('last_name')%>"/>
+      = label_tag 'company'
+      <input type='text' name='contacts[company]' value="<%= model.get('company')%>"/>
+      = label_tag 'title'
+      <input type='text' name='contacts[title]' value="<%= model.get('title')%>"/>
+      = label_tag 'address'
+      <textarea name='contacts[address]'><%= model.get('address')%></textarea>
+      = label_tag 'phone'
+      <input type='text' name='contacts[phone]' value="<%= model.get('phone')%>"/>
+      = label_tag 'mobile'
+      <input type='text' name='contacts[mobile]' value="<%= model.get('mobile')%>"/>
+      = label_tag 'fax'
+      <input type='text' name='contacts[fax]' value="<%= model.get('fax')%>"/>
+      = label_tag 'email'
+      <input type='text' name='contacts[email]' value="<%= model.get('email')%>"/>
+      = label_tag 'website'
+      <input type='text' name='contacts[website]' value="<%= model.get('website')%>"/>
+      = label_tag 'facebook_id', 'FaceBook Id'
+      <input type='text' name='contacts[facebook_id]' value="<%= model.get('facebook_id')%>"/>
+      = label_tag 'twitter_id', 'Twitter'
+      <input type='text' name='contacts[twitter_id]' value="<%= model.get('twitter_id')%>"/>
+      = label_tag 'linked_in_id', 'LinkedIn'
+      <input type='text' name='contacts[linked_in_id]' value="<%= model.get('linked_in_id')%>"/>
+      = label_tag 'skype_id', 'Skype'
+      <input type='text' name='contacts[skype_id]' value="<%= model.get('skype_id')%>"/>
+      = label_tag 'google_id', 'Google Id'
+      <input type='text' name='contacts[google_id]' value="<%= model.get('google_id')%>"/>
+      %br
+      = submit_tag 'Update', :class => 'btn btn-primary'
+  %h3 edit
   <% } %>
 
 %script#show-contact-template{:type => 'text/template'}
   .well#show_contact
     %h3 Contact
     <a href="#contacts"><img class = "delete-contact" id ="<%= model.id%>" alt = "delete" title="delete" src="assets/gray_dark/trash_stroke_16x16.png"/></a>
+    <a href = "#contacts/<%= model.id%>/edit"><img alt="edit" title="edit" src="assets/gray_dark/pen_alt2_16x16.png"/></a>
     %hr
     %b First Name :
     <%= model.get('title')%>&nbsp;<%= model.get('first_name') %>
