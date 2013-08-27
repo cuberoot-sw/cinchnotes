@@ -577,7 +577,6 @@
     save: function(e){
       e.preventDefault();
       var router = new AppRouter();
-      console.log(JSON.stringify($('form#add_contact').serialize()))
       if(this.model.isNew()){
         msg = "saving contact. Please Wait!"
 				$('#modal-status').modal({
