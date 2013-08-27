@@ -122,7 +122,7 @@
         %td
           <%= contact.last_name%>
         %td
-          <%= contact.first_name%>
+          <a href='#contacts/<%= contact.id %>'><%= contact.first_name%></a>
         %td
           <%= contact.title%>
         %td
@@ -135,6 +135,52 @@
   <% if(model.isNew()) {%>
   = render :partial => "contacts/form", :locals => {:is_new_record => true}
   <% } %>
+
+%script#show-contact-template{:type => 'text/template'}
+  .well#show_contact
+    %h3 Contact
+    %hr
+    %b First Name :
+    <%= model.get('title')%>&nbsp;<%= model.get('first_name') %>
+    %br
+    %b Last Name :
+    <%= model.get('last_name') %>
+    %br
+    %b Company :
+    <%= model.get('company')%>
+    %br
+    %b Email :
+    <%= model.get('email')%>
+    %br
+    %b Address :
+    <%= model.get('address')%>
+    %br
+    %b Phone :
+    <%= model.get('phone')%>
+    %br
+    %b Mobile :
+    <%= model.get('mobile')%>
+    %br
+    %b Fax :
+    <%= model.get('fax')%>
+    %br
+    %b Website:
+    <%= model.get('website')%>
+    %br
+    %b Skype:
+    <%= model.get('skype_id')%>
+    %br
+    %b Twitter:
+    <%= model.get('twitter_id')%>
+    %br
+    %b FaceBook ID:
+    <%= model.get('facebook_if')%>
+    %br
+    %b LinkedIn Id:
+    <%= model.get('linked_in_id')%>
+    %br
+    %b Google ID:
+    <%= model.get('google_id')%>
 
 .transparent-bg.transparent-bg-size
   .divPanel.notop.page-content

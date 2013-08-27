@@ -568,7 +568,6 @@
     },
 
     save: function(e){
-      console.log("save contact");
       e.preventDefault();
       var router = new AppRouter();
       console.log(JSON.stringify($('form#add_contact').serialize()))
@@ -589,6 +588,29 @@
      }
     }
   });
+
+  /* View for show contact */
+  ViewContact = Backbone.View.extend({
+    initialize:function(){
+      _.bindAll(this , 'render');
+      this.model.bind('change', this.render);
+      var tmpl = _.template($('#show-contact-template').html());
+      this.template = tmpl({model : this.model});
+      this.render();
+    },
+
+    render:function(){
+      $.doTimeout(2000, function() {
+				$('#modal-notice').modal('hide');
+			});
+      $('ul#taglist li a').removeClass("select_tag");
+      $(this.el).html(this.template);
+      $(".data_contents").show().addClass('span7');
+      $(".data_wrapper").show().html(this.el)
+      this.delegateEvents();
+    }
+  });
+
 
   /* view for show notice */
   Notice = Backbone.View.extend({
@@ -634,7 +656,8 @@
           'notes/:id/edit' : "edit",
           'newUser' : "newUser",
           'contacts' : "contacts_index",
-          'contacts/new' : "new_contact"
+          'contacts/new' : "new_contact",
+          'contacts/:id' : "show_contact"
     },
 
     home: function(){
@@ -748,6 +771,23 @@
 
     new_contact: function(){
       new ViewEditContact({ model: new Contact() });
+    },
+
+    show_contact: function(id){
+      console.log("in show")
+      var contact = new Contact({ id : id});
+			$('#modal-notice').modal({
+				backdrop: false
+			});
+      contact.fetch({
+        success: function(model) {
+          new ViewContact({ model: contact});
+        },
+        error: function() {
+          new Error({ message: "Error loading data." });
+        }
+      });
+
     }
   });
 

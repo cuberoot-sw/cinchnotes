@@ -8,7 +8,6 @@ class ContactsController < ApplicationController
   end
 
   def create
-    puts params
     @user = User.find(session[:user_id])
     @contact = @user.contacts.new(params[:contacts])
     if @contact.save
@@ -16,5 +15,10 @@ class ContactsController < ApplicationController
     else
       render :json => {:status => 'error'}
      end
+  end
+
+  def show
+    @contact = Contact.find(params[:id])
+    render :json => @contact
   end
 end
