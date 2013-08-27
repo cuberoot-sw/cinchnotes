@@ -139,6 +139,7 @@
 %script#show-contact-template{:type => 'text/template'}
   .well#show_contact
     %h3 Contact
+    <a href="#contacts"><img class = "delete-contact" id ="<%= model.id%>" alt = "delete" title="delete" src="assets/gray_dark/trash_stroke_16x16.png"/></a>
     %hr
     %b First Name :
     <%= model.get('title')%>&nbsp;<%= model.get('first_name') %>

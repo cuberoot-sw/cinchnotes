@@ -591,6 +591,10 @@
 
   /* View for show contact */
   ViewContact = Backbone.View.extend({
+    events: {
+      "click img.delete-contact": "delete_contact"
+    },
+
     initialize:function(){
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
@@ -608,7 +612,25 @@
       $(".data_contents").show().addClass('span7');
       $(".data_wrapper").show().html(this.el)
       this.delegateEvents();
+    },
+
+    delete_contact: function(e){
+      var id = $(e.target).attr('id');
+      var answer = confirm("Are you sure you want to delete this note?");
+      var contact = new Contact({id : id});
+      var router = new AppRouter();
+      if (answer) {
+        contact.destroy();
+				router.navigate("#contacts" , true);
+        $('#modal-delete-note').modal({
+				  backdrop: false
+				});
+				$.doTimeout(2000, function() {
+				  $('#modal-delete-note').modal('hide');
+				});
+      }
     }
+
   });
 
 

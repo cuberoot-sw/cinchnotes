@@ -21,4 +21,10 @@ class ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     render :json => @contact
   end
+
+  def destroy
+    @contact = Contact.find(params[:id])
+    @contact.destroy
+    render :json => []
+  end
 end
