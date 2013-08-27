@@ -578,17 +578,18 @@
       e.preventDefault();
       var router = new AppRouter();
       if(this.model.isNew()){
-        msg = "saving contact. Please Wait!"
-				$('#modal-status').modal({
-				}).html(msg);
         $.ajax({
           url: "/contacts/",
           type: "POST",
           beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content"))},
           data: $('form#add_contact').serialize(),
           success: function(responce){
-            setTimeout(function(){router.navigate("#contacts" , true)}, 5000);
-            $('#modal-status').modal('hide');
+            router.navigate("#contacts" , true)
+            $('#modal-window').modal({});
+            $('#modal-window .modal-header').html('<h3>Saving Contact. Please Wait!!!<h3>');
+            $.doTimeout(2000, function() {
+				      $('#modal-window').modal('hide');
+				    });
           }
        });
      }
