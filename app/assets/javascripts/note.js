@@ -229,7 +229,8 @@
     render:function(){
       $('#content-wraper').show();
       $('.container-padding').show()
-      $(".data_contents").hide();
+      $(".data_contents").removeClass('span7').hide();
+      $(".data_wrapper").hide()
       $.doTimeout(6000, function() {
 				$('#modal-notice').modal('hide');
       });
@@ -535,9 +536,10 @@
 
     render:function(){
       $('#content-wraper').hide();
-      $('.container-padding').hide()
+      $('.container-padding').hide();
+      $(".data_wrapper").hide()
       $(this.el).html(this.template);
-      $(".data_contents").show().html(this.el);
+      $(".data_contents").removeClass('span7').show().html(this.el);
       this.delegateEvents();
     }
   });
@@ -559,7 +561,8 @@
       $('#content-wraper').hide();
       $('.container-padding').hide()
       $(this.el).html(this.template);
-      $(".data_contents").show().html(this.el);
+      $(".data_contents").show().addClass('span7');
+      $(".data_wrapper").show().html(this.el);
       $("form#add_contact").validationEngine();
       this.delegateEvents();
     },
