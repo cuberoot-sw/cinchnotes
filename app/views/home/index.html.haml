@@ -238,7 +238,7 @@
         %td
           %img(src="assets/gray_dark/calender.png")
         %td
-          <%= event.title %>
+          <a href='#events/<%= event.id %>'><%= event.title %></a>
         %td
           <%= event.location%>
         %td
@@ -261,6 +261,25 @@
       =label_tag 'end_date', "End Date"
       <input type="text" name="events[end_date]" value="<%= model.get('end_date')%>"/>
       = submit_tag "Add/Update", :class => 'btn btn-primary'
+
+%script#show-event-template{:type => "text/template"}
+  .well#show_event
+    %h3 Event
+    <a href="#event"><img class = "delete-event" id ="<%= model.id%>" alt = "delete" title="delete" src="assets/gray_dark/trash_stroke_16x16.png"/></a>
+    <a href = "#events/<%= model.id%>/edit"><img alt="edit" title="edit" src="assets/gray_dark/pen_alt2_16x16.png"/></a>
+    %hr
+    %b Title :
+    <%= model.get('title')%>
+    %br
+    %b Location :
+    <%= model.get('location') %>
+    %br
+    %b Start :
+    <%= new Date(model.get('start_date'))%>
+    %br
+    %b End :
+    <%= new Date(model.get('end_date'))%>
+
 
 
 .transparent-bg.transparent-bg-size

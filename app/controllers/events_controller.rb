@@ -20,4 +20,9 @@ class EventsController < ApplicationController
      end
   end
 
+  def show
+    @event = Event.find(params[:id])
+    render :json => @event
+  end
+
 end

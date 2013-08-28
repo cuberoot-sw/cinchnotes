@@ -697,6 +697,26 @@
     }
   });
 
+  /* View for show event */
+  ViewEvent = Backbone.View.extend({
+    initialize:function(){
+      _.bindAll(this , 'render');
+      this.model.bind('change', this.render);
+      var tmpl = _.template($('#show-event-template').html());
+      this.template = tmpl({model : this.model});
+      this.render();
+    },
+
+    render:function(){
+      $.doTimeout(2000, function() {
+				$('#modal-notice').modal('hide');
+			});
+      render_form_view(this);
+    }
+  });
+
+
+
   /* Send post request to create new model*/
   send_post_request = function(url, params, method, routes_to){
     var router = new AppRouter();
@@ -784,7 +804,8 @@
           'contacts/:id' : "show_contact",
           'contacts/:id/edit' : "edit_contact",
           'events' : "events_index",
-          'events/new' : "new_event"
+          'events/new' : "new_event",
+          'events/:id' : "show_event"
     },
 
     home: function(){
@@ -941,6 +962,22 @@
 
     new_event: function(){
       new ViewEditEvent({ model: new Event() });
+    },
+
+    show_event : function(id){
+      var get_event = new Event({ id : id});
+			$('#modal-notice').modal({
+				backdrop: false
+			});
+      get_event.fetch({
+        success: function(model) {
+          new ViewEvent({ model: get_event});
+        },
+        error: function() {
+          new Error({ message: "Error loading data." });
+        }
+      });
+
     }
 
   });
