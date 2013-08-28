@@ -236,9 +236,9 @@
         %td
           <%= event.location%>
         %td
-          <%= event.start_date%>
+          <%= new Date(event.start_date)%>
         %td
-          <%= event.end_date%>
+          <%= new Date(event.end_date)%>
       <% } %>
 
 %script#event-form-template{:type => "text/template"}
