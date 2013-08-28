@@ -222,8 +222,12 @@
 
 %script#events-list-template{:type => "text/template"}
   .well{:style => "margin-top:20px;"}
-    %a{:href => '#events/new'} New Event
+    %a.add_event_link{:href => "#events/new"}
+      %img(src="assets/gray_dark/plus_16x16.png" title="New Event" alt="New Event")
+    %br
+    %br
     %table.table
+      %th
       %th Title
       %th Location
       %th Start
@@ -231,6 +235,8 @@
       <% for (var i = 0; i < events_collection.length; i++) { %>
       <% var event = events_collection[i]; %>
       %tr
+        %td
+          %img(src="assets/gray_dark/calender.png")
         %td
           <%= event.title %>
         %td
