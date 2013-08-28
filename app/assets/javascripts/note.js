@@ -569,13 +569,8 @@
       this.render();
     },
     render:function(){
-      $('#content-wraper').hide();
-      $('.container-padding').hide()
-      $(this.el).html(this.template);
-      $(".data_contents").show().addClass('span7');
-      $(".data_wrapper").show().html(this.el);
+      render_form_view(this)
       $("form#add_contact").validationEngine();
-      this.delegateEvents();
     },
 
     save: function(e){
@@ -680,6 +675,16 @@
     $(".data_wrapper").hide()
     $(element.el).html(element.template);
     $(".data_contents").removeClass('span7').show().html(element.el);
+    element.delegateEvents();
+  }
+
+  /* render function for form view */
+  render_form_view = function(element){
+    $('#content-wraper').hide();
+    $('.container-padding').hide()
+    $(element.el).html(element.template);
+    $(".data_contents").show().addClass('span7');
+    $(".data_wrapper").show().html(element.el);
     element.delegateEvents();
   }
 
