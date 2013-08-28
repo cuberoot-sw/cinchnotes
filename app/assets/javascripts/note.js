@@ -551,16 +551,7 @@
     initialize:function(){
       var tmpl = _.template($('#contact-list-template').html());
       this.template = tmpl({contacts : this.collection});
-      this.render();
-    },
-
-    render:function(){
-      $('#content-wraper').hide();
-      $('.container-padding').hide();
-      $(".data_wrapper").hide()
-      $(this.el).html(this.template);
-      $(".data_contents").removeClass('span7').show().html(this.el);
-      this.delegateEvents();
+      render_list_view(this);
     }
   });
 
