@@ -671,7 +671,7 @@
   /* View for new/edit event*/
   ViewEditEvent = Backbone.View.extend({
     events: {
-        //"submit form#event_form": "save" ,
+      "submit form#event_form": "save" ,
     },
 
     initialize:function(){
@@ -682,12 +682,39 @@
       this.render();
     },
     render:function(){
-      console.log("jsfkjfk")
       render_form_view(this)
       $("form#event_form").validationEngine();
     },
 
+    save: function(e){
+      e.preventDefault();
+        if(this.model.isNew()){
+        var url = "events";
+        var params = $('form#event_form').serialize();
+        var routes_to = "#events";
+        send_post_request(url, params, "POST", routes_to);
+     }
+    }
   });
+
+  /* Send post request to create new model*/
+  send_post_request = function(url, params, method, routes_to){
+    var router = new AppRouter();
+    $.ajax({
+      url: url,
+      type: method,
+      beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content"))},
+      data: params,
+      success: function(responce){
+                router.navigate(routes_to , true)
+                $('#modal-window').modal({});
+                $('#modal-window .modal-header').html('<h3>Saving Event. Please Wait!!!<h3>');
+                $.doTimeout(2000, function() {
+				          $('#modal-window').modal('hide');
+				        });
+      }
+    });
+  }
 
   /* render function for list view */
   render_list_view = function(element){
