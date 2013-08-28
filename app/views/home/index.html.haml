@@ -222,7 +222,7 @@
 
 %script#events-list-template{:type => "text/template"}
   .well{:style => "margin-top:20px;"}
-    //%a{:href => '#events/new'} New Event
+    %a{:href => '#events/new'} New Event
     %table.table
       %th Title
       %th Location
@@ -240,6 +240,21 @@
         %td
           <%= event.end_date%>
       <% } %>
+
+%script#event-form-template{:type => "text/template"}
+  .well
+    %form#event_form{:method => "post"  , :class => "form-addevents"}
+      %h3 Add Event
+      %hr
+      = label_tag 'title', 'Title'
+      <input type="text" name="events[title]" value="<%= model.get('title')%>" class="validate[required] text-input"/>
+      =label_tag 'location', 'Location'
+      <input type="text" name="events[location]" value="<%= model.get('location')%>"/>
+      =label_tag 'start_date', "Start Date"
+      <input type="text" name="events[start_date]" value="<%= model.get('start_date')%>"/>
+      =label_tag 'end_date', "End Date"
+      <input type="text" name="events[end_date]" value="<%= model.get('end_date')%>"/>
+      = submit_tag "Add/Update", :class => 'btn btn-primary'
 
 
 .transparent-bg.transparent-bg-size

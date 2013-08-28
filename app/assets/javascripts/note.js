@@ -668,6 +668,27 @@
     }
   });
 
+  /* View for new/edit event*/
+  ViewEditEvent = Backbone.View.extend({
+    events: {
+        //"submit form#event_form": "save" ,
+    },
+
+    initialize:function(){
+      _.bindAll(this , 'render');
+      this.model.bind('change', this.render);
+      var tmpl = _.template($('#event-form-template').html());
+      this.template = tmpl({model : this.model});
+      this.render();
+    },
+    render:function(){
+      console.log("jsfkjfk")
+      render_form_view(this)
+      $("form#event_form").validationEngine();
+    },
+
+  });
+
   /* render function for list view */
   render_list_view = function(element){
     $('#content-wraper').hide();
@@ -735,7 +756,8 @@
           'contacts/new' : "new_contact",
           'contacts/:id' : "show_contact",
           'contacts/:id/edit' : "edit_contact",
-          'events' : "events_index"
+          'events' : "events_index",
+          'events/new' : "new_event"
     },
 
     home: function(){
@@ -889,6 +911,10 @@
         }
         });
     },
+
+    new_event: function(){
+      new ViewEditEvent({ model: new Event() });
+    }
 
   });
 
