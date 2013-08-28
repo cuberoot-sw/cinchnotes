@@ -36,6 +36,14 @@
      }
   });
 
+  Event = Backbone.Model.extend({
+    url : function() {
+      var base = 'events'
+      if (this.isNew()) return base
+      return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+    }
+  });
+
   /*** collection ***/
   var Tag_coll = Backbone.Collection.extend({
     model: Note,
@@ -57,6 +65,11 @@
   var Contact_coll = Backbone.Collection.extend({
     model: Contact,
     url: '/contacts'
+  });
+
+  var Event_coll = Backbone.Collection.extend({
+    model: Event,
+    url: '/events'
   });
 
   /*** view to show a home page ***/
@@ -660,7 +673,24 @@
     }
   });
 
+  /* View Events list*/
+  ViewEvents = Backbone.View.extend({
+    initialize:function(){
+      var tmpl = _.template($('#events-list-template').html());
+      this.template = tmpl({events_collection : this.collection});
+      render_list_view(this);
+    }
+  });
 
+  /* render function for list view */
+  render_list_view = function(element){
+    $('#content-wraper').hide();
+    $('.container-padding').hide();
+    $(".data_wrapper").hide()
+    $(element.el).html(element.template);
+    $(".data_contents").removeClass('span7').show().html(element.el);
+    element.delegateEvents();
+  }
 
   /* view for show notice */
   Notice = Backbone.View.extend({
@@ -708,7 +738,8 @@
           'contacts' : "contacts_index",
           'contacts/new' : "new_contact",
           'contacts/:id' : "show_contact",
-          'contacts/:id/edit' : "edit_contact"
+          'contacts/:id/edit' : "edit_contact",
+          'events' : "events_index"
     },
 
     home: function(){
@@ -825,7 +856,6 @@
     },
 
     show_contact: function(id){
-      console.log("in show")
       var contact = new Contact({ id : id});
 			$('#modal-notice').modal({
 				backdrop: false
@@ -853,7 +883,17 @@
           new Error({ message: "Error loading data." });
         }
       });
-    }
+    },
+
+    events_index: function(){
+      var events = new Event_coll();
+      events.fetch({
+       success: function() {
+          new ViewEvents({ collection: events.models[0].attributes.events })
+        }
+        });
+    },
+
   });
 
   var app_router = new AppRouter;

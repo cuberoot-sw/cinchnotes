@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   validates_presence_of :name
   has_many :notes
   has_many :contacts
+  has_many :events
 
   acts_as_tagger
 

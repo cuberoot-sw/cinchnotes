@@ -221,6 +221,28 @@
     %b Google ID:
     <%= model.get('google_id')%>
 
+%script#events-list-template{:type => "text/template"}
+  .well{:style => "margin-top:20px;"}
+    //%a{:href => '#events/new'} New Event
+    %table.table
+      %th Title
+      %th Location
+      %th Start
+      %th End 
+      <% for (var i = 0; i < events_collection.length; i++) { %>
+      <% var event = events_collection[i]; %>
+      %tr
+        %td
+          <%= event.title %>
+        %td
+          <%= event.location%>
+        %td
+          <%= event.start_date%>
+        %td
+          <%= event.end_date%>
+      <% } %>
+
+
 .transparent-bg.transparent-bg-size
   .divPanel.notop.page-content
     #notice
