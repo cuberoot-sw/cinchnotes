@@ -688,7 +688,7 @@
 
     save: function(e){
       e.preventDefault();
-        if(this.model.isNew()){
+      if(this.model.isNew()){
         var url = "events";
         var params = $('form#event_form').serialize();
         var routes_to = "#events";
@@ -699,6 +699,10 @@
 
   /* View for show event */
   ViewEvent = Backbone.View.extend({
+    events: {
+      "click img.delete-event": "delete_event"
+    },
+
     initialize:function(){
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
@@ -712,6 +716,18 @@
 				$('#modal-notice').modal('hide');
 			});
       render_form_view(this);
+    },
+
+    delete_event: function(e){
+      var id = $(e.target).attr('id');
+      var answer = confirm("Are you sure you want to delete this note?");
+      var router = new AppRouter();
+      if (answer) {
+        var url = "/events/"+id;
+        var params = "id="+id;
+        var routes_to = "#events";
+        send_post_request(url, params, "DELETE", routes_to);
+      }
     }
   });
 
