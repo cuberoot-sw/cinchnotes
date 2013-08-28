@@ -692,7 +692,8 @@
         var url = "events";
         var params = $('form#event_form').serialize();
         var routes_to = "#events";
-        send_post_request(url, params, "POST", routes_to);
+        var loading_msg = "Saveing Event. Please wait!!!";
+        send_post_request(url, params, "POST", routes_to, loading_msg);
      }
     }
   });
@@ -726,7 +727,8 @@
         var url = "/events/"+id;
         var params = "id="+id;
         var routes_to = "#events";
-        send_post_request(url, params, "DELETE", routes_to);
+        var success_msg = "Deleted Event Successfully !!!";
+        send_post_request(url, params, "DELETE", routes_to, success_msg);
       }
     }
   });
@@ -734,7 +736,7 @@
 
 
   /* Send post request to create new model*/
-  send_post_request = function(url, params, method, routes_to){
+  send_post_request = function(url, params, method, routes_to, msg){
     var router = new AppRouter();
     $.ajax({
       url: url,
@@ -744,7 +746,7 @@
       success: function(responce){
                 router.navigate(routes_to , true)
                 $('#modal-window').modal({});
-                $('#modal-window .modal-header').html('<h3>Saving Event. Please Wait!!!<h3>');
+                $('#modal-window .modal-header').html('<h3>'+msg+'<h3>');
                 $.doTimeout(2000, function() {
 				          $('#modal-window').modal('hide');
 				        });
