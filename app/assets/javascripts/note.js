@@ -688,13 +688,16 @@
 
     save: function(e){
       e.preventDefault();
+      var params = $('form#event_form').serialize();
+      var routes_to = "#events";
+      var loading_msg = "Saving Event. Please wait!!!";
       if(this.model.isNew()){
         var url = "events";
-        var params = $('form#event_form').serialize();
-        var routes_to = "#events";
-        var loading_msg = "Saveing Event. Please wait!!!";
         send_post_request(url, params, "POST", routes_to, loading_msg);
-     }
+      }else{
+        var url =  "/events/" + this.model.get('id');
+        send_post_request(url, params, "PUT", routes_to, loading_msg);
+      }
     }
   });
 
@@ -823,7 +826,8 @@
           'contacts/:id/edit' : "edit_contact",
           'events' : "events_index",
           'events/new' : "new_event",
-          'events/:id' : "show_event"
+          'events/:id' : "show_event",
+          'events/:id/edit' : "edit_event"
     },
 
     home: function(){
@@ -995,7 +999,21 @@
           new Error({ message: "Error loading data." });
         }
       });
+    },
 
+    edit_event : function(id){
+      var get_event = new Event({id : id});
+			$('#modal-notice').modal({
+				backdrop: false
+			});
+      get_event.fetch({
+        success: function(model ) {
+          new ViewEditEvent({ model:get_event});
+        },
+        error: function() {
+          new Error({ message: "Error loading data." });
+        }
+      });
     }
 
   });

@@ -31,5 +31,16 @@ class EventsController < ApplicationController
     render :json => []
   end
 
+  def update
+    @event = Event.find(params[:id])
+    if params[:events][:end_date].blank?
+      params[:events][:end_date] = params[:events][:start_date]
+    end
+    if @event.update_attributes(params[:events])
+      render :json => {:status => 'saved'}
+    end
+  end
+
+
 
 end
