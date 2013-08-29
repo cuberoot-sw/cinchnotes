@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130828054658) do
+ActiveRecord::Schema.define(:version => 20130829121117) do
 
   create_table "contacts", :force => true do |t|
     t.string   "first_name"
@@ -65,6 +65,18 @@ ActiveRecord::Schema.define(:version => 20130828054658) do
   create_table "tags", :force => true do |t|
     t.string "name"
   end
+
+  create_table "tasks", :force => true do |t|
+    t.string   "description"
+    t.date     "due_date"
+    t.string   "note"
+    t.string   "status"
+    t.integer  "user_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "tasks", ["user_id"], :name => "index_tasks_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string "name"
