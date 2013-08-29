@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :notes
   has_many :contacts
   has_many :events
+  has_many :tasks
 
   acts_as_tagger
 
