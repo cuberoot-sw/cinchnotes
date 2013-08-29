@@ -7,6 +7,7 @@ CinchNotes323::Application.routes.draw do
   end
   resources :contacts
   resources :events
+  resources :tasks
   match '/user' => 'user#create', :via => :post
   match '/session' => 'sessions#create', :via => :post
   match '/session' => 'sessions#destroy', :via => :get
