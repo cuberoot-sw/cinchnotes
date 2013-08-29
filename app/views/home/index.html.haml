@@ -259,7 +259,7 @@
       =label_tag 'start_date', "Start Date"
       <input type="text" id="start_date" name="events[start_date]" class="validate[required] text-start_date" value="<%= model.get('start_date')%>"/>
       =label_tag 'end_date', "End Date"
-      <input type="text" name="events[end_date]" value="<%= model.get('end_date')%>"/>
+      <input type="text" id="end_date" name="events[end_date]" value="<%= model.get('end_date')%>"/>
       = submit_tag "Add/Update", :class => 'btn btn-primary'
 
 %script#show-event-template{:type => "text/template"}

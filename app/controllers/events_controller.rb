@@ -9,10 +9,13 @@ class EventsController < ApplicationController
 
    def create
     @user = User.find(session[:user_id])
+    @start_date = DateTime.parse(params[:events][:start_date])
     if params[:events][:end_date].blank?
-      params[:events][:end_date] = params[:events][:start_date]
+      @end_date = DateTime.parse(@start_date.to_date.to_s + "23:59")
     end
     @event = @user.events.new(params[:events])
+    @event.start_date = @start_date
+    @event.end_date = @end_date
     if @event.save
       render :json => {:status => 'saved'}
     else

@@ -683,7 +683,8 @@
     },
     render:function(){
       render_form_view(this)
-      $("form#event_form").validationEngine();
+      $('#start_date').datetimepicker({ dateFormat: "yy-mm-dd" });
+      $('#end_date').datetimepicker({ dateFormat: "yy-mm-dd" });
     },
 
     save: function(e){
