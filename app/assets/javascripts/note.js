@@ -685,6 +685,7 @@
       render_form_view(this)
       $('#start_date').datetimepicker({ dateFormat: "yy-mm-dd" });
       $('#end_date').datetimepicker({ dateFormat: "yy-mm-dd" });
+      $("form#event_form").validationEngine();
     },
 
     save: function(e){
