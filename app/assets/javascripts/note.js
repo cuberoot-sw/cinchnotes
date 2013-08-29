@@ -44,6 +44,15 @@
     }
   });
 
+  Task = Backbone.Model.extend({
+    url : function() {
+      var base = 'tasks'
+      if (this.isNew()) return base
+      return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+    }
+  });
+
+
   /*** collection ***/
   var Tag_coll = Backbone.Collection.extend({
     model: Note,
@@ -70,6 +79,11 @@
   var Event_coll = Backbone.Collection.extend({
     model: Event,
     url: '/events'
+  });
+
+  var Task_coll = Backbone.Collection.extend({
+    model: Event,
+    url: '/tasks'
   });
 
   /*** view to show a home page ***/
@@ -738,6 +752,16 @@
     }
   });
 
+  /* View Tasks list*/
+  ViewTasks = Backbone.View.extend({
+    initialize:function(){
+      var tmpl = _.template($('#tasks-list-template').html());
+      this.template = tmpl({tasks_collection : this.collection});
+      render_list_view(this);
+    }
+  });
+
+
 
 
   /* Send post request to create new model*/
@@ -829,7 +853,8 @@
           'events' : "events_index",
           'events/new' : "new_event",
           'events/:id' : "show_event",
-          'events/:id/edit' : "edit_event"
+          'events/:id/edit' : "edit_event",
+          'tasks' : "tasks_index"
     },
 
     home: function(){
@@ -1016,6 +1041,15 @@
           new Error({ message: "Error loading data." });
         }
       });
+    },
+
+    tasks_index: function(){
+      var tasks = new Task_coll();
+      tasks.fetch({
+       success: function() {
+          new ViewTasks({ collection: tasks.models[0].attributes.tasks })
+        }
+        });
     }
 
   });

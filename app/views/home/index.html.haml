@@ -280,6 +280,30 @@
     %b End :
     <%= new Date(model.get('end_date'))%>
 
+%script#tasks-list-template{:type => "text/template"}
+  .well{:style => "margin-top:20px;"}
+    %a.add_task_link{:href => "#tasks/new"}
+      %img(src="assets/gray_dark/plus_16x16.png" title="New Event" alt="New Event")
+    %br
+    %br
+    %table.table
+      %th Description
+      %th Category
+      %th Due Date
+      %th Status
+      <% for (var i = 0; i < tasks_collection.length; i++) { %>
+      <% var task = tasks_collection[i]; %>
+      %tr
+        %td
+          <%= task.description %>
+        %td
+        %td
+          <%= new Date(task.due_date)%>
+        %td
+          <%= task.status%>
+      <% } %>
+
+
 
 
 .transparent-bg.transparent-bg-size
