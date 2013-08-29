@@ -12,6 +12,8 @@ class EventsController < ApplicationController
     @start_date = DateTime.parse(params[:events][:start_date])
     if params[:events][:end_date].blank?
       @end_date = DateTime.parse(@start_date.to_date.to_s + "23:59")
+    else
+      @end_date = DateTime.parse(params[:events][:end_date])
     end
     @event = @user.events.new(params[:events])
     @event.start_date = @start_date
