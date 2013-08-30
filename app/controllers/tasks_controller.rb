@@ -21,6 +21,7 @@ class TasksController < ApplicationController
 
   def show
     @task = Task.find(params[:id])
+    @task[:note] =  @task.note.gsub(/\n/, '<br/>')
     render :json => @task
   end
 
