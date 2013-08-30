@@ -651,7 +651,7 @@
 
     delete_contact: function(e){
       var id = $(e.target).attr('id');
-      var answer = confirm("Are you sure you want to delete this note?");
+      var answer = confirm("Are you sure you want to delete this Contact?");
       var router = new AppRouter();
       if (answer) {
         $.ajax({
@@ -740,7 +740,7 @@
 
     delete_event: function(e){
       var id = $(e.target).attr('id');
-      var answer = confirm("Are you sure you want to delete this note?");
+      var answer = confirm("Are you sure you want to delete this Event?");
       var router = new AppRouter();
       if (answer) {
         var url = "/events/"+id;
