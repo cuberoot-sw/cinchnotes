@@ -11,13 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130830083105) do
+ActiveRecord::Schema.define(:version => 20130830092521) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id"
   end
+
+  add_index "categories", ["user_id"], :name => "index_categories_on_user_id"
 
   create_table "contacts", :force => true do |t|
     t.string   "first_name"
@@ -80,8 +83,10 @@ ActiveRecord::Schema.define(:version => 20130830083105) do
     t.integer  "user_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "category_id"
   end
 
+  add_index "tasks", ["category_id"], :name => "index_tasks_on_category_id"
   add_index "tasks", ["user_id"], :name => "index_tasks_on_user_id"
 
   create_table "users", :force => true do |t|
