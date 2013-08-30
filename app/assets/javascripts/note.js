@@ -797,6 +797,10 @@
    /* View for show task */
   ViewTask = Backbone.View.extend({
 
+    events: {
+      "click img.delete-task": "delete_task"
+    },
+
     initialize:function(){
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
@@ -810,7 +814,21 @@
 				$('#modal-notice').modal('hide');
 			});
       render_form_view(this);
+    },
+
+    delete_task: function(e){
+      var id = $(e.target).attr('id');
+      var answer = confirm("Are you sure you want to delete this Task?");
+      var router = new AppRouter();
+      if (answer) {
+        var url = "/tasks/"+id;
+        var params = "id="+id;
+        var routes_to = "#tasks";
+        var success_msg = "Deleted Task Successfully !!!";
+        send_post_request(url, params, "DELETE", routes_to, success_msg);
+      }
     }
+
   });
 
 
