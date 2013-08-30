@@ -12,6 +12,7 @@ CinchNotes323::Application.routes.draw do
       get "change_status"
     end
   end
+  resources :categories
   match '/user' => 'user#create', :via => :post
   match '/session' => 'sessions#create', :via => :post
   match '/session' => 'sessions#destroy', :via => :get
