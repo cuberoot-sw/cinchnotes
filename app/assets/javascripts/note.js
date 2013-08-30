@@ -789,6 +789,9 @@
       if(this.model.isNew()){
         var url = "tasks";
         send_post_request(url, params, "POST", routes_to, loading_msg);
+      }else{
+        var url =  "/tasks/" + this.model.get('id');
+        send_post_request(url, params, "PUT", routes_to, loading_msg);
       }
     }
   });
@@ -924,7 +927,8 @@
           'events/:id/edit' : "edit_event",
           'tasks' : "tasks_index",
           'tasks/new' : "new_task",
-          'tasks/:id' : "show_task"
+          'tasks/:id' : "show_task",
+          'tasks/:id/edit' : "edit_task"
     },
 
     home: function(){
@@ -1141,6 +1145,20 @@
       });
     },
 
+    edit_task : function(id){
+      var task = new Task({id : id});
+			$('#modal-notice').modal({
+				backdrop: false
+			});
+      task.fetch({
+        success: function(model ) {
+          new ViewEditTask({ model:task});
+        },
+        error: function() {
+          new Error({ message: "Error loading data." });
+        }
+      });
+    }
 
   });
 

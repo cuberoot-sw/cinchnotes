@@ -30,6 +30,10 @@ class TasksController < ApplicationController
     render :json => []
   end
 
-
-
+  def update
+    @task = Task.find(params[:id])
+    if @task.update_attributes(params[:tasks])
+      render :json => {:status => 'saved'}
+    end
+  end
 end
