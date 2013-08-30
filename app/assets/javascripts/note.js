@@ -868,6 +868,37 @@
     }
   });
 
+  /* View for new category*/
+  ViewAddCategory = Backbone.View.extend({
+    events: {
+      "submit form#category_form": "save" ,
+    },
+
+    initialize:function(){
+      _.bindAll(this , 'render');
+      this.model.bind('change', this.render);
+      var tmpl = _.template($('#category-form-template').html());
+      this.template = tmpl({model : this.model});
+      this.render();
+    },
+    render:function(){
+      render_form_view(this)
+      $("form#category_form").validationEngine();
+    },
+
+    save: function(e){
+      e.preventDefault();
+      var params = $('form#category_form').serialize();
+      var routes_to = "#categories";
+      var loading_msg = "Saving Category. Please wait!!!";
+      if(this.model.isNew()){
+        var url = "categories";
+        send_post_request(url, params, "POST", routes_to, loading_msg);
+      }
+    }
+  });
+
+
 
   /* Send post request to create new model*/
   send_post_request = function(url, params, method, routes_to, msg){
@@ -963,7 +994,8 @@
           'tasks/new' : "new_task",
           'tasks/:id' : "show_task",
           'tasks/:id/edit' : "edit_task",
-          'categories' : "category_index"
+          'categories' : "category_index",
+          'categories/new' : "new_category"
     },
 
     home: function(){
@@ -1204,6 +1236,9 @@
         });
     },
 
+    new_category: function(){
+      new ViewAddCategory({ model: new Category() });
+    }
 
   });
 
