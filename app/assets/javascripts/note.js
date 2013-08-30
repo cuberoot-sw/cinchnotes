@@ -793,6 +793,27 @@
     }
   });
 
+
+   /* View for show task */
+  ViewTask = Backbone.View.extend({
+
+    initialize:function(){
+      _.bindAll(this , 'render');
+      this.model.bind('change', this.render);
+      var tmpl = _.template($('#show-task-template').html());
+      this.template = tmpl({model : this.model});
+      this.render();
+    },
+
+    render:function(){
+      $.doTimeout(2000, function() {
+				$('#modal-notice').modal('hide');
+			});
+      render_form_view(this);
+    }
+  });
+
+
   /* Send post request to create new model*/
   send_post_request = function(url, params, method, routes_to, msg){
     var router = new AppRouter();
@@ -884,7 +905,8 @@
           'events/:id' : "show_event",
           'events/:id/edit' : "edit_event",
           'tasks' : "tasks_index",
-          'tasks/new' : "new_task"
+          'tasks/new' : "new_task",
+          'tasks/:id' : "show_task"
     },
 
     home: function(){
@@ -1084,7 +1106,23 @@
 
      new_task: function(){
       new ViewEditTask({ model: new Task() });
-    }
+    },
+
+    show_task : function(id){
+      var task = new Task({ id : id});
+			$('#modal-notice').modal({
+				backdrop: false
+			});
+      task.fetch({
+        success: function(model) {
+          new ViewTask({ model: task});
+        },
+        error: function() {
+          new Error({ message: "Error loading data." });
+        }
+      });
+    },
+
 
   });
 
