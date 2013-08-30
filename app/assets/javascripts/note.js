@@ -762,7 +762,36 @@
   });
 
 
+  /* View for new/edit task*/
+  ViewEditTask = Backbone.View.extend({
+    events: {
+      "submit form#task_form": "save" ,
+    },
 
+    initialize:function(){
+      _.bindAll(this , 'render');
+      this.model.bind('change', this.render);
+      var tmpl = _.template($('#task-form-template').html());
+      this.template = tmpl({model : this.model});
+      this.render();
+    },
+    render:function(){
+      render_form_view(this)
+      $('#due_date').datepicker({ dateFormat: "yy-mm-dd" });
+      $("form#task_form").validationEngine();
+    },
+
+    save: function(e){
+      e.preventDefault();
+      var params = $('form#task_form').serialize();
+      var routes_to = "#tasks";
+      var loading_msg = "Saving Task. Please wait!!!";
+      if(this.model.isNew()){
+        var url = "tasks";
+        send_post_request(url, params, "POST", routes_to, loading_msg);
+      }
+    }
+  });
 
   /* Send post request to create new model*/
   send_post_request = function(url, params, method, routes_to, msg){
@@ -854,7 +883,8 @@
           'events/new' : "new_event",
           'events/:id' : "show_event",
           'events/:id/edit' : "edit_event",
-          'tasks' : "tasks_index"
+          'tasks' : "tasks_index",
+          'tasks/new' : "new_task"
     },
 
     home: function(){
@@ -1050,6 +1080,10 @@
           new ViewTasks({ collection: tasks.models[0].attributes.tasks })
         }
         });
+    },
+
+     new_task: function(){
+      new ViewEditTask({ model: new Task() });
     }
 
   });
