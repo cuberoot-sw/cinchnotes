@@ -317,7 +317,11 @@
       <select name="tasks[category_id]">
       <% for (var i = 0; i < category_collection.length; i++) { %>
       <% var category = category_collection[i]; %>
+      <% if( !model.isNew() && category.id == model.get('category').id){%>
+      <option value="<%= category.id%>" selected="selected"><%= category.name%></option>
+      <%}else{%>
       <option value="<%= category.id%>"><%= category.name%></option>
+      <%}%>
       <%}%>
       </select>
 
