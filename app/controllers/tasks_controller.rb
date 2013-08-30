@@ -3,6 +3,9 @@ class TasksController < ApplicationController
     @user = User.find(session[:user_id])
     if @user
       @tasks = @user.tasks.all
+      @tasks.each do |task|
+        task[:category] = task.category if task.category.present?
+      end
       render :json => {:tasks =>  @tasks}
     end
    end
@@ -20,8 +23,13 @@ class TasksController < ApplicationController
   end
 
   def show
+    @user = User.find(session[:user_id])
     @task = Task.find(params[:id])
     @task[:note] =  @task.note.gsub(/\n/, '<br/>')
+    @task[:all_categories] = @user.categories.all
+    unless @task.category.nil?
+      @task[:category] = @task.category.name
+    end
     render :json => @task
   end
 

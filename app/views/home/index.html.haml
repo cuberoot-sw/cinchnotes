@@ -299,6 +299,7 @@
         %td
           <a href='#tasks/<%= task.id %>'><%= task.description %></a>
         %td
+          <%= task.category.name%>
         %td
           <%= new Date(task.due_date)%>
         %td
@@ -338,6 +339,9 @@
     %p
       %b Description :
       <%= model.get('description')%>
+    %p
+      %b Category :
+      <%= model.get('category').name%>
     %p
       %b Due Date :
       <%= new Date(model.get('due_date'))%>

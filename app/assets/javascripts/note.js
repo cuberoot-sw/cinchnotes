@@ -1207,6 +1207,7 @@
 			$('#modal-notice').modal({
 				backdrop: false
 			});
+
       task.fetch({
         success: function(model) {
           new ViewTask({ model: task});
@@ -1224,7 +1225,7 @@
 			});
       task.fetch({
         success: function(model ) {
-          new ViewEditTask({ model:task});
+          new ViewEditTask({ model:task, collection: task.attributes.all_categories});
         },
         error: function() {
           new Error({ message: "Error loading data." });
