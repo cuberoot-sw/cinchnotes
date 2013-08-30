@@ -37,4 +37,12 @@ class TasksController < ApplicationController
       render :json => {:status => 'saved'}
     end
   end
+
+  def change_status
+    @task = Task.find(params[:id])
+    if @task.status == "pending"
+      @task.complete!
+    end
+    render :json => []
+  end
 end

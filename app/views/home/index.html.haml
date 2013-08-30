@@ -320,6 +320,9 @@
     %h3 Task
     <a href="#task"><img class = "delete-task" id ="<%= model.id%>" alt = "delete" title="delete" src="assets/gray_dark/trash_stroke_16x16.png"/></a>
     <a href = "#tasks/<%= model.id%>/edit"><img alt="edit" title="edit" src="assets/gray_dark/pen_alt2_16x16.png"/></a>
+    <% if(model.get('status') == "pending") {%>
+    <a href = "#tasks"><img class= "complete-task" id= "<%= model.id%>" alt="complete" title="Complete" src="assets/gray_dark/done.png"/></a>
+    <% } %>
     %hr
     %p
       %b Description :

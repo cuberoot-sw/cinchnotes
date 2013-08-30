@@ -801,7 +801,8 @@
   ViewTask = Backbone.View.extend({
 
     events: {
-      "click img.delete-task": "delete_task"
+      "click img.delete-task": "delete_task",
+      "click img.complete-task": "complete_task"
     },
 
     initialize:function(){
@@ -830,6 +831,16 @@
         var success_msg = "Deleted Task Successfully !!!";
         send_post_request(url, params, "DELETE", routes_to, success_msg);
       }
+    },
+
+    complete_task: function(e){
+      var id= $(e.target).attr('id');
+      var params = "id="+id;
+      var router = new AppRouter();
+      var url = "/tasks/"+id+"/change_status";
+      var routes_to = "#tasks";
+      var success_msg = "Status changed successfully!!!";
+      send_post_request(url, params, "GET", routes_to, success_msg);
     }
 
   });
