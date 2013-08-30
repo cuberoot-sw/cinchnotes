@@ -299,7 +299,9 @@
         %td
           <a href='#tasks/<%= task.id %>'><%= task.description %></a>
         %td
+          <% if(task.category != null) {%>
           <%= task.category.name%>
+          <% } %>
         %td
           <%= new Date(task.due_date)%>
         %td
@@ -317,7 +319,7 @@
       <select name="tasks[category_id]">
       <% for (var i = 0; i < category_collection.length; i++) { %>
       <% var category = category_collection[i]; %>
-      <% if( !model.isNew() && category.id == model.get('category').id){%>
+      <% if( !model.isNew() && (model.get('category') != null) && (category.id == model.get('category').id)){%>
       <option value="<%= category.id%>" selected="selected"><%= category.name%></option>
       <%}else{%>
       <option value="<%= category.id%>"><%= category.name%></option>
@@ -345,7 +347,9 @@
       <%= model.get('description')%>
     %p
       %b Category :
+      <% if(model.get('category') != null) {%>
       <%= model.get('category').name%>
+      <% } %>
     %p
       %b Due Date :
       <%= new Date(model.get('due_date'))%>

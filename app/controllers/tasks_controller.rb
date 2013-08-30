@@ -4,7 +4,11 @@ class TasksController < ApplicationController
     if @user
       @tasks = @user.tasks.all
       @tasks.each do |task|
-        task[:category] = task.category if task.category.present?
+        unless task.category.nil?
+          task[:category] = task.category
+         else
+           task[:category] = nil
+        end
       end
       render :json => {:tasks =>  @tasks}
     end
@@ -29,6 +33,8 @@ class TasksController < ApplicationController
     @task[:all_categories] = @user.categories.all
     unless @task.category.nil?
       @task[:category] = @task.category.name
+     else
+       @task[:category] = nil
     end
     render :json => @task
   end
