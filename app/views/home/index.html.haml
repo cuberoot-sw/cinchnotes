@@ -366,11 +366,14 @@
     %br
     %table.table
       %th Name
+      %th
       <% for (var i = 0; i < categories_collection.length; i++) { %>
       <% var category = categories_collection[i]; %>
       %tr
         %td
           <%= category.name%>
+        %td
+          <%= category.tasks_count%>
       <% } %>
 
 %script#category-form-template{:type => "text/template"}

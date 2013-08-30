@@ -3,6 +3,9 @@ class CategoriesController < ApplicationController
     @user = User.find(session[:user_id])
     if @user
       @categories = @user.categories.all
+      @categories.each do |category|
+        category[:tasks_count] = category.tasks.count
+      end
       render :json => {:categories =>  @categories}
     end
    end
