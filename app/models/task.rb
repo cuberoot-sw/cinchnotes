@@ -1,7 +1,7 @@
 class Task < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
-  attr_accessible :description, :due_date, :note, :status
+  attr_accessible :description, :due_date, :note, :status, :category_id
 
   # state_machine
   state_machine :status, :initial => :pending do

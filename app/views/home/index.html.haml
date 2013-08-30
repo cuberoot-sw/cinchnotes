@@ -311,6 +311,15 @@
       %hr
       = label_tag 'description', 'Description'
       <input type="text" id="description" name="tasks[description]" class="validate[required] text-description" value="<%= model.get('description')%>"/>
+
+      =label_tag 'category_id', 'Category'
+      <select name="tasks[category_id]">
+      <% for (var i = 0; i < category_collection.length; i++) { %>
+      <% var category = category_collection[i]; %>
+      <option value="<%= category.id%>"><%= category.name%></option>
+      <%}%>
+      </select>
+
       =label_tag 'due_date', "Due Date"
       <input type="text" id="due_date" name="tasks[due_date]" value="<%= model.get('due_date')%>"/>
       =label_tag 'note', "Note"

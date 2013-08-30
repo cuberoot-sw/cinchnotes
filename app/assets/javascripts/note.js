@@ -786,7 +786,7 @@
       _.bindAll(this , 'render');
       this.model.bind('change', this.render);
       var tmpl = _.template($('#task-form-template').html());
-      this.template = tmpl({model : this.model});
+      this.template = tmpl({model : this.model, category_collection : this.collection});
       this.render();
     },
     render:function(){
@@ -1194,7 +1194,12 @@
     },
 
      new_task: function(){
-      new ViewEditTask({ model: new Task() });
+      var categories = new Category_coll();
+      categories.fetch({
+        success: function() {
+          new ViewEditTask({ model: new Task(), collection: categories.models[0].attributes.categories });
+        }
+      });
     },
 
     show_task : function(id){
