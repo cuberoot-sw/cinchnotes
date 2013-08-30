@@ -52,6 +52,15 @@
     }
   });
 
+  Category = Backbone.Model.extend({
+    url : function() {
+      var base = 'categories'
+      if (this.isNew()) return base
+      return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+    }
+  });
+
+
 
   /*** collection ***/
   var Tag_coll = Backbone.Collection.extend({
@@ -84,6 +93,11 @@
   var Task_coll = Backbone.Collection.extend({
     model: Event,
     url: '/tasks'
+  });
+
+  var Category_coll = Backbone.Collection.extend({
+    model: Category,
+    url: '/categories'
   });
 
   /*** view to show a home page ***/
@@ -845,6 +859,15 @@
 
   });
 
+  /* View Category list*/
+  ViewCategories = Backbone.View.extend({
+    initialize:function(){
+      var tmpl = _.template($('#category-list-template').html());
+      this.template = tmpl({categories_collection : this.collection});
+      render_list_view(this);
+    }
+  });
+
 
   /* Send post request to create new model*/
   send_post_request = function(url, params, method, routes_to, msg){
@@ -939,7 +962,8 @@
           'tasks' : "tasks_index",
           'tasks/new' : "new_task",
           'tasks/:id' : "show_task",
-          'tasks/:id/edit' : "edit_task"
+          'tasks/:id/edit' : "edit_task",
+          'categories' : "category_index"
     },
 
     home: function(){
@@ -1169,7 +1193,17 @@
           new Error({ message: "Error loading data." });
         }
       });
-    }
+    },
+
+    category_index: function(){
+      var categories = new Category_coll();
+      categories.fetch({
+       success: function() {
+          new ViewCategories({ collection: categories.models[0].attributes.categories })
+        }
+        });
+    },
+
 
   });
 
