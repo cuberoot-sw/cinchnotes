@@ -321,14 +321,16 @@
     <a href="#task"><img class = "delete-task" id ="<%= model.id%>" alt = "delete" title="delete" src="assets/gray_dark/trash_stroke_16x16.png"/></a>
     <a href = "#tasks/<%= model.id%>/edit"><img alt="edit" title="edit" src="assets/gray_dark/pen_alt2_16x16.png"/></a>
     %hr
-    %b Description :
-    <%= model.get('description')%>
-    %br
-    %b Due Date :
-    <%= new Date(model.get('due_date'))%>
-    %br
-    %b  Note :
-    <%= model.get('note')%>
+    %p
+      %b Description :
+      <%= model.get('description')%>
+    %p
+      %b Due Date :
+      <%= new Date(model.get('due_date'))%>
+    %p
+      %b  Note :
+      %br
+      <%= model.get('note')%>
 
 
 
