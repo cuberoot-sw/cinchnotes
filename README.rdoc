@@ -1,4 +1,4 @@
-== Cinch Notes is a easy note taking application
+=== Cinch Notes is a easy note taking application
 
 * With Simple registarion and login facility.
 
@@ -10,7 +10,7 @@
 
 * Tag your Note.
 
-= Contributing
+=== Contributing
 
 * Fork it
 * Create your feature branch (git checkout -b my-new-feature)
@@ -18,7 +18,7 @@
 * Push to the branch (git push origin my-new-feature)
 * Create new Pull Request
 
-= Licence
+=== Licence
 
 MIT License
 
