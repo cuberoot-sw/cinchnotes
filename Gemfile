@@ -9,10 +9,9 @@ gem 'rails', '3.2.8'
 
 gem 'mysql2', '0.3.11'
 gem 'haml', '3.1.7'
-gem 'acts-as-taggable-on'
+gem 'acts-as-taggable-on', '2.4.1'
 gem 'json'
 gem 'bcrypt-ruby', :require => "bcrypt"
-gem 'acts-as-taggable-on'
 
 group :development do
   gem 'sqlite3'
