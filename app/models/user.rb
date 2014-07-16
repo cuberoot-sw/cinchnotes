@@ -1,5 +1,6 @@
 require 'bcrypt'
 class User < ActiveRecord::Base
+  attr_accessible :name, :email
   validates_uniqueness_of :name
   validates_presence_of :name
   has_many :notes

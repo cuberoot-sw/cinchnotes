@@ -41,6 +41,8 @@
                         %a{:href=> "#newUser"} Sign Up
                       %li{:class => 'dropdown'}
                         %a{:href=> "#login"} Sign In
+                      %li
+                        %a{:href => '#guest_login'} Give it a Try!
                     - else
                       %li{:class => 'logged_in_user'}
                         %label{:class => 'logged_in_user'} Welcome  #{session['user_name']}

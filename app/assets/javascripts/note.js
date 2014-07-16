@@ -552,7 +552,8 @@
           'logout' : "logout",
           'notes/:id' : "show" ,
           'notes/:id/edit' : "edit",
-          'newUser' : "newUser"
+          'newUser' : "newUser",
+          'guest_login' : 'guestLogin'
     },
 
     home: function(){
@@ -651,6 +652,25 @@
         },
         error: function() {
           new Error({ message: "Error loading data." });
+        }
+      });
+    },
+
+    guestLogin: function(){
+      $.ajax({
+        url: "/user/",
+        type: "POST",
+        beforeSend: function(xhr) {xhr.setRequestHeader("X-CSRF-Token", $("meta[name=\"csrf-token\"]").attr("content"));},
+        data: 'guest_login=true',
+        success: function(responce){
+          $('#modal-window').modal({
+            keyboard: false
+          });
+          $('#modal-window .modal-header').prepend('<h3>You are signed in as guest. !!!<h3>');
+          setTimeout(function(){
+            window.location = '#notes';
+            window.location.reload();
+          }, 5000);
         }
       });
     }

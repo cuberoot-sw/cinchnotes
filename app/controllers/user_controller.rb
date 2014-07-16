@@ -1,10 +1,14 @@
 class UserController < ApplicationController
   def create
-    @user = User.new
-    data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
-    @user.name = data["username"]
-    @user.email = data["email"]
-    @user.encrypt_pass(data["password"])
+    if params['guest_login'] == 'true'
+      @user = create_guest_user
+    else
+      @user = User.new
+      data = JSON.parse(request.body.read.to_s).merge("method" => "post" )
+      @user.name = data["username"]
+      @user.email = data["email"]
+      @user.encrypt_pass(data["password"])
+    end
     if @user.valid?
       if @user.save
         session['user_id']=@user[:id]
@@ -36,5 +40,16 @@ Cube Root Software
     else
       render :json => {'valid_status'=>'validation_error'}
     end
+  end
+
+  def create_guest_user
+    guest_id = "#{Time.now.to_i}#{rand(9)}"
+    u = User.new(name: "guest#{guest_id}",
+                 email: "guest_#{guest_id}@example.com",
+                )
+    u.encrypt_pass('secret_key')
+    u.save!(validate: false)
+    session[:guest_user_id] = u.id
+    u
   end
 end
