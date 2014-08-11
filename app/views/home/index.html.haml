@@ -11,6 +11,11 @@
         %li <img src="assets/gray_dark/arrow_right_16x16.png"/> Start use Cinch-notes .. <a href = "#newUser"> Sign Up</a>
       - else
         %li <img src="assets/gray_dark/arrow_right_16x16.png"/> Start use Cinch-notes .. <a href = "#notes"> My Notes</a>
+      - if session['user_id'].nil?
+        %li
+          %br
+          %a{:href => '#guest_login', :class => 'try_btn'} Give it a Try!
+          No Sign Up required
 
 %script#user-login-template{:type => "text/template"}
   %form#login_form
