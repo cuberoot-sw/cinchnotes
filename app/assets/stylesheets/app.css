@@ -245,35 +245,36 @@ a{
     text-decoration: none;
 }
 #pull-rigth-padding{
-padding :15px;
+  padding :15px;
 }
 .container-padding{
   padding : 26px;
 }
 .transparent-bg-size{
-width : 90%;
-position:relative;
+  width : 90%;
+  position:relative;
 }
 
 #transparent-bg-id{
-position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: -1;zoom: 1;
+  position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: -1;zoom: 1;
 }
-.try_btn
-{
-    background-color: rgb(237, 237, 237);
-    border-radius: 7px;
-    color: rgb(69, 69, 69) !important;
-    margin-left: 2px;
-    margin-right: 2px;
-    padding: 17px 30px;
-    font-family: Cuprum!important;
-    font-size: 17px;
-    line-height: 17px;
-    text-decoration: none:
+
+.try_btn {
+  background-color: #890000 !important;
+  border-radius: 7px;
+  color: #FDFCFD !important;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 17px 30px;
+  font-family: Cuprum!important;
+  font-style: normal;
+  font-size: 22px;
+  line-height: 17px;
+  text-decoration: none;
 }
 .try_btn:hover
 {
-    background-color: rgb(160, 0, 0);
+    background-color: rgba(137, 0, 0, 0.83) !important;
     color: rgb(255, 255, 255) !important;
     text-decoration: none !important;
 }

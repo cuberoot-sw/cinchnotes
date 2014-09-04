@@ -4,3 +4,4 @@ log/*.log
 tmp/**/*
 .rsync_cache/
 db/*.sqlite3
+.env
